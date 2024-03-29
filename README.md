@@ -16,8 +16,7 @@ Here are some ideas to get you started:
 
 Hello👋🏻! My name's **Alonso Burón** and I'm currently pursuing a BSc Data Science in IU International Hochschule👨🏻‍🎓
 
-I'm passionate about automatic data cleanup for rdBs🤓, data science and beautiful dashboards✨ Currently learning new ML algorithms and bigquery. 
-At the moment doing some private STATA tutoring and volunteering at Grupo Scout Cármen McPhee 
+I'm passionate about automatic data cleanup for rdBs🤓, data science and beautiful dashboards✨ Currently learning new ML algorithms and bigquery and workign as a private STATA tutor and volunteering at Grupo Scout Cármen McPhee.
 
 
 ## 🌱 About Me
