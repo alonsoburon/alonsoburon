@@ -1,3 +1,23 @@
+"""
+This script generates and inserts client data into a MySQL database for an airport client generator. It uses the Faker library to generate fake data and the mysql-connector-python library to connect to the database.
+
+The script performs the following steps:
+1. Connects to the MySQL database.
+2. Retrieves the ids and scores of airports from the "aeropuertos" table.
+3. Defines different types of airport clients and their corresponding flight ranges.
+4. Generates probabilities for each type of client and airport based on scores.
+5. Selects ids randomly based on the probabilities.
+6. Generates client data for each selected id and inserts it into the "clientes" table.
+7. Commits the transaction and prints a success message.
+
+The script uses the following libraries:
+- faker: for generating fake data.
+- random: for generating random numbers.
+- mysql.connector: for connecting to the MySQL database.
+
+Make sure to install the required libraries before running the script.
+"""
+
 from faker import Faker
 import random
 
