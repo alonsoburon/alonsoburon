@@ -13,3 +13,6 @@
 4. **Alw (Allowance)**: Las carreras de "Allowance" son carreras en las que los caballos tienen ciertas condiciones para participar, como un nivel mínimo de rendimiento o haber ganado una cantidad específica de carreras. Sin embargo, a diferencia de las carreras de condición, los caballos no están a la venta en estas carreras. Pueden tener condiciones de edad, sexo, o haber ganado una cierta cantidad de dinero sin ganar en carreras de una cierta calidad.
 
 5. **Mcl (Maiden Claiming)**: Este tipo de carrera es similar a las carreras de "Claiming", pero está reservada para caballos que aún no han ganado ninguna carrera (es decir, "maiden" en inglés). Estas carreras ofrecen la oportunidad para que los caballos que aún no han tenido éxito encuentren una nueva propiedad a través del proceso de reclamo.
+
+#### Datos del caballo
+
