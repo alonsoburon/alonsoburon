@@ -35,7 +35,7 @@ I'm passionate about automatic data cleanup for rdBs🤓, data science and beaut
 
 If you're interested in collaboration or have any questions, feel free to reach out:
 
-- 🌐 Personal Website: [alonsoburon.cl](alonsoburon.cl) (Under Construction!)
+- 🌐 Personal Website: [alonsoburon.cl](https://www.alonsoburon.cl) (Under Construction!)
 - 📧 Email: [alonso.buron.ardiles@gmail.com]
 - 🔗 LinkedIn: [https://www.linkedin.com/in/alonsoburon/]
 - 💼 GitHub: [https://github.com/alonsoburon/]
