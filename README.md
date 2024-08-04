@@ -1,41 +1,35 @@
-<!--
-**alonsoburon/alonsoburon** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+👨‍💻 Business Intelligence Developer | Composer 🎹
 
-Here are some ideas to get you started:
+Hello👋🏻! My name is Alonso Burón, and I am currently pursuing a Bachelor's degree in Data Science at IU International Hochschule👨🏻‍🎓.
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
-# 👨‍💻 Business Intelligence Dev | Composer 🎹 
+I am passionate about automatic data cleanup for relational databases (rdBs)🤓, data science, and beautiful dashboards✨. I currently work as a BI Engineer and am learning React.js.
 
-Hello👋🏻! My name's **Alonso Burón** and I'm currently pursuing a BSc Data Science in IU International Hochschule👨🏻‍🎓
+### 🌱 About Me
 
-I'm passionate about automatic data cleanup for rdBs🤓, data science and beautiful dashboards✨ Currently working as BI Engineer and learning React.js!
+- 🎓 Diploma in Data Science from [PUCCh](https://www.uc.cl/) and pursuing a Bachelor's degree in Data Science at [IU International Hochshule](https://www.iu.de/).
+- 🎹 Professional composer, graduated from [PUCCh](https://www.uc.cl/), expert in the use of [Max/MSP](https://cycling74.com/), [Ableton Live](https://www.ableton.com/) and [Avid Sibelius](https://www.avid.com/es/sibelius).
+- 💼 Working with PowerBI and data integration using Python.
+- 💻 Linux enthusiast, currently using a personal Arch/Plasma machine running on a persistent USB m.2 enclosure.
+- 🪨 Passionate Obsidian user, building a personal website to track my learning and make it publicly available!
+- 🛡️ A fervent advocate of copyleft, supporting piracy and free software.
+- 🏴‍☠️ Proud contributor and seeder on [Anna's Archive](https://annas-archive.org/), [Scribd](https://www.scribd.com/), and [RuTracker](https://rutracker.org/).
 
-
-## 🌱 About Me
-
-- 🎓 Associate's degree in PUCCh and pursuing a BSc in IU International Hochshule, majoring in Data Science
-- 💼 Working using PowerBI and data integration using Python
-- 💻 Linux enthusiast, currently rocking an Arch/Plasma personal machine running in a persistent USB m.2 enclosure
-- 🪨 Passionate [Obsidian](https://obsidian.md/) user, building a personal website to track my learning and have it publically available!
-
-## 🔬 Skills
+### 🔬 Skills
 
 - 🐍 Programming Languages: [Python](https://www.python.org/), [VEGA](https://vega.github.io/vega/), [TypeScript](https://www.typescriptlang.org/).
-  - 📊 Libraries & Tools: [Obsidian](https://obsidian.md/), [VSCodium](https://vscodium.com/), [T3-Stack](https://create.t3.gg/), [sklearn](https://scikit-learn.org/), [deneb](https://deneb-viz.github.io/)
+- 📊 Libraries and Tools: [Obsidian](https://obsidian.md/), [VSCodium](https://vscodium.com/), [T3-Stack](https://create.t3.gg/), [sklearn](https://scikit-learn.org/), [deneb](https://deneb-viz.github.io/)
+- 🛠️ BI Tools: [PowerBI](https://powerbi.microsoft.com/), [Looker](https://looker.com/).
+- 📈 Data Analysis: [Polars](https://www.pola.rs/), [Dask](https://dask.org/), [Koalas](https://koalas.readthedocs.io/en/latest/).
+- 🌐 Web Development: [React.js](https://reactjs.org/), [Next.js](https://nextjs.org/), [Node.js](https://nodejs.org/).
+- 📊 Data Visualization: [D3.js](https://d3js.org/), [Plotly](https://plotly.com/), [MapBox](https://www.mapbox.com/).
+- 🧠 Machine Learning: [TensorFlow](https://www.tensorflow.org/), [PyTorch](https://pytorch.org/).
+- 🔄 Data Integration: [Mage.ai](https://www.mage.ai/)
 
-## 🚀 Let's Connect!
+### 📨 Contact
 
-If you're interested in collaboration or have any questions, feel free to reach out:
+If you're interested in collaborating or have any questions, feel free to reach out:
 
-- 🌐 Personal Website: [alonsoburon.cl](https://www.alonsoburon.cl) (Under Construction!)
+- 🌐 Website: [alonsoburon.cl](https://www.alonsoburon.cl)
 - 📧 Email: [alonso.buron.ardiles@gmail.com]
 - 🔗 LinkedIn: [https://www.linkedin.com/in/alonsoburon/]
 - 💼 GitHub: [https://github.com/alonsoburon/]
