@@ -41,15 +41,6 @@ I am passionate about data engineering, automatization, and beautiful viz✨. I 
 #### Data Integration
 [![Mage.ai](https://img.shields.io/badge/Mage.ai-8A2BE2?style=for-the-badge)](https://www.mage.ai/)
 
-
----
-
-### 📨 Contact
-
-If you're interested in collaborating or have any questions, feel free to reach out:
-
-[![Website](https://img.shields.io/badge/Website-000000?style=for-the-badge&logo=About.me&logoColor=white)](https://www.alonsoburon.cl)
-[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:alonso.buron.ardiles@gmail.com)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/alonsoburon/)
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/alonsoburon/)
 
