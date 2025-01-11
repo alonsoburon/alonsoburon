@@ -2,7 +2,7 @@
 
 <img width="1834" alt="banner" src="https://github.com/user-attachments/assets/9180acbc-76c0-4eaa-af0b-b0ea15301e08">
 
-I am passionate about automatic data cleanup for relational databases (rdBs)🤓, data science, and beautiful dashboards✨. I currently work as a BI Engineer and am learning React.js.
+I am passionate about data engineering, automatization, and beautiful viz✨. I currently work as a BI Engineer moving towards data engineering as a focus.
 
 ---
 
