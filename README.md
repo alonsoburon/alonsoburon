@@ -38,7 +38,7 @@ Lead Data Engineer at [Datawalt](https://www.datawalt.cl/), where I architect an
 
 ### 🌱 About Me
 
-- 🎓 BSc in Data Science at [IU International](https://www.iu.de/) · Diploma in Data Science from [PUC Chile](https://www.uc.cl/) · Bachelor's in Music from PUC Chile
+- 🎓 Diploma in Data Science from [PUC Chile](https://www.uc.cl/) · Bachelor's in Music from PUC Chile
 - 🎹 Trained composer — background in film scoring, sound design, Wwise, and game audio
 - 🐧 Arch Linux daily driver, dual-booting from a persistent USB m.2 enclosure
 - 🪨 Obsidian power user for knowledge management
