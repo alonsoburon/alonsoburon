@@ -294,14 +294,16 @@ a.md-link {
 }
 a.md-link:hover { color: var(--link-hi); }
 
-/* Inline code (markdown `code`) */
+/* Inline code (markdown `code`) — sized in em so it scales
+   with whatever heading or paragraph it's nested inside.    */
 :not(pre) > code {
   font-family: var(--mono);
-  font-size: 13.5px;
+  font-size: 0.85em;
   color: var(--accent-2);
   background: var(--elev);
-  padding: 1px 6px;
+  padding: 0.05em 0.4em;
   border-radius: 3px;
+  vertical-align: 0.04em;
 }
 
 /* ── YAML / fence blocks ────────────────────────────── */
@@ -550,22 +552,34 @@ a.md-link:hover { color: var(--link-hi); }
   color: var(--text-2);
   font-size: 0.95em;
 }
+/* Shiki-rendered codeblocks — gruvbox-dark-hard theme.
+   Shiki paints the background on the <pre>; we just frame it. */
 .post-body pre {
   margin: 1.4em 0;
   padding: 14px 16px;
-  background: var(--elev);
   border: 1px solid var(--border);
   border-radius: 6px;
   overflow-x: auto;
   font-family: var(--mono);
-  font-size: 12.5px;
+  font-size: 13px;
   line-height: 1.6;
 }
 .post-body pre code {
   background: none;
   padding: 0;
-  color: inherit;
   font-size: inherit;
+  font-family: inherit;
+}
+/* Inline code inside headings should not look like a yellow chip;
+   blend with the heading colour and let it scale via em.        */
+.post-body h2 code,
+.post-body h3 code {
+  color: var(--accent);
+  background: transparent;
+  padding: 0;
+  font-size: 0.78em;
+  font-weight: 500;
+  vertical-align: 0.05em;
 }
 .post-body table {
   width: 100%;
