@@ -552,11 +552,13 @@ a.md-link:hover { color: var(--link-hi); }
   color: var(--text-2);
   font-size: 0.95em;
 }
-/* Shiki-rendered codeblocks — gruvbox-dark-hard theme.
-   Shiki paints the background on the <pre>; we just frame it. */
+/* Shiki-rendered codeblocks — gruvbox-dark-hard theme,
+   pushed a few shades darker than the page bg so the block
+   reads as a recessed surface.                              */
 .post-body pre {
   margin: 1.4em 0;
   padding: 14px 16px;
+  background: #0f1112 !important;
   border: 1px solid var(--border);
   border-radius: 6px;
   overflow-x: auto;
