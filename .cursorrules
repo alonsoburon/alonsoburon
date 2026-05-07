@@ -1,0 +1,25 @@
+# Cursor Rules for Alonso's Website
+
+## Package Manager
+- Use PNPM instead of npm/yarn
+- Always use `pnpm` commands for package management
+
+## Terminal Tools
+- Prefer Rust-based tools when available:
+  - Use `bat` instead of `cat`
+  - Use `exa` instead of `ls`
+  - Use `fd` instead of `find`
+  - Use `ripgrep` instead of `grep`
+  - Use `dust` instead of `du`
+  - Use `procs` instead of `ps`
+
+## Code Style
+- Keep code simple and readable
+- Minimize custom code, maximize reusable components
+- Use modern web standards
+- Prefer functional programming patterns
+
+## Project Structure
+- Keep it lightweight and fast
+- No unnecessary frameworks or dependencies
+- Focus on performance and simplicity
