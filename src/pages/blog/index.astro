@@ -1,0 +1,191 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const posts = await getCollection('blog');
+
+// Sort posts by date (newest first)
+const sortedPosts = posts.sort((a, b) => {
+  const dateA = new Date(a.data.date);
+  const dateB = new Date(b.data.date);
+  return dateB.getTime() - dateA.getTime();
+});
+
+// Function to format dates
+function formatDate(dateString: string) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+---
+
+<Layout title="Blog - Alonso" description="Articles about data engineering, machine learning and data analysis.">
+  <div class="container">
+    <header class="blog-header">
+      <h1>Blog</h1>
+      <p class="blog-subtitle">
+        Articles about data engineering, machine learning, big data and best practices 
+        in developing scalable data systems.
+      </p>
+    </header>
+
+    <div class="blog-content">
+      <div class="posts-grid">
+        {sortedPosts.map((post) => (
+          <article class="post-card">
+            <div class="post-meta">
+              <time datetime={post.data.date}>{formatDate(post.data.date)}</time>
+              <div class="post-tags">
+                {post.data.tags?.map((tag) => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
+            </div>
+            <h2 class="post-title">
+              <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+            </h2>
+            <p class="post-excerpt">{post.data.description || 'Article about data engineering and analysis.'}</p>
+            <a href={`/blog/${post.slug}`} class="read-more">Read more →</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .blog-header {
+      text-align: center;
+      margin-bottom: 4rem;
+      padding: 2rem 0;
+    }
+
+    .blog-header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #f0f6fc;
+      margin-bottom: 1rem;
+    }
+
+    .blog-subtitle {
+      font-size: 1.2rem;
+      color: #8b949e;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .blog-content {
+      padding: 0 2rem;
+    }
+
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+
+    .post-card {
+      background: #21262d;
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+      border: 1px solid #30363d;
+    }
+
+    .post-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+      border-color: #58a6ff;
+    }
+
+    .post-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .post-meta time {
+      color: #8b949e;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .post-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      background: #30363d;
+      color: #8b949e;
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .post-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      line-height: 1.3;
+    }
+
+    .post-title a {
+      color: #f0f6fc;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .post-title a:hover {
+      color: #58a6ff;
+    }
+
+    .post-excerpt {
+      color: #8b949e;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .read-more {
+      color: #58a6ff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.875rem;
+      transition: color 0.3s;
+    }
+
+    .read-more:hover {
+      color: #1d4ed8;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .blog-header h1 {
+        font-size: 2.5rem;
+      }
+
+      .blog-content {
+        padding: 0 1rem;
+      }
+
+      .posts-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .post-meta {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</Layout>
