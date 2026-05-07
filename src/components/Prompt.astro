@@ -1,0 +1,36 @@
+---
+export interface Props {
+  path?: string;
+  cmd: string;
+  /** When true, the command animates as if typed once on mount */
+  type?: boolean;
+}
+const { path = "~", cmd, type = false } = Astro.props;
+---
+<span class="prompt" data-type={type ? "1" : undefined}>
+  <span class="prompt-path">{path}</span>
+  <span class="prompt-mark">$</span>
+  <span class="prompt-cmd" data-cmd={cmd}>{type ? "" : cmd}</span><span class="cursor"></span>
+</span>
+
+{type && (
+  <script is:inline>
+    (() => {
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const els = document.querySelectorAll('[data-type="1"] .prompt-cmd');
+      els.forEach((el) => {
+        const cmd = el.getAttribute("data-cmd") || "";
+        if (reduce) { el.textContent = cmd; return; }
+        let i = 0;
+        const tick = () => {
+          if (i <= cmd.length) {
+            el.textContent = cmd.slice(0, i);
+            i++;
+            setTimeout(tick, 38 + Math.random() * 30);
+          }
+        };
+        tick();
+      });
+    })();
+  </script>
+)}

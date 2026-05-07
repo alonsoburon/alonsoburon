@@ -1,0 +1,86 @@
+---
+export interface Props {
+  title?: string;
+  /** Optional language hint shown on the right of the title bar */
+  lang?: string;
+  /** Adds a small comment header above the content area */
+  comment?: string;
+}
+const { title = "~", lang, comment } = Astro.props;
+---
+
+<div class="term">
+  <div class="term-bar">
+    <span class="dot dot-red"></span>
+    <span class="dot dot-yellow"></span>
+    <span class="dot dot-green"></span>
+    <span class="term-title">{title}</span>
+    {lang && <span class="term-lang">{lang}</span>}
+  </div>
+  <div class="term-body">
+    {comment && <div class="term-comment">{comment}</div>}
+    <slot />
+  </div>
+</div>
+
+<style>
+  .term {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: border-color var(--dur-base) var(--ease-out),
+                box-shadow var(--dur-base) var(--ease-out);
+  }
+  .term:hover {
+    border-color: var(--color-border-strong);
+    box-shadow: var(--shadow-lg);
+  }
+  .term-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    padding: 0.55rem 0.85rem;
+    background: var(--gb-bg1);
+    border-bottom: 1px solid var(--color-border);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+  }
+  .dot {
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot-red    { background: var(--gb-red); }
+  .dot-yellow { background: var(--gb-yellow); }
+  .dot-green  { background: var(--gb-green); }
+  .term-title {
+    margin-left: var(--sp-3);
+    color: var(--color-text-muted);
+    letter-spacing: 0.02em;
+  }
+  .term-lang {
+    margin-left: auto;
+    color: var(--color-text-faint);
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .term-body {
+    padding: var(--sp-5);
+  }
+  .term-comment {
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    color: var(--color-comment);
+    margin-bottom: var(--sp-4);
+  }
+  .term-comment::before { content: "// "; }
+  @media (max-width: 640px) {
+    .term-body { padding: var(--sp-4); }
+  }
+</style>

@@ -1,0 +1,38 @@
+---
+export interface Props {
+  /** Optional delay applied as transition-delay. */
+  delay?: number;
+  as?: string;
+}
+const { delay = 0, as: Tag = "div" } = Astro.props;
+const style = delay ? `transition-delay: ${delay}ms;` : undefined;
+---
+<Tag class="reveal" style={style}>
+  <slot />
+</Tag>
+
+<script is:inline>
+  (() => {
+    const init = () => {
+      const els = document.querySelectorAll(".reveal:not(.is-visible)");
+      if (!("IntersectionObserver" in window)) {
+        els.forEach((el) => el.classList.add("is-visible"));
+        return;
+      }
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              e.target.classList.add("is-visible");
+              io.unobserve(e.target);
+            }
+          }
+        },
+        { threshold: 0.08, rootMargin: "0px 0px -40px 0px" }
+      );
+      els.forEach((el) => io.observe(el));
+    };
+    document.addEventListener("astro:page-load", init);
+    init();
+  })();
+</script>

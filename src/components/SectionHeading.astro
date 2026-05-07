@@ -1,0 +1,50 @@
+---
+export interface Props {
+  /** The section name, eg. "skills" — rendered as `## skills` */
+  title: string;
+  /** Optional small note, rendered as comment after the title */
+  note?: string;
+  /** Heading level (default h2) */
+  as?: "h1" | "h2" | "h3";
+  align?: "left" | "center";
+}
+const { title, note, as: Tag = "h2", align = "left" } = Astro.props;
+---
+<div class={`heading heading-${align}`}>
+  <Tag class="heading-text">
+    <span class="heading-mark">##</span>
+    <span class="heading-title">{title}</span>
+  </Tag>
+  {note && <span class="heading-note">// {note}</span>}
+</div>
+
+<style>
+  .heading {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+    margin-bottom: var(--sp-4);
+  }
+  .heading-center {
+    justify-content: center;
+    text-align: center;
+  }
+  .heading-text {
+    font-family: var(--font-mono);
+    font-size: var(--fs-lg);
+    color: var(--color-text-strong);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .heading-mark {
+    color: var(--color-keyword);
+    margin-right: 0.45ch;
+    font-weight: 700;
+  }
+  .heading-note {
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    color: var(--color-comment);
+  }
+</style>

@@ -1,12 +1,24 @@
 ---
 import { ClientRouter } from "astro:transitions";
+import "../styles/tokens.css";
+import "../styles/base.css";
 
 export interface Props {
   title: string;
   description?: string;
 }
 
-const { title, description = "Data Engineer - CV and Portfolio" } = Astro.props;
+const { title, description = "Alonso Burón — Lead Data Engineer & Composer" } = Astro.props;
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+
+const tabs = [
+  { href: "/",          label: "~",          name: "home" },
+  { href: "/projects",  label: "projects/",  name: "projects" },
+  { href: "/blog",      label: "blog/",      name: "blog" },
+  { href: "/contact",   label: "contact.md", name: "contact" },
+];
+const isActive = (href: string) =>
+  href === "/" ? path === "/" : path === href || path.startsWith(href + "/");
 ---
 
 <!DOCTYPE html>
@@ -16,168 +28,173 @@ const { title, description = "Data Engineer - CV and Portfolio" } = Astro.props;
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <ClientRouter />
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        line-height: 1.6;
-        color: #f0f6fc;
-        background: #0d1117;
-      }
-
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 2rem;
-        width: 100%;
-      }
-
-      /* Header */
-      header {
-        background: #161b22;
-        border-bottom: 1px solid #21262d;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-      }
-
-      nav {
-        padding: 0.5rem 0;
-      }
-
-      .nav-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .logo {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: #58a6ff;
-        text-decoration: none;
-        transition: color 0.3s;
-      }
-
-      .logo:hover {
-        color: #f0f6fc;
-      }
-
-      .nav-links {
-        display: flex;
-        list-style: none;
-        gap: 2rem;
-        margin: 0;
-        padding: 0;
-      }
-
-      .nav-links a {
-        text-decoration: none;
-        color: #8b949e;
-        font-weight: 500;
-        transition: color 0.3s;
-      }
-
-      .nav-links a:hover {
-        color: #f0f6fc;
-      }
-
-      /* Main content */
-      main {
-        min-height: calc(100vh - 200px);
-        padding: 2rem 0;
-        background: #0d1117;
-      }
-
-      /* Footer */
-      footer {
-        background: #161b22;
-        color: #8b949e;
-        text-align: center;
-        padding: 2rem 0;
-        margin-top: 4rem;
-        border-top: 1px solid #21262d;
-      }
-
-      .footer-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 1rem;
-      }
-
-      .social-links {
-        display: flex;
-        gap: 1rem;
-      }
-
-      .social-links a {
-        color: #8b949e;
-        text-decoration: none;
-        transition: color 0.3s;
-      }
-
-      .social-links a:hover {
-        color: #f0f6fc;
-      }
-
-      /* Responsive */
-      @media (max-width: 768px) {
-        .nav-content {
-          flex-direction: column;
-          gap: 1rem;
-        }
-        
-        .nav-links {
-          gap: 1.5rem;
-        }
-        
-        .footer-content {
-          flex-direction: column;
-          text-align: center;
-        }
-      }
-    </style>
   </head>
   <body>
-        <header>
-          <nav class="container">
-            <div class="nav-content">
-              <a href="/" class="logo">Alonso Burón</a>
-              <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/blog">Articles</a></li>
-                <li><a href="/projects">Projects</a></li>
-                <li><a href="/contact">Contact</a></li>
-              </ul>
-            </div>
-          </nav>
-        </header>
+    <header class="site-header">
+      <nav class="container container-wide nav">
+        <a href="/" class="brand" aria-label="Home">
+          <span class="brand-mark">$</span>
+          <span class="brand-name">alonsoburon</span>
+          <span class="brand-suffix">.cl</span>
+        </a>
+        <ul class="tabs" role="tablist">
+          {tabs.map((tab) => (
+            <li>
+              <a
+                href={tab.href}
+                class={`tab${isActive(tab.href) ? " is-active" : ""}`}
+                aria-current={isActive(tab.href) ? "page" : undefined}
+              >
+                {tab.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </header>
 
     <main>
       <slot />
     </main>
 
-    <footer>
-      <div class="container">
-        <div class="footer-content">
-          <p>&copy; 2025 Alonso Burón. All rights reserved.</p>
-            <div class="social-links">
-              <a href="https://github.com/alonsoburon" target="_blank" rel="noopener">GitHub</a>
-              <a href="https://linkedin.com/in/alonsoburon" target="_blank" rel="noopener">LinkedIn</a>
-              <a href="mailto:alonso.buron@proton.me">Email</a>
-            </div>
+    <footer class="site-footer">
+      <div class="container container-wide foot">
+        <div class="foot-left mono">
+          <span class="foot-prompt">
+            <span class="prompt-path">~</span>
+            <span class="prompt-mark">$</span>
+            <span>echo "&copy; 2025 Alonso Burón"</span>
+          </span>
+        </div>
+        <div class="foot-links">
+          <a href="https://github.com/alonsoburon" target="_blank" rel="noopener">github</a>
+          <span class="sep">·</span>
+          <a href="https://linkedin.com/in/alonsoburon" target="_blank" rel="noopener">linkedin</a>
+          <span class="sep">·</span>
+          <a href="mailto:alonso.buron@proton.me">email</a>
         </div>
       </div>
     </footer>
+
+    <style>
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: var(--z-nav);
+        background: rgba(29, 32, 33, 0.85);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--color-border);
+      }
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--sp-4);
+        padding-block: var(--sp-3);
+      }
+      .brand {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 0.4ch;
+        font-family: var(--font-mono);
+        font-weight: 600;
+        font-size: var(--fs-md);
+        color: var(--color-text-strong);
+        text-decoration: none;
+        transition: color var(--dur-fast) var(--ease-out);
+      }
+      .brand-mark   { color: var(--color-prompt); }
+      .brand-name   { color: var(--color-text-strong); }
+      .brand-suffix { color: var(--color-text-faint); }
+      .brand:hover  { color: var(--color-accent); }
+      .brand:hover .brand-suffix { color: var(--color-accent); }
+
+      .tabs {
+        list-style: none;
+        display: flex;
+        gap: 0.25rem;
+        margin: 0;
+        padding: 0;
+      }
+      .tab {
+        font-family: var(--font-mono);
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+        padding: 0.4rem 0.75rem;
+        border-radius: var(--radius-sm);
+        text-decoration: none;
+        position: relative;
+        transition: color var(--dur-fast) var(--ease-out),
+                    background var(--dur-fast) var(--ease-out);
+      }
+      .tab:hover {
+        color: var(--color-text-strong);
+        background: var(--color-bg-elevated);
+      }
+      .tab.is-active {
+        color: var(--color-accent);
+        background: var(--color-bg-elevated);
+      }
+      .tab.is-active::before {
+        content: "";
+        position: absolute;
+        left: 0.4rem;
+        right: 0.4rem;
+        bottom: -2px;
+        height: 2px;
+        background: var(--color-accent);
+        border-radius: 2px;
+      }
+
+      .site-footer {
+        margin-top: var(--sp-8);
+        padding-block: var(--sp-5);
+        border-top: 1px solid var(--color-border);
+        background: var(--color-bg-elevated);
+      }
+      .foot {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--sp-4);
+        flex-wrap: wrap;
+      }
+      .foot-left {
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+      }
+      .foot-prompt .prompt-path { color: var(--color-link); }
+      .foot-prompt .prompt-mark { color: var(--color-prompt); margin: 0 0.4ch; }
+
+      .foot-links {
+        display: inline-flex;
+        gap: var(--sp-3);
+        font-family: var(--font-mono);
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+      }
+      .foot-links a {
+        color: var(--color-text-muted);
+        text-decoration: none;
+      }
+      .foot-links a:hover { color: var(--color-accent); }
+      .foot-links .sep { color: var(--color-text-faint); }
+
+      @media (max-width: 640px) {
+        .nav { flex-direction: column; align-items: flex-start; gap: var(--sp-2); }
+        .tabs { flex-wrap: wrap; }
+        .foot { flex-direction: column; align-items: flex-start; }
+      }
+    </style>
   </body>
 </html>

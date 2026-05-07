@@ -1,0 +1,132 @@
+/*
+ * Design tokens — single source of truth for the site theme.
+ * Palette: Gruvbox Dark Hard (https://github.com/morhetz/gruvbox).
+ */
+
+:root {
+  /* Backgrounds */
+  --gb-bg0-h: #1d2021;
+  --gb-bg0:   #282828;
+  --gb-bg0-s: #32302f;
+  --gb-bg1:   #3c3836;
+  --gb-bg2:   #504945;
+  --gb-bg3:   #665c54;
+  --gb-bg4:   #7c6f64;
+
+  /* Foregrounds */
+  --gb-fg0: #fbf1c7;
+  --gb-fg1: #ebdbb2;
+  --gb-fg2: #d5c4a1;
+  --gb-fg3: #bdae93;
+  --gb-fg4: #a89984;
+  --gb-gray: #928374;
+
+  /* Accents (bright variants) */
+  --gb-red:    #fb4934;
+  --gb-green:  #b8bb26;
+  --gb-yellow: #fabd2f;
+  --gb-blue:   #83a598;
+  --gb-purple: #d3869b;
+  --gb-aqua:   #8ec07c;
+  --gb-orange: #fe8019;
+
+  /* Accents (neutral variants) */
+  --gb-red-dim:    #cc241d;
+  --gb-green-dim:  #98971a;
+  --gb-yellow-dim: #d79921;
+  --gb-blue-dim:   #458588;
+  --gb-purple-dim: #b16286;
+  --gb-aqua-dim:   #689d6a;
+  --gb-orange-dim: #d65d0e;
+
+  /* Semantic mapping (use these in components, not raw palette names) */
+  --color-bg:           var(--gb-bg0-h);
+  --color-bg-elevated:  var(--gb-bg0);
+  --color-bg-raised:    var(--gb-bg1);
+  --color-bg-overlay:   rgba(40, 40, 40, 0.85);
+
+  --color-border:        var(--gb-bg2);
+  --color-border-strong: var(--gb-bg3);
+  --color-border-accent: var(--gb-yellow);
+
+  --color-text:        var(--gb-fg1);
+  --color-text-strong: var(--gb-fg0);
+  --color-text-muted:  var(--gb-fg4);
+  --color-text-faint:  var(--gb-gray);
+
+  --color-accent:        var(--gb-yellow);
+  --color-accent-soft:   var(--gb-orange);
+  --color-link:          var(--gb-aqua);
+  --color-link-hover:    var(--gb-yellow);
+
+  /* Roles in syntax-coloring */
+  --color-keyword:  var(--gb-red);
+  --color-string:   var(--gb-green);
+  --color-number:   var(--gb-purple);
+  --color-function: var(--gb-aqua);
+  --color-comment:  var(--gb-gray);
+  --color-prompt:   var(--gb-green);
+
+  /* Typography */
+  --font-mono: "JetBrains Mono", "Fira Code", "SF Mono", "Menlo", "Ubuntu Mono", monospace;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --fs-xs:   0.75rem;
+  --fs-sm:   0.85rem;
+  --fs-base: 0.95rem;
+  --fs-md:   1.05rem;
+  --fs-lg:   1.25rem;
+  --fs-xl:   1.6rem;
+  --fs-2xl:  2.2rem;
+  --fs-3xl:  3rem;
+
+  --lh-tight: 1.2;
+  --lh-snug:  1.4;
+  --lh-base:  1.6;
+
+  /* Spacing scale (4px base) */
+  --sp-1:  0.25rem;
+  --sp-2:  0.5rem;
+  --sp-3:  0.75rem;
+  --sp-4:  1rem;
+  --sp-5:  1.5rem;
+  --sp-6:  2rem;
+  --sp-7:  3rem;
+  --sp-8:  4rem;
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-pill: 999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.35);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.45);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.55);
+  --shadow-glow: 0 0 0 1px var(--gb-yellow), 0 0 24px rgba(250, 189, 47, 0.18);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 120ms;
+  --dur-base: 220ms;
+  --dur-slow: 420ms;
+
+  /* Layout */
+  --container-narrow: 760px;
+  --container:        980px;
+  --container-wide:   1180px;
+
+  /* Z-index */
+  --z-nav: 100;
+  --z-overlay: 200;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+    --dur-slow: 0ms;
+  }
+}
