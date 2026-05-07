@@ -1,28 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { openSourceProjects, closedSourceProjects } from '../data/projects';
+import { projects } from '../data/projects';
 
-type Kind = 'oss' | 'closed-source';
-
-const all: Array<{
-  title: string;
-  period: string;
-  role: string;
-  description: string;
-  achievements: string[];
-  tech?: string[];
-  githubUrl?: string;
-  publishedAt?: Date;
-  kind: Kind;
-}> = [
-  ...openSourceProjects.map((p) => ({ ...p, kind: 'oss' as const })),
-  ...closedSourceProjects.map((p) => ({ ...p, kind: 'closed-source' as const })),
-]
+const sorted = projects
   .filter((p) => p.publishedAt)
   .sort((a, b) => b.publishedAt!.getTime() - a.publishedAt!.getTime());
 
-const ossCount    = all.filter((p) => p.kind === 'oss').length;
-const closedCount = all.filter((p) => p.kind === 'closed-source').length;
+const workCount   = sorted.filter((p) => p.category === 'work').length;
+const funCount    = sorted.filter((p) => p.category === 'fun').length;
+const fossCount   = sorted.filter((p) => p.source === 'foss').length;
+const closedCount = sorted.filter((p) => p.source === 'closed').length;
 ---
 
 <Layout title="Projects — Alonso Burón" path="~/projects.md" active="projects">
@@ -30,25 +17,37 @@ const closedCount = all.filter((p) => p.kind === 'closed-source').length;
     <div class="h-row">
       <span class="anchor"># </span>
       <span class="h1-inner"><span class="key">Projects</span></span>
-      <span class="inline-comment">{`<!-- ${closedCount} closed-source · ${ossCount} OSS -->`}</span>
+      <span class="inline-comment">{`<!-- ${workCount} work · ${funCount} fun · ${fossCount} foss · ${closedCount} closed -->`}</span>
     </div>
 
+    <!-- Filter group 1: category (work / fun) -->
     <div class="filter-row">
-      <span class="sx c-cmt">$ filter</span>
-      <button class="chip active" data-filter="all">--all</button>
-      <button class="chip" data-filter="oss">--oss</button>
-      <button class="chip" data-filter="closed-source">--closed</button>
+      <span class="sx c-cmt">$ filter --type</span>
+      <button class="chip active" data-axis="category" data-filter="all">--all</button>
+      <button class="chip" data-axis="category" data-filter="work">--work</button>
+      <button class="chip" data-axis="category" data-filter="fun">--fun</button>
       <button class="chip" id="sort-toggle" style="margin-left:auto" data-dir="desc">
         sort: <span class="c-text3" id="sort-label">recent ↓</span>
       </button>
     </div>
 
+    <!-- Filter group 2: source (foss / closed) -->
+    <div class="filter-row" style="margin-top:6px">
+      <span class="sx c-cmt">$ filter --source</span>
+      <button class="chip active" data-axis="source" data-filter="all">--all</button>
+      <button class="chip" data-axis="source" data-filter="foss">--foss</button>
+      <button class="chip" data-axis="source" data-filter="closed">--closed</button>
+    </div>
+
     <div class="card-list" id="project-list">
-      {all.map((p) => (
-        <article class="card project-card" data-kind={p.kind} data-date={p.publishedAt!.toISOString()}>
+      {sorted.map((p) => (
+        <article class="card project-card"
+                 data-category={p.category}
+                 data-source={p.source}
+                 data-date={p.publishedAt!.toISOString()}>
           <div class="card-head">
             <span><span class="sx c-cmt">```</span><span class="sx c-fn">project</span></span>
-            <span class="c-dim">· {p.kind}</span>
+            <span class="c-dim">· {p.category} · {p.source}</span>
             <span style="margin-left:auto" class="c-muted">{p.period}</span>
           </div>
           <div class="card-body">
@@ -56,6 +55,10 @@ const closedCount = all.filter((p) => p.kind === 'closed-source').length;
               <span class="anchor">### </span>
               {p.githubUrl ? (
                 <a href={p.githubUrl} target="_blank" rel="noopener" class="card-title-link">
+                  <span class="h3">{p.title}</span>
+                </a>
+              ) : p.homepage ? (
+                <a href={p.homepage} target="_blank" rel="noopener" class="card-title-link">
                   <span class="h3">{p.title}</span>
                 </a>
               ) : (
@@ -68,6 +71,26 @@ const closedCount = all.filter((p) => p.kind === 'closed-source').length;
               )}
             </div>
             <p class="card-desc">{p.description}</p>
+
+            {(p.githubUrl || p.homepage) && (
+              <div class="post-meta" style="margin-top:6px">
+                {p.githubUrl && (
+                  <span><span class="sx c-cmt">github: </span>
+                    <a href={p.githubUrl} target="_blank" rel="noopener" class="sx c-link">
+                      {p.githubUrl.replace('https://github.com/', '@')}
+                    </a>
+                  </span>
+                )}
+                {p.homepage && (
+                  <span><span class="sx c-cmt">live: </span>
+                    <a href={p.homepage} target="_blank" rel="noopener" class="sx c-link">
+                      {p.homepage.replace(/^https?:\/\//, '')}
+                    </a>
+                  </span>
+                )}
+              </div>
+            )}
+
             {p.achievements?.length > 0 && (
               <div class="tag-row">
                 {p.achievements.map((a) => <span class="tag achievement">{a}</span>)}
@@ -86,21 +109,34 @@ const closedCount = all.filter((p) => p.kind === 'closed-source').length;
 
   <script>
     function initProjects() {
-      const chips = document.querySelectorAll<HTMLButtonElement>('.chip[data-filter]');
+      const chips = document.querySelectorAll<HTMLButtonElement>('.chip[data-axis]');
       const cards = document.querySelectorAll<HTMLElement>('.project-card');
       const list  = document.getElementById('project-list');
       const sortBtn = document.getElementById('sort-toggle') as HTMLButtonElement | null;
       const sortLabel = document.getElementById('sort-label');
       if (!list) return;
 
+      const active: Record<string, string> = { category: 'all', source: 'all' };
+
+      const applyFilters = () => {
+        cards.forEach((c) => {
+          const passCat = active.category === 'all' || c.dataset.category === active.category;
+          const passSrc = active.source   === 'all' || c.dataset.source   === active.source;
+          c.style.display = (passCat && passSrc) ? '' : 'none';
+        });
+      };
+
       chips.forEach((chip) => {
         chip.addEventListener('click', () => {
-          chips.forEach((c) => c.classList.remove('active'));
+          const axis = chip.dataset.axis!;
+          const value = chip.dataset.filter!;
+          // deactivate siblings on the same axis
+          document
+            .querySelectorAll<HTMLButtonElement>(`.chip[data-axis="${axis}"]`)
+            .forEach((c) => c.classList.remove('active'));
           chip.classList.add('active');
-          const f = chip.dataset.filter;
-          cards.forEach((c) => {
-            c.style.display = (f === 'all' || c.dataset.kind === f) ? '' : 'none';
-          });
+          active[axis] = value;
+          applyFilters();
         });
       });
 
@@ -109,12 +145,12 @@ const closedCount = all.filter((p) => p.kind === 'closed-source').length;
           const dir = sortBtn.dataset.dir === 'desc' ? 'asc' : 'desc';
           sortBtn.dataset.dir = dir;
           sortLabel.textContent = dir === 'desc' ? 'recent ↓' : 'recent ↑';
-          const sorted = Array.from(cards).sort((a, b) => {
+          const ordered = Array.from(cards).sort((a, b) => {
             const da = Date.parse(a.dataset.date || '');
             const db = Date.parse(b.dataset.date || '');
             return dir === 'desc' ? db - da : da - db;
           });
-          sorted.forEach((c) => list.appendChild(c));
+          ordered.forEach((c) => list.appendChild(c));
         });
       }
     }
