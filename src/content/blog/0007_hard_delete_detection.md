@@ -4,9 +4,9 @@ date: '2026-02-03'
 description: "The row was there yesterday and gone today. A cursor never sees it, so something else has to."
 ---
 
-Every extraction pattern I've written about so far -- cursors, stateless windows, borrowed timestamps -- detects rows that *changed*. A hard delete leaves nothing behind to detect, because the row is gone from the source, still present in the destination, and every cursor-based run confirms <span class="text-negative" style="font-weight:bold;">absolutely nothing</span> about its absence. The count drifts silently and you discover the problem at audit time.
+Every incremental extraction pattern -- cursor-based, stateless windows, borrowed timestamps -- detects rows that *changed*. A hard delete leaves nothing behind to detect, because the row is gone from the source, still present in the destination, and every cursor-based run confirms <span class="text-negative" style="font-weight:bold;">absolutely nothing</span> about its absence. `WHERE updated_at > :last_run` returns zero rows for that ID. The destination keeps it. The count drifts silently, and you discover the problem at audit time -- if you're lucky enough to have an audit.
 
-This post is the menu of mechanisms for handling that case, in the order you should reach for them.
+This post is the menu of mechanisms for catching deletes from the outside, in the order you should reach for them.
 
 ## When the source cooperates
 
@@ -64,7 +64,7 @@ Once you've identified them, three options for propagation -- in order of prefer
 
 ## The two-scope case worth knowing about
 
-The classic complication is `invoices` / `invoice_lines` -- and any header-detail relationship like it. Open invoices get hard-deleted regularly, but invoice lines also get hard-deleted independently of their headers, not just via cascade. That creates two detection scopes you have to handle separately.
+The classic complication is any header-detail pair like `invoices` / `invoice_lines`, or `orders` / `order_lines`. Open headers get hard-deleted regularly, but the detail rows also get hard-deleted independently of their headers, not just via cascade. That creates two detection scopes you have to handle separately.
 
 For header deletes, compare `invoice_id` sets between source and destination. For line deletes, compare `(invoice_id, line_num)` sets within each header that still exists, because a header that hasn't changed can still have lines removed underneath it -- and a cursor on the header's `updated_at` is blind to that entirely.
 
@@ -72,6 +72,4 @@ The SAP B1 version of this is particularly nasty: removing a single `invoice_lin
 
 ---
 
-The pattern across all of this is that delete detection is not a feature you can add to a cursor -- it's an entirely separate mechanism that lives alongside extraction, runs on its own cadence, and reconciles state rather than tracking change. Treat it that way from the start, and the worst case is a count mismatch you investigate the next morning rather than a discrepancy you discover at the next audit.
-
-The next post is about <span class="emphasis">staging swap</span>, which is the load-side answer to "how do I full-replace a table without my consumers seeing an empty window."
+The pattern across all of this is that delete detection is a separate mechanism that lives alongside extraction, runs on its own cadence, and reconciles state rather than tracking change. Treat it that way from the start and the worst case is a count mismatch you investigate the next morning instead of a discrepancy you discover at the next audit -- and if your tables are small enough that a periodic full replace handles delete detection automatically, that's still the right move. <span class="text-positive" style="font-weight:bold;">Full replace is the cheapest delete-detection mechanism that exists</span>; everything in this post is what you reach for once full replace stops fitting in the schedule window.

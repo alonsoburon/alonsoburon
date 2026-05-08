@@ -20,7 +20,7 @@ The distinction matters because aggregations and derivations encode decisions th
 
 ## The exception worth naming
 
-Some source tables are already pre-aggregated. `metrics_daily` in the domain model I've been using is computed by the source system itself, so the aggregation decision was made upstream rather than by your pipeline. Landing a pre-aggregated table as-is is conforming, because you're still cloning what the source has -- aggregation included.
+Some source tables are already pre-aggregated -- a `metrics_daily` table that the source system computes itself, an ERP's pre-built financial summary view, an analytics product's nightly rollup. The aggregation decision was made upstream rather than by your pipeline, so landing the table as-is is just cloning what the source has, aggregation included.
 
 The rule isn't "never land aggregates," it's <span class="text-positive" style="font-weight:bold;">don't aggregate in the pipeline</span>. If the source already did it, fine. If you're tempted to do it yourself, that's the moment to stop and build a view downstream instead.
 
@@ -35,7 +35,7 @@ Two kinds of data, two different representations of the same reality.
 | History is in the rows themselves          | History is gone the moment the next snapshot overwrites it |
 | `inventory_movements`, `order_lines`, `events` | `inventory`, `metrics_daily`            |
 
-Land both when both exist at the source. The `inventory` table and the `inventory_movements` table are different data -- the photo and the movements don't always agree (bulk imports that update `inventory` without logging a movement, the kind of soft-rule violation I've covered before), and it's your job to make that discrepancy visible to consumers rather than hiding it by building one from the other.
+Land both when both exist at the source. The `inventory` table (what's on the shelf right now) and the `inventory_movements` table (every stock change ever) are different data -- the photo and the movements don't always agree, because bulk imports often update `inventory` directly without logging a movement, and that kind of soft-rule violation is exactly the contamination your pipeline shouldn't paper over. Land both, let the discrepancy be visible to consumers, and let the business decide which version of reality to trust for which question.
 
 Downstream can reconstruct photos from movements if it wants to -- stock as of any date is a `SUM(quantity) WHERE created_at <= target_date`. The inverse isn't possible: <span class="text-negative" style="font-weight:bold;">you can't recover individual movements from a snapshot total</span>. Detail produces aggregates, aggregates don't produce detail.
 
@@ -64,6 +64,6 @@ When the business logic changes (a new product category, a different grouping, a
 
 ---
 
-This is the pattern I argue about most with non-technical clients, and the resolution is almost always the same: agree to build the view they wanted, but build it on top of the detail they didn't think they needed. Six months later they always ask the question that would've sunk the pre-aggregated version, and the view answers it without anyone touching the pipeline. That's the test.
+This is the pattern I argue about most with non-technical clients, and the resolution is almost always the same: agree to build the view they wanted, but build it on top of the detail they didn't think they needed. Six months later they always ask the question that would've sunk the pre-aggregated version, and the view answers it without anyone touching the pipeline. <span class="text-positive" style="font-weight:bold;">That's the test.</span>
 
-The book is mostly written at this point. I'll keep posting from it as I edit, but the next few will probably be patterns from the operating chapter -- alerting calibration, source-system etiquette, the things that actually show up at 6 AM. <span class="emphasis">Hasta la próxima.</span>
+The deeper point is about where the cost of a wrong decision lives. A pipeline that pre-aggregates pushes the cost of every future schema change, every business-rule update, every drill-down request into a backfill of all historical data. A pipeline that lands detail pushes those costs into a downstream view that takes minutes to change. Neither is free, but one is recoverable and the other is a rebuild. Land the detail, build the photo downstream, and let the business own the part of the system they're actually equipped to change.

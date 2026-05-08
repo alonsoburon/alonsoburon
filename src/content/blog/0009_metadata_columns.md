@@ -25,7 +25,7 @@ WHERE updated_at >= :last_run;
 
 ## `_extracted_at`
 
-The pipeline's timestamp -- when your extraction ran, not when the source row was last modified. A row updated three days ago and extracted today has `_extracted_at = today`, and that distinction matters because `updated_at` is the source's clock (subject to all the reliability problems I covered in the lies-sources-tell post) while `_extracted_at` is your clock, set by your pipeline, and always correct.
+The pipeline's timestamp -- when your extraction ran, not when the source row was last modified. A row updated three days ago and extracted today has `_extracted_at = today`, and that distinction matters because `updated_at` is the *source's* clock (maintained by application code, sometimes only on UPDATE, sometimes never on direct DB edits, sometimes NULL altogether), while `_extracted_at` is *your* clock -- set by your pipeline on every run, and always correct.
 
 Always add this. The cost is trivial -- `CURRENT_TIMESTAMP` in the SELECT -- and the debugging value is enormous, because when something goes wrong (and it will), `_extracted_at` is how you answer "when did this bad data arrive?" and "which run brought it?"
 
@@ -97,4 +97,4 @@ For `_extracted_at` and `_batch_id`, the source query is almost always right -- 
 
 Three columns, three different cost profiles, three different roles. The default I'd recommend for any new pipeline: <span class="text-positive" style="font-weight:bold;">always</span> `_extracted_at`, <span class="text-positive" style="font-weight:bold;">always</span> `_batch_id`, and `_source_hash` only on the tables that actually need it. The first two cost nothing and pay for themselves the first time something breaks; the third is a real expense and should be applied where it earns its keep.
 
-The next post is about <span class="emphasis">tiered freshness</span> -- the pattern for not refreshing every table on the same schedule.
+The wider lesson is that <span class="emphasis">your pipeline knows things the source doesn't</span> -- when it ran, which run a row belongs to, what the row looked like at extraction time -- and writing those things into the destination as columns is the cheapest observability investment you'll ever make. They're three lines in a SELECT statement and they turn six-hour debugging sessions into single queries. There is no version of an ECL pipeline I'd build today that doesn't include at least the first two.

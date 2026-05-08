@@ -55,7 +55,7 @@ On an incremental, the per-run check is less direct, because `rows_extracted` is
 
 ## Important columns
 
-The timing breakdown stays as three separate columns because a single `total_seconds` hides whether the bottleneck is the source query, the conforming step, or the destination load. When a pipeline that used to take 5 minutes starts taking 40, you need to know which phase is degrading without digging into logs -- and the total is trivially computable from the parts while the parts are not recoverable from the total.
+The timing breakdown stays as three separate columns because a single `total_seconds` hides whether the bottleneck is the source query, the conforming step (type casting, metadata injection, all the per-row work that happens between extraction and load), or the destination load itself. When a pipeline that used to take 5 minutes starts taking 40, you need to know which phase is degrading without digging into logs -- and the total is trivially computable from the parts while the parts are not recoverable from the total.
 
 `extraction_strategy` records whether this run was `full_replace`, `incremental`, `window`, or something else. The same table can run different strategies on different schedules (a nightly full replace for purity, intraday incremental for freshness), and without this column 50k `rows_extracted` is ambiguous -- perfectly normal on a full replace, possibly alarming on an incremental that usually returns 2k.
 
@@ -111,4 +111,4 @@ On failure, `rows_extracted` and `destination_rows` will likely be NULL, and tha
 
 The health INSERT itself can fail (destination timeout, permission issue, quota exhaustion) and silently leave a gap in your monitoring. Wrap it in its own error handler with a fallback to local logging -- a JSON file, a stderr line, anything durable -- so you at least know the health write failed even if the row didn't land. Discovering that your monitoring table has a 3-day gap because the health destination was unreachable is a particularly frustrating way to learn you had no visibility during an incident.
 
-The next post is about <span class="emphasis">not pre-aggregating</span> at extraction, which is the destination-serving rule I argue with the most clients about.
+The whole thing is about 50 lines of schema, an INSERT in a `finally` block, and one view. It costs almost nothing to add and pays for itself the first morning something quietly went wrong overnight and you were the one who had to figure out why. <span class="text-positive" style="font-weight:bold;">Build it before you need it</span> -- by the time you need it, the data you wish you'd captured is already gone.

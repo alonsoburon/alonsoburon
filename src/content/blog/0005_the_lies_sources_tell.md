@@ -63,7 +63,7 @@ The other two lies are subtler. Recycled PKs happen when a row is deleted and th
 
 Every system that <span class="text-neutral" style="font-style:italic;">"never does hard deletes"</span> does hard deletes. The application layer might soft-delete consistently, but the back-office script does a real `DELETE`, the developer debugging an issue deletes the bad rows directly, and the cleanup job that runs every Sunday night deletes pending records older than 90 days without telling anyone.
 
-The classic from the domain model I've been using in the book is the rule that <span class="highlight">"only open invoices get hard-deleted."</span> Then someone runs a year-end cleanup and deletes a batch of incorrectly posted closed invoices, and your pipeline has them in the destination as closed-and-active forever. The discrepancy surfaces at audit time rather than load time, and it's your fault for not noticing.
+The classic version is the ERP rule that <span class="highlight">"only open invoices get hard-deleted."</span> Then someone runs a year-end cleanup and deletes a batch of incorrectly posted closed invoices, and your pipeline has them in the destination as closed-and-active forever. The discrepancy surfaces at audit time rather than load time, and it's your fault for not noticing.
 
 Detection is simple in concept and almost always neglected in practice -- compare counts between source and destination on every run:
 
@@ -104,6 +104,4 @@ The right move in ECL is to <span class="text-positive" style="font-weight:bold;
 
 ---
 
-The takeaway here isn't paranoia, it's that every assumption the source team hands you is <span class="text-negative" style="font-weight:bold;">a hypothesis</span> until verified, and the verification is almost always a single query you can run before writing any pipeline code at all. Ten minutes of checks beat six months of accumulated drift, every single time.
-
-The next post is about the <span class="emphasis">purity vs. freshness</span> tradeoff, which is the decision every pipeline makes whether you realize it or not.
+The takeaway here isn't paranoia, it's that every assumption the source team hands you is <span class="text-negative" style="font-weight:bold;">a hypothesis</span> until verified -- and the verification is almost always a single query you can run before writing any pipeline code at all. Schema diff against `information_schema`, NULL count on the cursor, duplicate scan on the claimed PK, count comparison source-vs-destination, timezone check on the timestamp column, orphan scan on the foreign key. Six queries, ten minutes, and you've turned a pile of "true until they're not" into a list of <span class="text-positive" style="font-weight:bold;">verified truths and known fabrications</span> that your pipeline can be built around. Ten minutes of checks beat six months of accumulated drift, every single time.

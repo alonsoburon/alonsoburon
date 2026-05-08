@@ -16,6 +16,17 @@ const {
   active = 'cv',
 } = Astro.props;
 
+// Build navigable breadcrumbs from a path like "~/blog/0009_metadata_columns.md".
+// Each segment except "~" gets an href that walks up the URL tree.
+const segments = path.replace(/^~\/?/, '').split('/').filter(Boolean);
+const crumbs = segments.map((seg, i) => {
+  const slugs = segments.slice(0, i + 1).map((s) => s.replace(/\.md$/, ''));
+  const href = '/' + slugs.join('/');
+  // Special case: "cv.md" maps to root.
+  const root = i === 0 && (seg === 'cv.md' || seg === 'cv');
+  return { label: seg, href: root ? '/' : href, isLast: i === segments.length - 1 };
+});
+
 const NAV = [
   { key: 'cv',       name: 'cv',       href: '/' },
   { key: 'projects', name: 'projects', href: '/projects' },
@@ -44,9 +55,19 @@ const NAV = [
   <body>
     <div id="app">
       <header id="topbar">
-        <span class="path">{path}</span>
-        <span class="sep">·</span>
-        <span class="conf">{`{ render: "preview", source: "visible" }`}</span>
+        <span class="path">
+          <a href="/" class="crumb crumb-root">~</a>
+          {crumbs.map((c) => (
+            <>
+              <span class="crumb-sep">/</span>
+              {c.isLast ? (
+                <span class="crumb crumb-current">{c.label}</span>
+              ) : (
+                <a href={c.href} class="crumb">{c.label}</a>
+              )}
+            </>
+          ))}
+        </span>
         <nav>
           {NAV.map(({ key, name, href }) => (
             <span class="nav-item">
