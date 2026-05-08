@@ -100,22 +100,22 @@ html, body {
 main { flex: 1; }
 
 .content {
-  padding: 32px 48px 24px;
-  max-width: 880px;
+  padding: 36px 56px 28px;
+  max-width: 1280px;
   margin: 0 auto;
   width: 100%;
 }
 
 .content-wide {
-  padding: 32px 48px 24px;
-  max-width: 1040px;
+  padding: 36px 56px 28px;
+  max-width: 1500px;
   margin: 0 auto;
   width: 100%;
 }
 
 .content-narrow {
-  padding: 40px 48px 24px;
-  max-width: 720px;
+  padding: 44px 56px 28px;
+  max-width: 1080px;
   margin: 0 auto;
   width: 100%;
 }
@@ -266,22 +266,22 @@ main { flex: 1; }
 .lede {
   margin-top: 8px;
   font-family: var(--serif);
-  font-size: 17px;
+  font-size: 20px;
   line-height: 1.55;
   color: var(--text);
-  max-width: 60ch;
+  max-width: 70ch;
 }
 .body {
   margin-top: 8px;
   font-family: var(--serif);
-  font-size: 16px;
+  font-size: 19px;
   line-height: 1.6;
   color: var(--text);
 }
 .body-2 {
   margin-top: 14px;
   font-family: var(--serif);
-  font-size: 16px;
+  font-size: 19px;
   line-height: 1.6;
   color: var(--text-2);
 }
@@ -338,7 +338,7 @@ a.md-link:hover { color: var(--link-hi); }
   padding: 0;
   list-style: none;
   font-family: var(--serif);
-  font-size: 16px;
+  font-size: 19px;
   line-height: 1.7;
   color: var(--text);
 }
@@ -359,8 +359,8 @@ a.md-link:hover { color: var(--link-hi); }
   padding: 0;
   list-style: none;
   font-family: var(--serif);
-  font-size: 15px;
-  line-height: 1.55;
+  font-size: 17px;
+  line-height: 1.6;
   color: var(--text-2);
 }
 .writing-row {
@@ -410,10 +410,10 @@ a.md-link:hover { color: var(--link-hi); }
 .card-row > .h3 { flex: 1 1 0; min-width: 0; }
 .card-role { margin-left: auto; }
 .card-desc {
-  margin-top: 6px;
+  margin-top: 8px;
   font-family: var(--serif);
-  font-size: 14.5px;
-  line-height: 1.5;
+  font-size: 17px;
+  line-height: 1.55;
   color: var(--text-2);
 }
 .card-title-link { text-decoration: none; }
@@ -488,11 +488,12 @@ a.md-link:hover { color: var(--link-hi); }
 
 /* Markdown-rendered post body */
 .post-body {
-  margin-top: 24px;
+  margin-top: 28px;
   font-family: var(--serif);
-  font-size: 17px;
+  font-size: 20px;
   line-height: 1.65;
   color: var(--text);
+  max-width: 78ch;
 }
 .post-body p { margin: 0 0 1.1em; }
 .post-body strong { color: var(--text); font-weight: 600; }
