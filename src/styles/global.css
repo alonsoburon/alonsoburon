@@ -486,13 +486,20 @@ a.md-link:hover { color: var(--link-hi); }
   color: var(--muted);
 }
 
-/* Markdown-rendered post body */
+/* Markdown-rendered post body — fills the .content rail so
+   tables, codeblocks and headings stretch wide; prose <p>s
+   are capped at ~78ch individually so reading stays sane.   */
 .post-body {
   margin-top: 28px;
   font-family: var(--serif);
   font-size: 20px;
   line-height: 1.65;
   color: var(--text);
+}
+.post-body > p,
+.post-body > ul,
+.post-body > ol,
+.post-body > blockquote {
   max-width: 78ch;
 }
 .post-body p { margin: 0 0 1.1em; }
