@@ -121,12 +121,12 @@ main { flex: 1; }
 }
 
 /* Centered single-column reading container for blog posts.
-   Width tuned so a 21px serif at 1.75 line-height produces
-   ~65-70 characters per line — the comfortable-reading sweet
-   spot used by Stratechery, NYT long-form, Robin Sloan.       */
+   960px outer with 64px padding gives ~80ch line length at
+   21px serif — still readable, less wasteful of horizontal
+   real estate than the classic 65ch column.                   */
 .content-reading {
-  padding: 56px 64px 40px;
-  max-width: 760px;
+  padding: 56px 72px 40px;
+  max-width: 960px;
   margin: 0 auto;
   width: 100%;
 }
