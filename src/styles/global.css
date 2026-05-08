@@ -120,6 +120,17 @@ main { flex: 1; }
   width: 100%;
 }
 
+/* Centered single-column reading container for blog posts.
+   Width tuned so a 21px serif at 1.75 line-height produces
+   ~65-70 characters per line — the comfortable-reading sweet
+   spot used by Stratechery, NYT long-form, Robin Sloan.       */
+.content-reading {
+  padding: 56px 64px 40px;
+  max-width: 760px;
+  margin: 0 auto;
+  width: 100%;
+}
+
 /* ── StatusFoot ─────────────────────────────────────── */
 #foot {
   border-top: 1px solid var(--border);
@@ -486,23 +497,28 @@ a.md-link:hover { color: var(--link-hi); }
   color: var(--muted);
 }
 
-/* Markdown-rendered post body — fills the .content rail so
-   tables, codeblocks and headings stretch wide; prose <p>s
-   are capped at ~78ch individually so reading stays sane.   */
+/* Markdown-rendered post body — sized for sustained reading.
+   The whole post page lives in a centered .content-reading
+   container, so post-body itself just sets typography.
+   Inspired by Stratechery, Robin Sloan, Paul Graham essays.   */
 .post-body {
-  margin-top: 28px;
+  margin-top: 32px;
   font-family: var(--serif);
-  font-size: 20px;
-  line-height: 1.65;
+  font-size: 21px;
+  line-height: 1.75;
   color: var(--text);
+  font-variation-settings: "opsz" 14;
 }
-.post-body > p,
-.post-body > ul,
-.post-body > ol,
-.post-body > blockquote {
-  max-width: 78ch;
+.post-body p { margin: 0 0 1.35em; }
+/* Codeblocks and tables break out a bit wider than the prose
+   column so they don't feel cramped (Substack / Medium pattern). */
+.post-body pre,
+.post-body table {
+  margin-left: -2.5ch;
+  margin-right: -2.5ch;
+  width: calc(100% + 5ch);
+  max-width: none;
 }
-.post-body p { margin: 0 0 1.1em; }
 .post-body strong { color: var(--text); font-weight: 600; }
 .post-body em { font-style: italic; color: var(--text-2); }
 .post-body h2 {
