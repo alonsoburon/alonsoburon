@@ -23,8 +23,8 @@ jobs:
         uses: withastro/action@v3
         with:
           path: . # The root location of your Astro project inside the repository. (optional)
-          node-version: 22 # pnpm@latest (v11+) requires Node >= 22.13
-          package-manager: pnpm@latest # Auto-detected from lockfile
+          node-version: 22
+          package-manager: pnpm@10 # v11 errors on ignored builds even with allowlist
 
   deploy:
     needs: build
