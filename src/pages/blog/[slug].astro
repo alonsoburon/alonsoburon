@@ -31,6 +31,14 @@ const readMin = Math.max(1, Math.round(wordCount / 220));
   description={post.data.description ?? post.data.title}
   path={path}
   active="blog"
+  kind="blog"
+  post={{
+    title: post.data.title,
+    description: post.data.description,
+    date: post.data.date,
+    tags: post.data.tags,
+    wordCount,
+  }}
 >
   <div class="content-reading">
     <div class="breadcrumb">

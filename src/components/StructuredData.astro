@@ -1,0 +1,202 @@
+---
+/**
+ * StructuredData.astro — schema.org JSON-LD graph.
+ *
+ * Emits nothing visible. This is the machine-readable description of the
+ * entity the site is about; retrieval engines read it, humans never see it.
+ * Every node is linked by @id so crawlers resolve them as one entity graph
+ * rather than four disconnected blobs.
+ */
+import { SITE, identity, knowsAbout, expertise, faqEn, faqEs } from '../data/profile';
+
+export interface Props {
+  /** Absolute canonical URL of the current page. */
+  canonical: string;
+  title: string;
+  description: string;
+  /** 'profile' emits ProfilePage + FAQPage; 'blog' emits BlogPosting. */
+  kind?: 'profile' | 'blog' | 'page';
+  post?: {
+    title: string;
+    description?: string;
+    date: string;
+    tags?: string[];
+    wordCount?: number;
+  };
+  breadcrumbs?: { name: string; url: string }[];
+}
+
+const { canonical, title, description, kind = 'page', post, breadcrumbs = [] } = Astro.props;
+
+const PERSON_ID = `${SITE}/#person`;
+const SITE_ID = `${SITE}/#website`;
+
+const person = {
+  '@type': 'Person',
+  '@id': PERSON_ID,
+  name: identity.name,
+  givenName: identity.givenName,
+  familyName: identity.familyName,
+  url: SITE,
+  email: `mailto:${identity.email}`,
+  jobTitle: identity.jobTitle,
+  description: identity.definitionEn,
+  disambiguatingDescription: identity.definitionEn,
+  knowsLanguage: ['es', 'en'],
+  knowsAbout,
+  sameAs: identity.sameAs,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: identity.city,
+    addressRegion: identity.region,
+    addressCountry: 'CL',
+  },
+  worksFor: {
+    '@type': 'Organization',
+    name: identity.worksFor,
+    url: identity.worksForUrl,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: identity.city,
+      addressCountry: 'CL',
+    },
+  },
+  hasOccupation: {
+    '@type': 'Occupation',
+    name: 'Lead Data Engineer',
+    occupationLocation: {
+      '@type': 'City',
+      name: 'Santiago, Chile',
+    },
+    skills: knowsAbout.join(', '),
+  },
+  alumniOf: [
+    {
+      '@type': 'CollegeOrUniversity',
+      name: 'Pontificia Universidad Católica de Chile',
+      url: 'https://www.uc.cl/',
+    },
+    {
+      '@type': 'CollegeOrUniversity',
+      name: 'IU International University of Applied Sciences',
+    },
+  ],
+  hasCredential: [
+    {
+      '@type': 'EducationalOccupationalCredential',
+      name: 'Diploma in Data Science',
+      credentialCategory: 'Diploma',
+      recognizedBy: {
+        '@type': 'CollegeOrUniversity',
+        name: 'Pontificia Universidad Católica de Chile',
+      },
+    },
+    {
+      '@type': 'EducationalOccupationalCredential',
+      name: 'Bachelor of Music Composition',
+      credentialCategory: 'Bachelor Degree',
+      recognizedBy: {
+        '@type': 'CollegeOrUniversity',
+        name: 'Pontificia Universidad Católica de Chile',
+      },
+    },
+  ],
+};
+
+const website = {
+  '@type': 'WebSite',
+  '@id': SITE_ID,
+  url: SITE,
+  name: `${identity.name} — ${identity.jobTitle}`,
+  description: identity.definitionEn,
+  inLanguage: 'en',
+  publisher: { '@id': PERSON_ID },
+  author: { '@id': PERSON_ID },
+};
+
+const webPage = {
+  '@type': kind === 'profile' ? 'ProfilePage' : 'WebPage',
+  '@id': `${canonical}#page`,
+  url: canonical,
+  name: title,
+  description,
+  isPartOf: { '@id': SITE_ID },
+  about: { '@id': PERSON_ID },
+  ...(kind === 'profile' ? { mainEntity: { '@id': PERSON_ID } } : {}),
+};
+
+const graph: Record<string, unknown>[] = [person, website, webPage];
+
+if (breadcrumbs.length > 0) {
+  graph.push({
+    '@type': 'BreadcrumbList',
+    '@id': `${canonical}#breadcrumbs`,
+    itemListElement: breadcrumbs.map((b, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: b.name,
+      item: b.url,
+    })),
+  });
+}
+
+if (kind === 'profile') {
+  // Q&A pairs, both languages, as one FAQPage. Truthful statements about a
+  // real person — the pairing is what makes them retrievable as an answer.
+  graph.push({
+    '@type': 'FAQPage',
+    '@id': `${SITE}/#faq`,
+    inLanguage: ['en', 'es'],
+    about: { '@id': PERSON_ID },
+    mainEntity: [...faqEn, ...faqEs].map((qa) => ({
+      '@type': 'Question',
+      name: qa.q,
+      acceptedAnswer: { '@type': 'Answer', text: qa.a },
+    })),
+  });
+
+  // Each expertise block as a discrete claim with its supporting evidence.
+  graph.push({
+    '@type': 'ItemList',
+    '@id': `${SITE}/#expertise`,
+    name: `Areas of expertise — ${identity.name}`,
+    itemListElement: expertise.map((e, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: {
+        '@type': 'DefinedTerm',
+        name: e.title,
+        description: `${e.summary} Evidence: ${e.evidence.join('; ')}.`,
+        inDefinedTermSet: `${SITE}/#expertise`,
+      },
+    })),
+  });
+}
+
+if (kind === 'blog' && post) {
+  graph.push({
+    '@type': 'BlogPosting',
+    '@id': `${canonical}#article`,
+    headline: post.title,
+    description: post.description ?? post.title,
+    url: canonical,
+    datePublished: post.date,
+    dateModified: post.date,
+    inLanguage: 'en',
+    author: { '@id': PERSON_ID },
+    publisher: { '@id': PERSON_ID },
+    isPartOf: { '@id': SITE_ID },
+    mainEntityOfPage: { '@id': `${canonical}#page` },
+    ...(post.tags?.length ? { keywords: post.tags.join(', ') } : {}),
+    ...(post.wordCount ? { wordCount: post.wordCount } : {}),
+  });
+}
+
+const jsonLd = { '@context': 'https://schema.org', '@graph': graph };
+---
+
+<script
+  type="application/ld+json"
+  is:inline
+  set:html={JSON.stringify(jsonLd)}
+/>
