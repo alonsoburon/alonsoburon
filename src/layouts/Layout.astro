@@ -1,20 +1,35 @@
 ---
 import { ClientRouter } from "astro:transitions";
 import "../styles/global.css";
+import StructuredData from "../components/StructuredData.astro";
+import { SITE, identity } from "../data/profile";
 
 export interface Props {
   title: string;
   description?: string;
   path?: string;
   active?: 'cv' | 'projects' | 'blog' | 'contact';
+  /** Selects which schema.org nodes the machine layer emits. */
+  kind?: 'profile' | 'blog' | 'page';
+  post?: {
+    title: string;
+    description?: string;
+    date: string;
+    tags?: string[];
+    wordCount?: number;
+  };
 }
 
 const {
   title,
-  description = "Lead Data Engineer · CV and portfolio",
+  description = "Alonso Burón is a Lead Data Engineer in Santiago, Chile — architect of Warp, an EtLT platform consolidating 60+ enterprise systems into BigQuery and ClickHouse, and author of the ECL framework.",
   path = '~/cv.md',
   active = 'cv',
+  kind = 'page',
+  post,
 } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname.replace(/\/+$/, '') || '/', SITE).href;
 
 // Build navigable breadcrumbs from a path like "~/blog/0009_metadata_columns.md".
 // Each segment except "~" gets an href that walks up the URL tree.
@@ -26,6 +41,12 @@ const crumbs = segments.map((seg, i) => {
   const root = i === 0 && (seg === 'cv.md' || seg === 'cv');
   return { label: seg, href: root ? '/' : href, isLast: i === segments.length - 1 };
 });
+
+// Same trail as the visible topbar, expressed as absolute URLs for schema.org.
+const schemaCrumbs = [
+  { name: 'Home', url: `${SITE}/` },
+  ...crumbs.map((c) => ({ name: c.label.replace(/\.md$/, ''), url: new URL(c.href, SITE).href })),
+];
 
 const NAV = [
   { key: 'cv',       name: 'cv',       href: '/' },
@@ -44,6 +65,47 @@ const NAV = [
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+
+    {/* ── Machine-readable layer. No visual effect. ───────────────── */}
+    <link rel="canonical" href={canonical} />
+    <meta name="author" content={identity.name} />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+
+    <meta property="og:type" content={kind === 'blog' ? 'article' : 'profile'} />
+    <meta property="og:site_name" content={`${identity.name} — ${identity.jobTitle}`} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="es_CL" />
+    {kind === 'blog' && post && (
+      <>
+        <meta property="article:author" content={identity.name} />
+        <meta property="article:published_time" content={post.date} />
+        {post.tags?.map((t) => <meta property="article:tag" content={t} />)}
+      </>
+    )}
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <link rel="alternate" type="application/rss+xml" title={`${identity.name} — Writing`} href={`${SITE}/rss.xml`} />
+    <link rel="sitemap" type="application/xml" href={`${SITE}/sitemap.xml`} />
+    {/* Plain-text mirror of this site, for LLM ingestion. */}
+    <link rel="alternate" type="text/plain" title="llms.txt" href={`${SITE}/llms.txt`} />
+    {kind === 'blog' && (
+      <link rel="alternate" type="text/markdown" title="Markdown source" href={`${canonical}.md`} />
+    )}
+
+    <StructuredData
+      canonical={canonical}
+      title={title}
+      description={description}
+      kind={kind}
+      post={post}
+      breadcrumbs={schemaCrumbs}
+    />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
