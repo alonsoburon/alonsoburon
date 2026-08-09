@@ -61,7 +61,9 @@ const NAV = [
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#22262a" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
@@ -135,9 +137,13 @@ const NAV = [
             <span class="nav-item">
               <span class="br">[</span>
               <a href={href} class={key === active ? 'active' : ''}>{name}</a>
-              <span class="br">](</span>
-              <span class="url">{href}</span>
-              <span class="br">)</span>
+              <span class="br">]</span>
+              {/* The (url) half is dropped on narrow screens — see global.css. */}
+              <span class="nav-url">
+                <span class="br">(</span>
+                <span class="url">{href}</span>
+                <span class="br">)</span>
+              </span>
             </span>
           ))}
         </nav>
@@ -154,5 +160,28 @@ const NAV = [
         <span class="copy">©2026 Burón · MIT</span>
       </footer>
     </div>
+
+    <script>
+      // Show the "more columns to the right" fade only while a wide table
+      // actually has somewhere left to scroll.
+      let ports: HTMLElement[] = [];
+
+      function sync(port: HTMLElement) {
+        const remaining = port.scrollWidth - port.clientWidth - port.scrollLeft;
+        port.parentElement?.classList.toggle('can-scroll', remaining > 4);
+      }
+
+      function initTableScroll() {
+        ports = Array.from(document.querySelectorAll<HTMLElement>('.table-scroll'));
+        ports.forEach((port) => {
+          sync(port);
+          port.addEventListener('scroll', () => sync(port), { passive: true });
+        });
+      }
+
+      document.addEventListener('astro:page-load', initTableScroll);
+      // Rotating the phone can make a table fit — or stop fitting.
+      window.addEventListener('resize', () => ports.forEach(sync), { passive: true });
+    </script>
   </body>
 </html>
