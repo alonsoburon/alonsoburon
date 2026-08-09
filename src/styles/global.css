@@ -37,6 +37,15 @@
   50%, 100% { opacity: 0; }
 }
 
+html {
+  color-scheme: dark;
+  /* Stop iOS Safari inflating body text when the phone rotates. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* Anchor jumps must clear the sticky topbar. */
+  scroll-padding-top: 64px;
+}
+
 html, body {
   height: 100%;
   background: var(--bg);
@@ -47,10 +56,31 @@ html, body {
 
 ::selection { background: var(--accent); color: var(--bg); }
 
+a, button {
+  -webkit-tap-highlight-color: rgba(254, 128, 25, 0.18);
+}
+a:focus-visible,
+button:focus-visible,
+.table-scroll:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 #app {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  /* dvh tracks the collapsing mobile URL bar; vh above is the fallback. */
+  min-height: 100dvh;
 }
 
 /* ── TopBar ─────────────────────────────────────────── */
@@ -70,7 +100,16 @@ html, body {
   z-index: 100;
 }
 
-#topbar .path { color: var(--accent); display: inline-flex; align-items: center; gap: 2px; }
+/* min-width:0 lets the trail shrink below its intrinsic width so a long
+   post slug ellipsises instead of shoving the nav off-screen. */
+#topbar .path {
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+  white-space: nowrap;
+}
 #topbar .crumb {
   color: var(--accent);
   text-decoration: none;
@@ -80,16 +119,28 @@ html, body {
 }
 #topbar a.crumb:hover { background: var(--elev); color: var(--accent-2); }
 #topbar .crumb-root { color: var(--accent-2); }
-#topbar .crumb-current { color: var(--text-2); cursor: default; }
-#topbar .crumb-sep { color: var(--dim); padding: 0 1px; }
+#topbar .crumb-current {
+  color: var(--text-2);
+  cursor: default;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#topbar .crumb-sep { color: var(--dim); padding: 0 1px; flex-shrink: 0; }
+#topbar a.crumb { flex-shrink: 0; }
 
 #topbar nav {
   margin-left: auto;
   display: flex;
   gap: 18px;
+  flex-shrink: 0;
 }
 
 .nav-item { display: inline-flex; align-items: baseline; }
+/* display:contents keeps the (url) parts as direct flex children of
+   .nav-item, so the markup's whitespace collapses the way it did when
+   they were siblings — no stray gaps in "[cv](/)". */
+.nav-url { display: contents; }
 .nav-item .br  { color: var(--cmt); }
 .nav-item .url { color: var(--link); font-size: 0.78em; }
 .nav-item a {
@@ -225,6 +276,15 @@ main { flex: 1; }
   gap: 8px;
   flex-wrap: wrap;
 }
+/* Let the heading text shrink and wrap inside the row instead of hitting
+   its min-content width and pushing itself onto a line below the anchor. */
+.h-row > .h1,
+.h-row > .h1-inner,
+.h-row > .h1-blog,
+.h-row > .h2,
+.h-row > .h2-post,
+.h-row > .h3 { min-width: 0; }
+
 .h-row:has(> .h1)       { font-size: 56px; }
 .h-row:has(> .h1-inner) { font-size: 44px; }
 .h-row:has(> .h1-blog)  { font-size: 40px; }
@@ -340,6 +400,13 @@ main { flex: 1; }
   color: var(--text-2);
 }
 
+/* The prose here is peppered with literal markdown syntax and bare URLs,
+   which have no natural break points on a 320px column. */
+.lede, .body, .body-2, .card-desc, .post-body, .breadcrumb, .stack-list {
+  overflow-wrap: break-word;
+}
+.lede .sx, .breadcrumb .sx, .card-desc code { overflow-wrap: anywhere; }
+
 a.md-link {
   color: var(--link);
   text-decoration: underline;
@@ -358,6 +425,9 @@ a.md-link:hover { color: var(--link-hi); }
   padding: 0.05em 0.4em;
   border-radius: 3px;
   vertical-align: 0.04em;
+  /* Dotted identifiers like information_schema.TABLES.TABLE_ROWS have no
+     break opportunity and used to run straight off the viewport. */
+  overflow-wrap: anywhere;
 }
 
 /* ── YAML / fence blocks ────────────────────────────── */
@@ -553,10 +623,10 @@ a.md-link:hover { color: var(--link-hi); }
   font-variation-settings: "opsz" 14;
 }
 .post-body p { margin: 0 0 1.35em; }
-/* Codeblocks and tables break out a bit wider than the prose
-   column so they don't feel cramped (Substack / Medium pattern). */
-.post-body pre,
-.post-body table {
+/* Codeblocks break out a bit wider than the prose column so they don't
+   feel cramped (Substack / Medium pattern). Tables get the same treatment
+   via .table-scroll, which wraps them. */
+.post-body pre {
   margin-left: -2.5ch;
   margin-right: -2.5ch;
   width: calc(100% + 5ch);
@@ -629,6 +699,8 @@ a.md-link:hover { color: var(--link-hi); }
   border: 1px solid var(--border);
   border-radius: 6px;
   overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
   font-family: var(--mono);
   font-size: 13px;
   line-height: 1.6;
@@ -650,6 +722,39 @@ a.md-link:hover { color: var(--link-hi); }
   font-weight: 500;
   vertical-align: 0.05em;
 }
+/* Tables are wrapped at build time by rehypeTableScroll (astro.config.mjs).
+   The wrapper owns the horizontal scroll; the table keeps its real layout. */
+.table-wrap {
+  position: relative;
+  margin: 1.4em -2.5ch;
+  max-width: none;
+  width: calc(100% + 5ch);
+}
+.table-scroll {
+  overflow-x: auto;
+  /* Don't let a table swipe turn into a browser back-gesture. */
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.table-scroll > table { margin: 0; }
+
+/* Fade on the right edge while there are still columns off-screen — without
+   it a clipped table just reads as a broken layout. Toggled by the script
+   in Layout.astro, so it never shows on a table that already fits. */
+.table-wrap::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 36px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  background: linear-gradient(to right, rgba(29, 32, 33, 0), rgba(29, 32, 33, 0.95));
+}
+.table-wrap.can-scroll::after { opacity: 1; }
+
 .post-body table {
   width: 100%;
   border-collapse: collapse;
@@ -711,16 +816,151 @@ a.md-link:hover { color: var(--link-hi); }
 .contact-grid a:hover { color: var(--link-hi); }
 
 /* ── Responsive ─────────────────────────────────────── */
+
+/* Tablet / small laptop: pull the generous desktop gutters in before the
+   reading column gets squeezed. */
+@media (max-width: 1024px) {
+  .content, .content-wide { padding: 30px 36px 24px; }
+  .content-narrow { padding: 36px 36px 24px; }
+  .content-reading { padding: 44px 44px 32px; }
+}
+
 @media (max-width: 720px) {
   .content, .content-wide, .content-narrow { padding: 20px 18px 16px; }
-  #topbar { padding: 8px 16px; font-size: 10px; gap: 8px; }
-  #topbar nav { gap: 10px; }
-  #foot { padding: 6px 16px; font-size: 9.5px; gap: 10px; }
-  .h1 { font-size: 38px; }
-  .h1-inner { font-size: 32px; }
-  .h1-blog { font-size: 28px; }
-  .h2 { font-size: 24px; }
-  .h2-post { font-size: 22px; }
-  .fence-body, .contact-grid { grid-template-columns: 90px 1fr; }
+  /* .content-reading was missing here, so blog posts kept 72px gutters and
+     rendered in a ~176px column on a 320px phone. */
+  .content-reading { padding: 24px 18px 24px; }
+
+  #topbar { padding: 6px 16px; font-size: 10.5px; gap: 8px; }
+  #topbar nav { gap: 4px; }
+  /* Dropping the (/url) half of each nav item takes the bar from 337px to
+     ~180px — it no longer forces the whole page to scroll sideways. */
+  .nav-url { display: none; }
+  /* Roomier hit areas: the links were 12–48px wide and 16px tall.
+     Padding lives on the <a> only — doubling it up on .nav-item made the
+     sticky bar eat 89px of a 568px screen. */
+  .nav-item a { padding: 6px 4px; }
+  #topbar .crumb { padding: 5px 4px; }
+  /* Short links set in the 10.5px mono style are too small to hit reliably.
+     Only short, non-wrapping ones — an inline-block around a title that
+     wraps would strand the surrounding [ ] brackets on their own lines. */
+  .post-meta a, .contact-grid a, .breadcrumb a {
+    display: inline-block;
+    padding: 6px 0;
+  }
+
+  #foot { padding: 8px 16px; font-size: 9.5px; gap: 10px; }
   #foot .copy { margin-left: 0; }
+
+  /* .h-row sizes itself so the em-based anchor scales with the heading;
+     without these the row stayed at its desktop size and the "#" marker
+     rendered far too large next to a shrunken title. */
+  .h-row { gap: 6px; }
+  .h-row:has(> .h1)       { font-size: 36px; }
+  .h-row:has(> .h1-inner) { font-size: 32px; }
+  .h-row:has(> .h1-blog)  { font-size: 27px; }
+  .h-row:has(> .h2)       { font-size: 24px; }
+  .h-row:has(> .h2-post)  { font-size: 21px; }
+  .h-row:has(> .h3)       { font-size: 19px; }
+  .h1 { font-size: 36px; letter-spacing: -0.8px; }
+  .h1-inner { font-size: 32px; }
+  .h1-blog { font-size: 27px; line-height: 1.15; }
+  .h2 { font-size: 24px; }
+  .h2-post { font-size: 21px; }
+  .h3 { font-size: 19px; }
+  .inline-comment { font-size: 11px; }
+
+  .lede { font-size: 17.5px; }
+  .body, .body-2, .stack-list { font-size: 17px; }
+  .card-desc { font-size: 15.5px; }
+  .writing-list { font-size: 16px; }
+
+  .section { margin-top: 24px; }
+
+  /* Post body: smaller measure, and no negative breakout — at this width
+     the codeblocks were hanging past the edge of the screen. */
+  .post-body { font-size: 17.5px; line-height: 1.65; margin-top: 22px; }
+  .post-body h2 { font-size: 22px; }
+  .post-body h3 { font-size: 18px; }
+  .post-body pre {
+    margin-left: -8px;
+    margin-right: -8px;
+    width: calc(100% + 16px);
+    padding: 12px;
+    font-size: 12px;
+    border-radius: 4px;
+  }
+  .table-wrap {
+    margin-left: -18px;
+    margin-right: -18px;
+    width: calc(100% + 36px);
+  }
+  .table-scroll { padding: 0 18px; }
+  /* Let the table keep readable columns and scroll, rather than crushing
+     five columns into 284px. */
+  .table-scroll > table { min-width: 460px; font-size: 12px; }
+  .post-body ul, .post-body ol { padding-left: 1.1em; }
+  .post-body blockquote { padding: 10px 12px; }
+
+  .breadcrumb { overflow-wrap: anywhere; line-height: 1.7; }
+  .post-meta { gap: 6px 12px; }
+
+  /* Two-column key/value grids stack: at 320px the value column was only
+     ~130px, so emails and long strings overflowed. */
+  .fence-body, .contact-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .fence-body > :nth-child(even),
+  .contact-grid > :nth-child(even) {
+    padding-left: 14px;
+    margin-bottom: 8px;
+    overflow-wrap: anywhere;
+  }
+  .fence-body > :last-child, .contact-grid > :last-child { margin-bottom: 0; }
+
+  /* number | title on row one, date tucked under the title on row two */
+  .writing-row {
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 2px 10px;
+    padding: 9px 0;
+  }
+  .writing-row > :nth-child(3) { grid-column: 2; }
+
+  /* role: badge belongs on its own line once the title takes the width */
+  .card-role { margin-left: 0; flex-basis: 100%; }
+  .card-body { padding: 12px; }
+  .card-head { font-size: 10px; padding: 5px 10px; }
+
+  /* Chips were 24px tall — under the 44px touch guidance. */
+  .filter-row { gap: 6px; }
+  .chip { padding: 8px 12px; }
+  #sort-toggle { margin-left: 0 !important; }
+
+  .back-link { padding: 10px 14px; }
+  .tag { padding: 4px 8px; }
+}
+
+/* Narrowest phones: give the nav its own full-width row so neither it nor
+   the breadcrumb has to be truncated. */
+@media (max-width: 560px) {
+  #topbar {
+    flex-wrap: wrap;
+    gap: 0 8px;
+    padding: 6px 14px;
+  }
+  #topbar .path { width: 100%; }
+  #topbar nav {
+    width: 100%;
+    margin-left: 0;
+    justify-content: space-between;
+    gap: 2px;
+    border-top: 1px solid var(--border);
+    margin-top: 3px;
+    padding-top: 1px;
+  }
+  .content, .content-wide, .content-narrow, .content-reading { padding-left: 14px; padding-right: 14px; }
+  .table-wrap { margin-left: -14px; margin-right: -14px; width: calc(100% + 28px); }
+  .table-scroll { padding: 0 14px; }
+  html { scroll-padding-top: 80px; }
 }
