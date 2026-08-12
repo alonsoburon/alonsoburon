@@ -2,15 +2,33 @@
 import { ClientRouter } from "astro:transitions";
 import "../styles/global.css";
 import StructuredData from "../components/StructuredData.astro";
+import LangSwitch from "../components/LangSwitch.astro";
 import { SITE, identity } from "../data/profile";
+import {
+  routes,
+  home,
+  htmlLang,
+  ogLocale,
+  langFromPath,
+  SPANISH_COUNTRIES,
+  STORAGE,
+  GEO_TTL,
+  type Lang,
+  type PageKey,
+} from "../i18n/config";
+import { useUi, metaDescription } from "../i18n/ui";
 
 export interface Props {
   title: string;
   description?: string;
   path?: string;
-  active?: 'cv' | 'projects' | 'blog' | 'contact';
+  active?: PageKey;
   /** Selects which schema.org nodes the machine layer emits. */
   kind?: 'profile' | 'blog' | 'page';
+  /** Omit to derive from the URL: anything under /es/ is Spanish. */
+  lang?: Lang;
+  /** false when this page has no counterpart in the other locale — the blog. */
+  translated?: boolean;
   post?: {
     title: string;
     description?: string;
@@ -22,42 +40,68 @@ export interface Props {
 
 const {
   title,
-  description = "Alonso Burón is a Lead Data Engineer in Santiago, Chile — architect of Warp, an EtLT platform consolidating 60+ enterprise systems into BigQuery and ClickHouse, and author of the ECL framework.",
   path = '~/cv.md',
   active = 'cv',
   kind = 'page',
+  lang = langFromPath(Astro.url.pathname),
+  translated = true,
   post,
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname.replace(/\/+$/, '') || '/', SITE).href;
+const description = Astro.props.description ?? metaDescription[lang];
+const t = useUi(lang);
+
+// Every locale keeps a trailing slash on its home and drops it everywhere
+// else, so the canonical URL always matches the URL that is actually linked.
+let cleanPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
+if (cleanPath === '/es') cleanPath = '/es/';
+const canonical = new URL(cleanPath, SITE).href;
 
 // Build navigable breadcrumbs from a path like "~/blog/0009_metadata_columns.md".
-// Each segment except "~" gets an href that walks up the URL tree.
+// Each segment except "~" gets an href that walks up the URL tree, prefixed
+// with the locale so "~/proyectos.md" resolves to /es/proyectos.
+const localeBase = lang === 'es' ? '/es' : '';
 const segments = path.replace(/^~\/?/, '').split('/').filter(Boolean);
 const crumbs = segments.map((seg, i) => {
-  const slugs = segments.slice(0, i + 1).map((s) => s.replace(/\.md$/, ''));
-  const href = '/' + slugs.join('/');
-  // Special case: "cv.md" maps to root.
-  const root = i === 0 && (seg === 'cv.md' || seg === 'cv');
-  return { label: seg, href: root ? '/' : href, isLast: i === segments.length - 1 };
+  const slugs = segments.slice(0, i + 1).map((s) => s.replace(/\.(md|yml)$/, ''));
+  // Special case: "cv.md" maps to the locale root.
+  const isRoot = i === 0 && (seg === 'cv.md' || seg === 'cv');
+  const href = isRoot ? home[lang] : `${localeBase}/${slugs.join('/')}`;
+  return { label: seg, href, isLast: i === segments.length - 1 };
 });
 
 // Same trail as the visible topbar, expressed as absolute URLs for schema.org.
 const schemaCrumbs = [
-  { name: 'Home', url: `${SITE}/` },
-  ...crumbs.map((c) => ({ name: c.label.replace(/\.md$/, ''), url: new URL(c.href, SITE).href })),
+  { name: 'Home', url: new URL(home[lang], SITE).href },
+  ...crumbs.map((c) => ({
+    name: c.label.replace(/\.(md|yml)$/, ''),
+    url: new URL(c.href, SITE).href,
+  })),
 ];
 
 const NAV = [
-  { key: 'cv',       name: 'cv',       href: '/' },
-  { key: 'projects', name: 'projects', href: '/projects' },
-  { key: 'blog',     name: 'blog',     href: '/blog' },
-  { key: 'contact',  name: 'contact',  href: '/contact' },
+  { key: 'cv',       name: t.nav.cv,       href: routes.cv[lang] },
+  { key: 'projects', name: t.nav.projects, href: routes.projects[lang] },
+  { key: 'blog',     name: t.nav.blog,     href: routes.blog[lang] },
+  { key: 'contact',  name: t.nav.contact,  href: routes.contact[lang] },
 ] as const;
+
+const other: Lang = lang === 'en' ? 'es' : 'en';
+
+// Config handed to the inline detection script below.
+const detect = {
+  lang,
+  page: active,
+  translated,
+  routes,
+  spanish: SPANISH_COUNTRIES,
+  storage: STORAGE,
+  ttl: GEO_TTL,
+};
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang={htmlLang[lang]}>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
@@ -68,8 +112,126 @@ const NAV = [
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
 
+    {/* ── Language routing. Runs before paint so a returning visitor with a
+           stored choice never sees the wrong language flash. ───────────── */}
+    <script is:inline define:vars={{ cfg: detect }}>
+      (function () {
+        var s = cfg.storage;
+
+        // A click on the flag is an explicit choice. It outranks the IP guess
+        // on every later visit, so record it before the router navigates.
+        if (!window.__abLangBound) {
+          window.__abLangBound = true;
+          document.addEventListener(
+            'click',
+            function (e) {
+              var el = e.target;
+              var a = el && el.closest ? el.closest('[data-lang-choice]') : null;
+              if (!a) return;
+              try {
+                localStorage.setItem(s.choice, a.getAttribute('data-lang-choice'));
+              } catch (err) {}
+            },
+            true
+          );
+        }
+
+        /** Sends the visitor to this same page in `target`, if that exists. */
+        function go(target) {
+          if (target === cfg.lang) return;
+          // The blog is English-only: there is nowhere to send them.
+          if (!cfg.translated) return;
+          var dest = cfg.routes[cfg.page][target];
+          if (!dest || dest === location.pathname) return;
+          var q = new URLSearchParams(location.search);
+          q.delete('lang');
+          var qs = q.toString();
+          location.replace(dest + (qs ? '?' + qs : '') + location.hash);
+        }
+
+        function pick(cc) {
+          return cfg.spanish.indexOf(cc) > -1 ? 'es' : 'en';
+        }
+
+        /** Last resort when the IP lookup is blocked or fails. */
+        function fromBrowser() {
+          var l =
+            (navigator.languages && navigator.languages[0]) || navigator.language || '';
+          return /^es/i.test(l) ? 'es' : 'en';
+        }
+
+        function readGeo() {
+          try {
+            var o = JSON.parse(localStorage.getItem(s.geo) || 'null');
+            if (!o || !o.cc || typeof o.at !== 'number') return null;
+            if (Date.now() - o.at > cfg.ttl) return null;
+            return o.cc;
+          } catch (err) {
+            return null;
+          }
+        }
+
+        function writeGeo(cc) {
+          try {
+            localStorage.setItem(s.geo, JSON.stringify({ cc: cc, at: Date.now() }));
+          } catch (err) {}
+        }
+
+        // 1. ?lang=es — an explicit override, shareable in a link.
+        var q = new URLSearchParams(location.search).get('lang');
+        if (q === 'en' || q === 'es') {
+          try {
+            localStorage.setItem(s.choice, q);
+          } catch (err) {}
+          go(q);
+          return;
+        }
+
+        // 2. A stored choice. Synchronous: no flash, no network.
+        var stored = null;
+        try {
+          stored = localStorage.getItem(s.choice);
+        } catch (err) {}
+        if (stored === 'en' || stored === 'es') {
+          go(stored);
+          return;
+        }
+
+        // 3. A cached country verdict. Also synchronous.
+        var cached = readGeo();
+        if (cached) {
+          go(pick(cached));
+          return;
+        }
+
+        // 4. First visit: resolve the country from the IP address. The site is
+        //    a static build with no server of its own, so the lookup has to
+        //    happen here. It runs once per browser, then step 3 takes over.
+        fetch('https://api.country.is/', { mode: 'cors', cache: 'no-store' })
+          .then(function (r) {
+            return r.ok ? r.json() : null;
+          })
+          .then(function (d) {
+            var cc = d && d.country ? String(d.country).toUpperCase() : null;
+            if (!cc) return go(fromBrowser());
+            writeGeo(cc);
+            go(pick(cc));
+          })
+          .catch(function () {
+            go(fromBrowser());
+          });
+      })();
+    </script>
+
     {/* ── Machine-readable layer. No visual effect. ───────────────── */}
     <link rel="canonical" href={canonical} />
+    {translated && (
+      <>
+        <link rel="alternate" hreflang="en" href={new URL(routes[active].en, SITE).href} />
+        <link rel="alternate" hreflang="es" href={new URL(routes[active].es, SITE).href} />
+        <link rel="alternate" hreflang="x-default" href={new URL(routes[active].en, SITE).href} />
+      </>
+    )}
     <meta name="author" content={identity.name} />
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
 
@@ -78,8 +240,8 @@ const NAV = [
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:locale:alternate" content="es_CL" />
+    <meta property="og:locale" content={ogLocale[lang]} />
+    {translated && <meta property="og:locale:alternate" content={ogLocale[other]} />}
     {kind === 'blog' && post && (
       <>
         <meta property="article:author" content={identity.name} />
@@ -104,6 +266,7 @@ const NAV = [
       title={title}
       description={description}
       kind={kind}
+      lang={lang}
       post={post}
       breadcrumbs={schemaCrumbs}
     />
@@ -120,7 +283,7 @@ const NAV = [
     <div id="app">
       <header id="topbar">
         <span class="path">
-          <a href="/" class="crumb crumb-root">~</a>
+          <a href={home[lang]} class="crumb crumb-root">~</a>
           {crumbs.map((c) => (
             <>
               <span class="crumb-sep">/</span>
@@ -147,6 +310,7 @@ const NAV = [
             </span>
           ))}
         </nav>
+        <LangSwitch lang={lang} page={active} translated={translated} />
       </header>
 
       <main>
@@ -154,10 +318,10 @@ const NAV = [
       </main>
 
       <footer id="foot">
-        <span class="rendered">● rendered</span>
+        <span class="rendered">● {t.foot.rendered}</span>
         <span>shiki · github-dark</span>
-        <span>view-transitions: on</span>
-        <span class="copy">©2026 Burón · MIT</span>
+        <span>{t.foot.transitions}</span>
+        <span class="copy">{t.foot.copy}</span>
       </footer>
     </div>
 

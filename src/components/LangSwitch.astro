@@ -1,0 +1,63 @@
+---
+/**
+ * LangSwitch.astro — the flag pair in the top bar.
+ *
+ * Both languages are always shown, so the visitor sees what the alternative
+ * is instead of guessing what a single toggle does. The current language is a
+ * plain <span>; only the other one is a link.
+ *
+ * A click writes the choice to localStorage. That choice outranks the
+ * IP-country guess on every later visit — see the detect script in Layout.
+ */
+import Flag from './Flag.astro';
+import { routes, home, type Lang, type PageKey } from '../i18n/config';
+import { useUi } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  page: PageKey;
+  /** false when the page has no counterpart in the other locale (the blog). */
+  translated?: boolean;
+}
+const { lang, page, translated = true } = Astro.props;
+const t = useUi(lang).lang;
+
+/** An untranslated page sends the visitor to the other locale's home. */
+const target = (other: Lang) => (translated ? routes[page][other] : home[other]);
+
+const opts = [
+  { code: 'en' as Lang, flag: 'us' as const, label: t.en },
+  { code: 'es' as Lang, flag: 'cl' as const, label: t.es },
+];
+---
+
+<div class="lang-switch">
+  <span class="lang-label sx c-cmt">{t.label}</span>
+  <span class="lang-box">
+    <span class="br">[</span>
+    {opts.map((o, i) => (
+      <>
+        {i > 0 && <span class="lang-sep">|</span>}
+        {o.code === lang ? (
+          <span class="lang-opt current" aria-current="true" title={t.current}>
+            <Flag code={o.flag} />
+            <span>{o.label}</span>
+          </span>
+        ) : (
+          <a
+            class="lang-opt"
+            href={target(o.code)}
+            hreflang={o.code}
+            lang={o.code}
+            data-lang-choice={o.code}
+            title={translated ? t.switchTo : t.blogOnlyEn}
+          >
+            <Flag code={o.flag} />
+            <span>{o.label}</span>
+          </a>
+        )}
+      </>
+    ))}
+    <span class="br">]</span>
+  </span>
+</div>

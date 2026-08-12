@@ -8,6 +8,7 @@
  * rather than four disconnected blobs.
  */
 import { SITE, identity, knowsAbout, expertise, faqEn, faqEs } from '../data/profile';
+import type { Lang } from '../i18n/config';
 
 export interface Props {
   /** Absolute canonical URL of the current page. */
@@ -16,6 +17,8 @@ export interface Props {
   description: string;
   /** 'profile' emits ProfilePage + FAQPage; 'blog' emits BlogPosting. */
   kind?: 'profile' | 'blog' | 'page';
+  /** Language of this page. Drives inLanguage and which FAQ set is emitted. */
+  lang?: Lang;
   post?: {
     title: string;
     description?: string;
@@ -26,7 +29,18 @@ export interface Props {
   breadcrumbs?: { name: string; url: string }[];
 }
 
-const { canonical, title, description, kind = 'page', post, breadcrumbs = [] } = Astro.props;
+const {
+  canonical,
+  title,
+  description,
+  kind = 'page',
+  lang = 'en',
+  post,
+  breadcrumbs = [],
+} = Astro.props;
+
+/** The entity is described in the language of the page describing it. */
+const definition = lang === 'es' ? identity.definitionEs : identity.definitionEn;
 
 const PERSON_ID = `${SITE}/#person`;
 const SITE_ID = `${SITE}/#website`;
@@ -40,8 +54,8 @@ const person = {
   url: SITE,
   email: `mailto:${identity.email}`,
   jobTitle: identity.jobTitle,
-  description: identity.definitionEn,
-  disambiguatingDescription: identity.definitionEn,
+  description: definition,
+  disambiguatingDescription: definition,
   knowsLanguage: ['es', 'en'],
   knowsAbout,
   sameAs: identity.sameAs,
@@ -108,8 +122,8 @@ const website = {
   '@id': SITE_ID,
   url: SITE,
   name: `${identity.name} — ${identity.jobTitle}`,
-  description: identity.definitionEn,
-  inLanguage: 'en',
+  description: definition,
+  inLanguage: ['en', 'es'],
   publisher: { '@id': PERSON_ID },
   author: { '@id': PERSON_ID },
 };
@@ -120,6 +134,7 @@ const webPage = {
   url: canonical,
   name: title,
   description,
+  inLanguage: lang,
   isPartOf: { '@id': SITE_ID },
   about: { '@id': PERSON_ID },
   ...(kind === 'profile' ? { mainEntity: { '@id': PERSON_ID } } : {}),
@@ -141,14 +156,15 @@ if (breadcrumbs.length > 0) {
 }
 
 if (kind === 'profile') {
-  // Q&A pairs, both languages, as one FAQPage. Truthful statements about a
-  // real person — the pairing is what makes them retrievable as an answer.
+  // Q&A pairs for this page's language. Truthful statements about a real
+  // person — the pairing is what makes them retrievable as an answer.
+  // Each locale gets its own @id so one node never carries two versions.
   graph.push({
     '@type': 'FAQPage',
-    '@id': `${SITE}/#faq`,
-    inLanguage: ['en', 'es'],
+    '@id': `${SITE}/#faq-${lang}`,
+    inLanguage: lang,
     about: { '@id': PERSON_ID },
-    mainEntity: [...faqEn, ...faqEs].map((qa) => ({
+    mainEntity: (lang === 'es' ? faqEs : faqEn).map((qa) => ({
       '@type': 'Question',
       name: qa.q,
       acceptedAnswer: { '@type': 'Answer', text: qa.a },

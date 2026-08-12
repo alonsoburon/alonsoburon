@@ -1,0 +1,67 @@
+---
+/**
+ * Flag.astro — inline SVG flags.
+ *
+ * Deliberately not emoji: Chrome on Windows has no regional-indicator glyphs,
+ * so 🇨🇱 renders as the bare letters "CL" there. An inline SVG looks the same
+ * on every platform and costs no font load.
+ *
+ * The flag is decorative — aria-hidden, with the language code next to it
+ * carrying the actual meaning. A flag never identifies a language on its own.
+ */
+interface Props {
+  code: 'cl' | 'us';
+  class?: string;
+}
+const { code, class: cls } = Astro.props;
+---
+
+{code === 'cl' ? (
+  <svg
+    class:list={['flag', cls]}
+    viewBox="0 0 30 20"
+    role="presentation"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <rect width="30" height="10" fill="#fff" />
+    <rect y="10" width="30" height="10" fill="#d52b1e" />
+    <rect width="10" height="10" fill="#0039a6" />
+    <path
+      fill="#fff"
+      d="M5 1.8 5.752 3.964 8.044 4.011 6.217 5.396 6.881 7.589 5 6.28 3.119 7.589 3.783 5.396 1.956 4.011 4.248 3.964Z"
+    />
+  </svg>
+) : (
+  <svg
+    class:list={['flag', cls]}
+    viewBox="0 0 30 20"
+    role="presentation"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <rect width="30" height="20" fill="#fff" />
+    {/* 13 stripes: the 7 odd ones are red. */}
+    {[0, 2, 4, 6, 8, 10, 12].map((i) => (
+      <rect y={i * (20 / 13)} width="30" height={20 / 13} fill="#b22234" />
+    ))}
+    <rect width="12" height={7 * (20 / 13)} fill="#3c3b6e" />
+    {/* Stars read as a dot grid at 14px — the real 50 would be sub-pixel. */}
+    {[2.2, 5.2, 8.2].map((y) =>
+      [2, 4.6, 7.2, 9.8].map((x) => <circle cx={x} cy={y} r="0.72" fill="#fff" />)
+    )}
+  </svg>
+)}
+
+<style>
+  .flag {
+    width: 1.15em;
+    height: auto;
+    /* Sits on the text baseline instead of the box bottom. */
+    vertical-align: -0.12em;
+    border-radius: 1px;
+    /* A white flag edge on a light surface needs its own boundary. */
+    box-shadow: 0 0 0 0.5px rgb(0 0 0 / 0.35);
+    flex-shrink: 0;
+  }
+</style>

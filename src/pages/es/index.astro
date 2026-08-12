@@ -1,0 +1,12 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import HomeBody from '../../components/HomeBody.astro';
+import { useUi } from '../../i18n/ui';
+
+const lang = 'es' as const;
+const t = useUi(lang);
+---
+
+<Layout title={t.home.title} path={t.path.cv} active="cv" kind="profile" lang={lang}>
+  <HomeBody lang={lang} />
+</Layout>
