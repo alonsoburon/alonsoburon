@@ -46,6 +46,19 @@ function rehypeTableScroll() {
 export default defineConfig({
   site: 'https://alonsoburon.cl',
   base: '/',
+  /**
+   * English sits at the root; Spanish lives under /es/ as real prerendered
+   * pages. No fallback is configured on purpose: the blog exists only in
+   * English and must not be duplicated under /es/.
+   */
+  i18n: {
+    locales: ['en', 'es'],
+    defaultLocale: 'en',
+    routing: {
+      prefixDefaultLocale: false,
+      redirectToDefaultLocale: false,
+    },
+  },
   markdown: {
     shikiConfig: {
       theme: 'gruvbox-dark-hard',

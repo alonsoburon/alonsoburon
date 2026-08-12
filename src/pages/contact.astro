@@ -1,45 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import ContactBody from '../components/ContactBody.astro';
+import { useUi } from '../i18n/ui';
+
+const lang = 'en' as const;
+const t = useUi(lang);
 ---
 
-<Layout title="Contact — Alonso Burón" path="~/contact.yml" active="contact">
-  <div class="content-narrow">
-    <div class="h-row">
-      <span class="anchor"># </span>
-      <span class="h1-inner"><span class="key">Contact</span></span>
-    </div>
-    <p class="body" style="margin-top:8px">
-      The fastest path is email. I read everything; I reply to most things within a week.
-    </p>
-
-    <div class="contact-fence">
-      <div class="fence-head" style="padding:5px 14px">
-        <span><span class="sx c-cmt">```</span><span class="sx c-fn">yaml</span></span>
-        <span class="sx c-dim">contact.yml</span>
-      </div>
-      <div class="contact-grid">
-        <span class="c-kw">email:</span>
-        <a href="mailto:alonso.buron@proton.me">"alonso.buron@proton.me"</a>
-
-        <span class="c-kw">github:</span>
-        <a href="https://github.com/alonsoburon" target="_blank" rel="noopener">"@alonsoburon"</a>
-
-        <span class="c-kw">linkedin:</span>
-        <a href="https://linkedin.com/in/alonsoburon" target="_blank" rel="noopener">"in/alonsoburon"</a>
-
-        <span class="c-kw">timezone:</span>
-        <span class="c-num">-03:00</span>
-
-        <span class="c-kw">availability:</span>
-        <span class="c-str">"open to consulting · not full-time"</span>
-      </div>
-    </div>
-
-    <p style="margin-top:22px; font-family:var(--serif); font-size:15.5px; line-height:1.55; color:var(--text-2)">
-      <span class="sx c-cmt">{`<!-- `}</span>
-      every link above is a real <code style="font-size:12.5px">mailto:</code>
-      or <code style="font-size:12.5px">https://</code> — pick whichever fits.
-      <span class="sx c-cmt">{` -->`}</span>
-    </p>
-  </div>
+<Layout title={t.contact.title} path={t.path.contact} active="contact" lang={lang}>
+  <ContactBody lang={lang} />
 </Layout>

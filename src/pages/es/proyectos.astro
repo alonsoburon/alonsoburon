@@ -1,0 +1,12 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProjectsBody from '../../components/ProjectsBody.astro';
+import { useUi } from '../../i18n/ui';
+
+const lang = 'es' as const;
+const t = useUi(lang);
+---
+
+<Layout title={t.projects.title} path={t.path.projects} active="projects" lang={lang}>
+  <ProjectsBody lang={lang} />
+</Layout>

@@ -1,0 +1,184 @@
+---
+/**
+ * ProjectsBody.astro — the projects page, in whichever locale it is handed.
+ *
+ * Filter chips keep their English `data-filter` values so the client script
+ * stays locale-agnostic; only the visible labels are translated.
+ */
+import { projects, localizeProject } from '../data/projects';
+import { useUi } from '../i18n/ui';
+import type { Lang } from '../i18n/config';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useUi(lang).projects;
+
+const sorted = projects
+  .filter((p) => p.publishedAt)
+  .sort((a, b) => b.publishedAt!.getTime() - a.publishedAt!.getTime());
+
+const workCount   = sorted.filter((p) => p.category === 'work').length;
+const funCount    = sorted.filter((p) => p.category === 'fun').length;
+const fossCount   = sorted.filter((p) => p.source === 'foss').length;
+const closedCount = sorted.filter((p) => p.source === 'closed').length;
+
+const counts = `${workCount} ${t.countWork} · ${funCount} ${t.countFun} · ${fossCount} ${t.countFoss} · ${closedCount} ${t.countClosed}`;
+---
+
+<div class="content">
+  <div class="h-row">
+    <span class="anchor"># </span>
+    <span class="h1-inner"><span class="key">{t.heading}</span></span>
+    <span class="inline-comment">{`<!-- ${counts} -->`}</span>
+  </div>
+
+  <!-- Filter group 1: category (work / fun) -->
+  <div class="filter-row">
+    <span class="sx c-cmt">{t.filterType}</span>
+    <button class="chip active" data-axis="category" data-filter="all">{t.chipAll}</button>
+    <button class="chip" data-axis="category" data-filter="work">{t.chipWork}</button>
+    <button class="chip" data-axis="category" data-filter="fun">{t.chipFun}</button>
+    <button
+      class="chip"
+      id="sort-toggle"
+      style="margin-left:auto"
+      data-dir="desc"
+      data-label-desc={t.sortDesc}
+      data-label-asc={t.sortAsc}
+    >
+      {t.sort} <span class="c-text3" id="sort-label">{t.sortDesc}</span>
+    </button>
+  </div>
+
+  <!-- Filter group 2: source (foss / closed) -->
+  <div class="filter-row" style="margin-top:6px">
+    <span class="sx c-cmt">{t.filterSource}</span>
+    <button class="chip active" data-axis="source" data-filter="all">{t.chipAll}</button>
+    <button class="chip" data-axis="source" data-filter="foss">{t.chipFoss}</button>
+    <button class="chip" data-axis="source" data-filter="closed">{t.chipClosed}</button>
+  </div>
+
+  <div class="card-list" id="project-list">
+    {sorted.map((p) => {
+      const l = localizeProject(p, lang);
+      return (
+        <article class="card project-card"
+                 data-category={p.category}
+                 data-source={p.source}
+                 data-date={p.publishedAt!.toISOString()}>
+          <div class="card-head">
+            <span><span class="sx c-cmt">```</span><span class="sx c-fn">project</span></span>
+            <span class="c-dim">· {t.badge[p.category]} · {t.badge[p.source]}</span>
+            <span style="margin-left:auto" class="c-muted">{l.period}</span>
+          </div>
+          <div class="card-body">
+            <div class="card-row">
+              <span class="anchor">### </span>
+              {p.githubUrl ? (
+                <a href={p.githubUrl} target="_blank" rel="noopener" class="card-title-link">
+                  <span class="h3">{p.title}</span>
+                </a>
+              ) : p.homepage ? (
+                <a href={p.homepage} target="_blank" rel="noopener" class="card-title-link">
+                  <span class="h3">{p.title}</span>
+                </a>
+              ) : (
+                <span class="h3">{p.title}</span>
+              )}
+              {l.role && (
+                <div class="card-role">
+                  <span class="sx c-muted">{t.role}</span><span class="sx c-link">"{l.role}"</span>
+                </div>
+              )}
+            </div>
+            <p class="card-desc">{l.description}</p>
+
+            {(p.githubUrl || p.homepage) && (
+              <div class="post-meta" style="margin-top:6px">
+                {p.githubUrl && (
+                  <span><span class="sx c-cmt">{t.github}</span>
+                    <a href={p.githubUrl} target="_blank" rel="noopener" class="sx c-link">
+                      {p.githubUrl.replace('https://github.com/', '@')}
+                    </a>
+                  </span>
+                )}
+                {p.homepage && (
+                  <span><span class="sx c-cmt">{t.live}</span>
+                    <a href={p.homepage} target="_blank" rel="noopener" class="sx c-link">
+                      {p.homepage.replace(/^https?:\/\//, '')}
+                    </a>
+                  </span>
+                )}
+              </div>
+            )}
+
+            {l.achievements?.length > 0 && (
+              <div class="tag-row">
+                {l.achievements.map((a) => <span class="tag achievement">{a}</span>)}
+              </div>
+            )}
+            {p.tech && p.tech.length > 0 && (
+              <div class="tag-row">
+                {p.tech.map((tech) => <span class="tag">{tech}</span>)}
+              </div>
+            )}
+          </div>
+        </article>
+      );
+    })}
+  </div>
+</div>
+
+<script>
+  function initProjects() {
+    const chips = document.querySelectorAll<HTMLButtonElement>('.chip[data-axis]');
+    const cards = document.querySelectorAll<HTMLElement>('.project-card');
+    const list  = document.getElementById('project-list');
+    const sortBtn = document.getElementById('sort-toggle') as HTMLButtonElement | null;
+    const sortLabel = document.getElementById('sort-label');
+    if (!list) return;
+
+    const active: Record<string, string> = { category: 'all', source: 'all' };
+
+    const applyFilters = () => {
+      cards.forEach((c) => {
+        const passCat = active.category === 'all' || c.dataset.category === active.category;
+        const passSrc = active.source   === 'all' || c.dataset.source   === active.source;
+        c.style.display = (passCat && passSrc) ? '' : 'none';
+      });
+    };
+
+    chips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        const axis = chip.dataset.axis!;
+        const value = chip.dataset.filter!;
+        // deactivate siblings on the same axis
+        document
+          .querySelectorAll<HTMLButtonElement>(`.chip[data-axis="${axis}"]`)
+          .forEach((c) => c.classList.remove('active'));
+        chip.classList.add('active');
+        active[axis] = value;
+        applyFilters();
+      });
+    });
+
+    if (sortBtn && sortLabel) {
+      sortBtn.addEventListener('click', () => {
+        const dir = sortBtn.dataset.dir === 'desc' ? 'asc' : 'desc';
+        sortBtn.dataset.dir = dir;
+        // Labels come from the markup so this stays locale-agnostic.
+        sortLabel.textContent =
+          (dir === 'desc' ? sortBtn.dataset.labelDesc : sortBtn.dataset.labelAsc) ?? '';
+        const ordered = Array.from(cards).sort((a, b) => {
+          const da = Date.parse(a.dataset.date || '');
+          const db = Date.parse(b.dataset.date || '');
+          return dir === 'desc' ? db - da : da - db;
+        });
+        ordered.forEach((c) => list.appendChild(c));
+      });
+    }
+  }
+  document.addEventListener('astro:page-load', initProjects);
+</script>

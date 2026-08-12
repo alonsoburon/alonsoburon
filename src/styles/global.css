@@ -156,6 +156,43 @@ button:focus-visible,
 .nav-item a:hover { color: var(--text-2); }
 .nav-item a.active:hover { color: var(--accent); }
 
+/* ── Language switch ────────────────────────────────── */
+/* Sits at the far right of the top bar, after the nav. Both languages are
+   always visible so the visitor can see what the alternative is. */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  font-family: var(--mono);
+}
+.lang-label { flex-shrink: 0; }
+.lang-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.lang-box .br { color: var(--cmt); }
+.lang-sep { color: var(--dim); }
+.lang-opt {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: background 0.12s, color 0.12s;
+}
+.lang-opt.current {
+  color: var(--accent);
+  cursor: default;
+}
+/* The inactive language reads as secondary until it is hovered. */
+.lang-opt:not(.current) .flag { opacity: 0.55; transition: opacity 0.12s; }
+a.lang-opt:hover { background: var(--elev); color: var(--text-2); }
+a.lang-opt:hover .flag { opacity: 1; }
+
 /* ── Main + content widths ──────────────────────────── */
 main { flex: 1; }
 
@@ -833,6 +870,10 @@ a.md-link:hover { color: var(--link-hi); }
 
   #topbar { padding: 6px 16px; font-size: 10.5px; gap: 8px; }
   #topbar nav { gap: 4px; }
+  /* The two flags carry the meaning on their own here — the "lang:" prefix
+     costs ~34px that the breadcrumb needs more. */
+  .lang-label { display: none; }
+  .lang-opt { padding: 6px 4px; }
   /* Dropping the (/url) half of each nav item takes the bar from 337px to
      ~180px — it no longer forces the whole page to scroll sideways. */
   .nav-url { display: none; }
@@ -949,8 +990,13 @@ a.md-link:hover { color: var(--link-hi); }
     gap: 0 8px;
     padding: 6px 14px;
   }
-  #topbar .path { width: 100%; }
+  /* Row one is the breadcrumb plus the language switch; the nav gets row two
+     to itself. `order` puts the switch beside the path even though it comes
+     after the nav in the markup, where it belongs for reading order. */
+  #topbar .path { width: auto; flex: 1 1 auto; order: 1; }
+  .lang-switch { order: 2; margin-left: auto; }
   #topbar nav {
+    order: 3;
     width: 100%;
     margin-left: 0;
     justify-content: space-between;

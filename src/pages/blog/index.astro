@@ -13,7 +13,10 @@ function postNumber(slug: string) {
 }
 ---
 
-<Layout title="Writing — Alonso Burón" path="~/blog/" active="blog">
+{/* The articles are English-only, so this page has no Spanish counterpart:
+    translated={false} keeps the language switch pointing at the Spanish home
+    instead of a URL that does not exist. */}
+<Layout title="Writing — Alonso Burón" path="~/blog/" active="blog" lang="en" translated={false}>
   <div class="content">
     <div class="h-row">
       <span class="anchor"># </span>

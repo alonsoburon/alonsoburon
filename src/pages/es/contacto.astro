@@ -1,0 +1,12 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ContactBody from '../../components/ContactBody.astro';
+import { useUi } from '../../i18n/ui';
+
+const lang = 'es' as const;
+const t = useUi(lang);
+---
+
+<Layout title={t.contact.title} path={t.path.contact} active="contact" lang={lang}>
+  <ContactBody lang={lang} />
+</Layout>

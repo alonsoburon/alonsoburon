@@ -1,0 +1,151 @@
+---
+/**
+ * HomeBody.astro — the CV page, in whichever locale it is handed.
+ *
+ * Both /  and /es/ render this. Keeping one template means the two locales
+ * cannot drift apart structurally; only the strings differ.
+ */
+import { getCollection } from 'astro:content';
+import { useUi } from '../i18n/ui';
+import type { Lang } from '../i18n/config';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useUi(lang).home;
+
+const posts = await getCollection('blog');
+const recent = posts
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 3);
+
+function shortDate(d: string) {
+  return d.slice(0, 7); // YYYY-MM
+}
+
+function postNumber(slug: string) {
+  const m = slug.match(/^(\d+)/);
+  return m ? m[1] : '0000';
+}
+---
+
+<div class="content">
+  <!-- H1 -->
+  <div class="h-row">
+    <span class="anchor"># </span>
+    <span class="h1">Alonso <span class="key">Burón</span></span>
+    <span class="cursor"></span>
+  </div>
+
+  <p class="lede">
+    {t.ledeRole}{' '}
+    <span class="sx c-cmt">[</span><a class="md-link" href="https://datawalt.cl" target="_blank" rel="noopener">Datawalt</a><span class="sx c-cmt">](https://datawalt.cl)</span>{t.ledeAfterLink}{' '}
+    <span class="sx c-cmt">`</span><code>{t.ledeCode}</code><span class="sx c-cmt">`</span>{' '}
+    {t.ledeTail}
+  </p>
+
+  <!-- Currently -->
+  <div class="section">
+    <div class="h-row">
+      <span class="anchor">## </span>
+      <span class="h2">{t.currently}</span>
+      <span class="inline-comment">{`<!-- ${t.currentlySince} -->`}</span>
+    </div>
+    <div class="fence">
+      <div class="fence-head">
+        <span><span class="sx c-cmt">```</span><span class="sx c-fn">yaml</span></span>
+        <span class="sx c-dim">{t.currentFile}</span>
+      </div>
+      <div class="fence-body">
+        <span class="c-kw">{t.k.role}</span>      <span class="c-str">"{t.v.role}"</span>
+        <span class="c-kw">{t.k.company}</span>   <span class="c-str">"Datawalt"</span>
+        <span class="c-kw">{t.k.since}</span>     <span class="c-num">2024-10</span>
+        <span class="c-kw">{t.k.building}</span>  <span class="c-str">{t.v.building}</span>
+        <span class="c-kw">{t.k.favoriteRdb}</span> <span class="c-str">"{t.v.favoriteRdb}"</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stack -->
+  <div class="section">
+    <div class="h-row">
+      <span class="anchor">## </span>
+      <span class="h2">{t.stack}</span>
+      <span class="inline-comment">{`<!-- ${t.stackNote} -->`}</span>
+    </div>
+    <ul class="stack-list">
+      <li>
+        <span class="sx c-cmt">- </span>
+        <div>
+          <strong class="stack-key c-accent">{t.stackKeys.warehouses}</strong><span class="sx c-cmt">: </span>
+          <span class="c-text2">BigQuery · Clickhouse · DuckDB</span>
+        </div>
+      </li>
+      <li>
+        <span class="sx c-cmt">- </span>
+        <div>
+          <strong class="stack-key c-fn">{t.stackKeys.orchestration}</strong><span class="sx c-cmt">: </span>
+          <span class="c-text2">Dagster · Prefect · DolphinScheduler</span>
+        </div>
+      </li>
+      <li>
+        <span class="sx c-cmt">- </span>
+        <div>
+          <strong class="stack-key c-link">{t.stackKeys.languages}</strong><span class="sx c-cmt">: </span>
+          <span class="c-text2">Python · Go · SQL · TS</span>
+        </div>
+      </li>
+      <li>
+        <span class="sx c-cmt">- </span>
+        <div>
+          <strong class="stack-key c-text3">{t.stackKeys.tooling}</strong><span class="sx c-cmt">: </span>
+          <span class="c-text2">Zed · Helium · Arch · Plasma 6</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Education -->
+  <div class="section">
+    <div class="h-row">
+      <span class="anchor">## </span>
+      <span class="h2">{t.education}</span>
+    </div>
+    <div class="fence" style="margin-top:14px">
+      <div class="fence-head">
+        <span><span class="sx c-cmt">```</span><span class="sx c-fn">yaml</span></span>
+        <span class="sx c-dim">{t.educationFile}</span>
+      </div>
+      <div class="fence-body">
+        <span class="c-kw">{t.eduKeys.composition}</span>
+        <span><span class="c-str">"{t.eduValues.composition}"</span> <span class="c-cmt">// 2019-2023</span></span>
+        <span class="c-kw">{t.eduKeys.dataScience}</span>
+        <span><span class="c-str">"{t.eduValues.dataScience}"</span> <span class="c-cmt">// 2023-2024</span></span>
+        <span class="c-kw">{t.eduKeys.bsc}</span>
+        <span><span class="c-str">"{t.eduValues.bsc}"</span> <span class="c-cmt">{t.eduValues.bscNote}</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent writing. The articles themselves are English-only. -->
+  <div class="section">
+    <div class="h-row">
+      <span class="anchor">## </span>
+      <span class="h2">{t.recentWritingA} <span class="key">{t.recentWritingB}</span></span>
+    </div>
+    <ul class="writing-list">
+      {recent.map((post) => (
+        <li class="writing-row">
+          <span class="sx c-dim">{postNumber(post.slug)}</span>
+          <span>
+            <span class="sx c-cmt">[</span>
+            <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+            <span class="sx c-cmt">]</span>
+          </span>
+          <span class="sx c-muted">{shortDate(post.data.date)}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>

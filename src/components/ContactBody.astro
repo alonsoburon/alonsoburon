@@ -1,0 +1,55 @@
+---
+/**
+ * ContactBody.astro — the contact page, in whichever locale it is handed.
+ *
+ * The values are addresses and links: they are identical in both locales.
+ * Only the keys, the lede and the closing note change.
+ */
+import { useUi } from '../i18n/ui';
+import { identity } from '../data/profile';
+import type { Lang } from '../i18n/config';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useUi(lang).contact;
+---
+
+<div class="content-narrow">
+  <div class="h-row">
+    <span class="anchor"># </span>
+    <span class="h1-inner"><span class="key">{t.heading}</span></span>
+  </div>
+  <p class="body" style="margin-top:8px">{t.lede}</p>
+
+  <div class="contact-fence">
+    <div class="fence-head" style="padding:5px 14px">
+      <span><span class="sx c-cmt">```</span><span class="sx c-fn">yaml</span></span>
+      <span class="sx c-dim">{t.file}</span>
+    </div>
+    <div class="contact-grid">
+      <span class="c-kw">{t.k.email}</span>
+      <a href={`mailto:${identity.email}`}>"{identity.email}"</a>
+
+      <span class="c-kw">{t.k.github}</span>
+      <a href="https://github.com/alonsoburon" target="_blank" rel="noopener">"@alonsoburon"</a>
+
+      <span class="c-kw">{t.k.linkedin}</span>
+      <a href="https://linkedin.com/in/alonsoburon" target="_blank" rel="noopener">"in/alonsoburon"</a>
+
+      <span class="c-kw">{t.k.timezone}</span>
+      <span class="c-num">{identity.timezone}</span>
+
+      <span class="c-kw">{t.k.availability}</span>
+      <span class="c-str">"{t.availability}"</span>
+    </div>
+  </div>
+
+  <p style="margin-top:22px; font-family:var(--serif); font-size:15.5px; line-height:1.55; color:var(--text-2)">
+    <span class="sx c-cmt">{`<!-- `}</span>
+    {t.noteA} <code style="font-size:12.5px">mailto:</code>
+    {t.noteB} <code style="font-size:12.5px">https://</code> {t.noteC}
+    <span class="sx c-cmt">{` -->`}</span>
+  </p>
+</div>

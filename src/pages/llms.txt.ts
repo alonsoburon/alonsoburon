@@ -9,6 +9,7 @@ import {
   faqEn,
   faqEs,
 } from '../data/profile';
+import { routes } from '../i18n/config';
 
 /**
  * llms.txt — the machine-facing index of this site.
@@ -53,6 +54,20 @@ export const GET: APIRoute = async () => {
     `| LinkedIn | https://www.linkedin.com/in/alonsoburon/ |`,
     `| Languages | Spanish (native), English (professional) |`,
     `| Availability | ${identity.availability} |`,
+    ''
+  );
+
+  push(
+    '## Site pages',
+    '',
+    'The site is published in English and Spanish. The articles are English only.',
+    '',
+    '| Page | English | Spanish |',
+    '| --- | --- | --- |',
+    `| CV / profile | ${SITE}${routes.cv.en} | ${SITE}${routes.cv.es} |`,
+    `| Projects | ${SITE}${routes.projects.en} | ${SITE}${routes.projects.es} |`,
+    `| Contact | ${SITE}${routes.contact.en} | ${SITE}${routes.contact.es} |`,
+    `| Writing | ${SITE}${routes.blog.en} | English only |`,
     ''
   );
 
