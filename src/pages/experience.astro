@@ -1,0 +1,12 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ExperienceBody from '../components/ExperienceBody.astro';
+import { useUi } from '../i18n/ui';
+
+const lang = 'en' as const;
+const t = useUi(lang);
+---
+
+<Layout title={t.experience.title} path={t.path.experience} active="experience" lang={lang}>
+  <ExperienceBody lang={lang} />
+</Layout>

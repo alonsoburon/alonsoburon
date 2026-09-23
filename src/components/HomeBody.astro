@@ -6,6 +6,8 @@
  * cannot drift apart structurally; only the strings differ.
  */
 import { getCollection } from 'astro:content';
+import { projects, localizeProject } from '../data/projects';
+import { routes } from '../i18n/config';
 import { useUi } from '../i18n/ui';
 import type { Lang } from '../i18n/config';
 
@@ -14,6 +16,10 @@ interface Props {
 }
 const { lang } = Astro.props;
 const t = useUi(lang).home;
+
+const featured = projects
+  .filter((p) => p.featured && p.publishedAt)
+  .sort((a, b) => b.publishedAt!.getTime() - a.publishedAt!.getTime());
 
 const posts = await getCollection('blog');
 const recent = posts
@@ -60,72 +66,56 @@ function postNumber(slug: string) {
       <div class="fence-body">
         <span class="c-kw">{t.k.role}</span>      <span class="c-str">"{t.v.role}"</span>
         <span class="c-kw">{t.k.company}</span>   <span class="c-str">"Datawalt"</span>
-        <span class="c-kw">{t.k.since}</span>     <span class="c-num">2024-10</span>
+        <span class="c-kw">{t.k.since}</span>     <span class="c-num">2024</span>
         <span class="c-kw">{t.k.building}</span>  <span class="c-str">{t.v.building}</span>
         <span class="c-kw">{t.k.favoriteRdb}</span> <span class="c-str">"{t.v.favoriteRdb}"</span>
       </div>
     </div>
   </div>
 
-  <!-- Stack -->
+  <!-- Selected projects -->
   <div class="section">
     <div class="h-row">
       <span class="anchor">## </span>
-      <span class="h2">{t.stack}</span>
-      <span class="inline-comment">{`<!-- ${t.stackNote} -->`}</span>
+      <span class="h2">{t.projectsTitle} <span class="key">{t.projectsKey}</span></span>
     </div>
-    <ul class="stack-list">
-      <li>
-        <span class="sx c-cmt">- </span>
-        <div>
-          <strong class="stack-key c-accent">{t.stackKeys.warehouses}</strong><span class="sx c-cmt">: </span>
-          <span class="c-text2">BigQuery · Clickhouse · DuckDB</span>
-        </div>
-      </li>
-      <li>
-        <span class="sx c-cmt">- </span>
-        <div>
-          <strong class="stack-key c-fn">{t.stackKeys.orchestration}</strong><span class="sx c-cmt">: </span>
-          <span class="c-text2">Dagster · Prefect · DolphinScheduler</span>
-        </div>
-      </li>
-      <li>
-        <span class="sx c-cmt">- </span>
-        <div>
-          <strong class="stack-key c-link">{t.stackKeys.languages}</strong><span class="sx c-cmt">: </span>
-          <span class="c-text2">Python · Go · SQL · TS</span>
-        </div>
-      </li>
-      <li>
-        <span class="sx c-cmt">- </span>
-        <div>
-          <strong class="stack-key c-text3">{t.stackKeys.tooling}</strong><span class="sx c-cmt">: </span>
-          <span class="c-text2">Zed · Helium · Arch · Plasma 6</span>
-        </div>
-      </li>
-    </ul>
-  </div>
-
-  <!-- Education -->
-  <div class="section">
-    <div class="h-row">
-      <span class="anchor">## </span>
-      <span class="h2">{t.education}</span>
+    <div class="card-list">
+      {featured.map((p) => {
+        const l = localizeProject(p, lang);
+        return (
+          <article class="card project-card">
+            <div class="card-head">
+              <span><span class="sx c-cmt">```</span><span class="sx c-fn">project</span></span>
+              <span class="c-dim">· {l.role}</span>
+              <span style="margin-left:auto" class="c-muted">{l.period}</span>
+            </div>
+            <div class="card-body">
+              <div class="card-row">
+                <span class="anchor">### </span>
+                {p.githubUrl || p.homepage ? (
+                  <a href={p.githubUrl ?? p.homepage} target="_blank" rel="noopener" class="card-title-link">
+                    <span class="h3">{p.title}</span>
+                  </a>
+                ) : (
+                  <span class="h3">{p.title}</span>
+                )}
+              </div>
+              <p class="card-desc">{l.description}</p>
+              {p.tech && p.tech.length > 0 && (
+                <div class="tag-row">
+                  {p.tech.map((tech) => <span class="tag">{tech}</span>)}
+                </div>
+              )}
+            </div>
+          </article>
+        );
+      })}
     </div>
-    <div class="fence" style="margin-top:14px">
-      <div class="fence-head">
-        <span><span class="sx c-cmt">```</span><span class="sx c-fn">yaml</span></span>
-        <span class="sx c-dim">{t.educationFile}</span>
-      </div>
-      <div class="fence-body">
-        <span class="c-kw">{t.eduKeys.composition}</span>
-        <span><span class="c-str">"{t.eduValues.composition}"</span> <span class="c-cmt">// 2019-2023</span></span>
-        <span class="c-kw">{t.eduKeys.dataScience}</span>
-        <span><span class="c-str">"{t.eduValues.dataScience}"</span> <span class="c-cmt">// 2023-2024</span></span>
-        <span class="c-kw">{t.eduKeys.bsc}</span>
-        <span><span class="c-str">"{t.eduValues.bsc}"</span> <span class="c-cmt">{t.eduValues.bscNote}</span></span>
-      </div>
-    </div>
+    <p style="margin-top:14px">
+      <span class="sx c-cmt">[</span>
+      <a class="md-link" href={routes.projects[lang]}>{t.projectsAll}</a>
+      <span class="sx c-cmt">]</span>
+    </p>
   </div>
 
   <!-- Recent writing. The articles themselves are English-only. -->

@@ -21,6 +21,8 @@ export const GET: APIRoute = async () => {
     // set, which is what Google requires: the links must be reciprocal.
     { loc: `${SITE}${routes.cv.en}`,       priority: '1.0', alternates: 'cv' },
     { loc: `${SITE}${routes.cv.es}`,       priority: '1.0', alternates: 'cv' },
+    { loc: `${SITE}${routes.experience.en}`, priority: '0.8', alternates: 'experience' },
+    { loc: `${SITE}${routes.experience.es}`, priority: '0.8', alternates: 'experience' },
     { loc: `${SITE}${routes.projects.en}`, priority: '0.8', alternates: 'projects' },
     { loc: `${SITE}${routes.projects.es}`, priority: '0.8', alternates: 'projects' },
     { loc: `${SITE}${routes.contact.en}`,  priority: '0.6', alternates: 'contact' },

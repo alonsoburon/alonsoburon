@@ -33,10 +33,10 @@
 #align(center)[
   #text(size: 20pt, weight: "bold")[Alonso Burón]
   #v(-0.4em)
-  #text(fill: muted, size: 10.5pt)[Lead Data Engineer · Composer]
+  #text(fill: muted, size: 10.5pt)[Lead Data & AI Engineer · Agent Systems · Client-Facing]
   #v(-0.2em)
   #text(size: 9pt)[
-    Santiago, Chile · #link("mailto:nuxapower@gmail.com")[nuxapower\@gmail.com] ·
+    Santiago, Chile · #link("mailto:alonso.buron@proton.me")[alonso.buron\@proton.me] ·
     #link("https://alonsoburon.cl")[alonsoburon.cl] ·
     #link("https://linkedin.com/in/alonsoburon")[linkedin/alonsoburon] ·
     #link("https://github.com/alonsoburon")[github/alonsoburon]
@@ -46,29 +46,37 @@
 #v(0.3em)
 
 // ─── Summary ─────────────────────────────────────────
-Lead Data Engineer at Datawalt (Santiago, Chile), where I architect and run *Warp*, an EtLT platform consolidating 60+ enterprise systems (SAP Business One, SAP HANA, Softland, Odoo) into BigQuery and ClickHouse. Classically trained composer turned engineer; I lead a team building production data infrastructure for clients across Chile.
+Lead Data & AI Engineer at Datawalt (Santiago, Chile), where I architect and run *Warp*, an EtLT platform consolidating 60+ enterprise systems (SAP B1, HANA, Softland, Odoo) into BigQuery and ClickHouse. I design *agentic systems* — MCP servers, Claude/Agent Skills, cost-tiered multi-agent orchestration and agent-harness tooling — and own client-facing delivery from discovery to production. I lead a team building production data infrastructure across Chile.
 
 // ─── Experience ──────────────────────────────────────
 #section("Experience")
 
 #role("Data Engineering Lead", "Datawalt", "Oct 2024 — Present")
 - Architect and own *Warp*, an in-house EtLT platform replacing Fivetran for 60+ enterprise sources (SAP B1, HANA, Softland, Odoo) feeding BigQuery and ClickHouse.
-- Lead a small data engineering team; promoted into role by reframing scope from individual delivery to platform scalability.
+- Lead a small data engineering team; promoted for reframing scope from delivery to platform scalability.
 - Designed the ECL (Extract, Conform, Load) framework powering production pipelines: incremental cursor extraction, staging swap, health tables, tiered freshness.
 - Built parametrized Power BI / DAX reporting templates and unified HR star-schema (Talana, GeoVictoria, Buk) for multi-client deployment.
-- Stack: Python · Go · SQL · Dagster · dlt · dbt · BigQuery · ClickHouse · DuckDB · GCP · Docker · GitHub Actions.
+- Stack: Python · Go · SQL · Dagster · dbt · dlt · BigQuery · ClickHouse · DuckDB · GCP · Docker.
 
 #role("Data Engineer", "Datawalt", "2023 — Oct 2024")
-- Delivered enterprise ELT pipelines and Power BI semantic models for finance, sales, and operations clients (Bag, Enaex, Janssen, Canontex, others).
-- Owned SAP B1 / HANA extraction patterns, star-schema modeling, and DAX/Deneb (Vega) visualizations.
+- Delivered enterprise ELT pipelines and Power BI semantic models for finance, sales and operations clients (Bag, Enaex, Janssen, Canontex); owned SAP B1 / HANA extraction and star-schema modeling.
+
+#role("Founder & Consultant", "Tucunar (independent)", "2026 — Present")
+- Run a technology-services practice end to end: client discovery, scoping/SOWs and delivery of data, infra and AI work for SMEs and mining clients.
+
+// ─── AI & Agent Systems ──────────────────────────────
+#section("AI & Agent Systems")
+
+- *Multi-agent orchestration* — Self-hosted, cost-tiered agents (DeepSeek + Claude) behind a shared relay with per-agent identity and least-privilege access. _Nostr · ACP · Docker._
+- *MCP & tool use* — Shipped an MCP server and open API for point-in-time macro data, so agents query series safely without look-ahead bias. _TypeScript · MCP · Vercel._
+- *Agent Skills & FOSS* — Author of *ecl-skill*; contributor to *netresearch/retro-skill* (opencode adapter). _Claude Code · Python._
+- *Harness, gates & observability* — Maintain CLAUDE.md rules, skills and MCP context for coding agents; ship through gate-enforced CI/CD; run pipeline health tables and SLA alerting. _Claude Code · CI/CD._
 
 // ─── Selected Projects ───────────────────────────────
 #section("Selected Projects")
 
-- *Warp Data Platform* — EtLT platform unifying 60+ enterprise systems into BigQuery / ClickHouse. _Python · Go · SQL · GCP._
-- *#link("https://github.com/alonsoburon/portfolio-streaming")[Streaming Pipeline]* — Real-time e-commerce analytics with anomaly detection. _Kafka · Streamlit · Parquet._
-- *#link("https://github.com/alonsoburon/portfolio-batchElt")[Batch ELT Pipeline]* — Medallion architecture on NYC Taxi data. _Dagster · dlt · dbt · DuckDB · Plotly._
-- *HR Multi-Platform Integration* — Unified star-schema across Talana, GeoVictoria, Buk. _Python · REST APIs · BigQuery._
+- *#link("https://github.com/alonsoburon/vintage")[vintage]* — Point-in-time macro data for Chile as an open API + MCP server for agents. _TypeScript · MCP · Vercel._
+- *#link("https://github.com/alonsoburon/toka")[toka]* — Offline-first household tasks: Go + PostgreSQL with row-level security, Android client. _Go · PostgreSQL · Android._
 
 // ─── Skills ──────────────────────────────────────────
 #section("Skills")
@@ -81,19 +89,11 @@ Lead Data Engineer at Datawalt (Santiago, Chile), where I architect and run *War
   text(weight: "bold")[Orchestration], [Dagster · Prefect · dbt · dlt · DolphinScheduler · Kafka],
   text(weight: "bold")[Languages],     [Python · Go · SQL · TypeScript · Node.js],
   text(weight: "bold")[Infra],         [GCP · Docker · GitHub Actions · CI/CD · Linux · Tailscale],
+  text(weight: "bold")[AI / Agents],   [Claude Code · Agent Skills · MCP · Multi-agent orchestration · Claude Agent SDK (ACP) · LLMOps/observability],
   text(weight: "bold")[BI],            [Power BI · DAX · Deneb (Vega) · Plotly · D3.js],
 )
-
-// ─── Writing ─────────────────────────────────────────
-#section("Selected Writing")
-
-- #link("https://alonsoburon.cl/blog/0003_incremental_loading_rules_for_multiple_cases")[Incremental Ingestion Cheat-Sheet] — Batch ingestion patterns for real (ugly) data.
-- #link("https://alonsoburon.cl/blog/0002_leading_data_engineering_team")[Promoted to Team Lead by Thinking About Scalability] — Growth over pure technical depth.
-- #link("https://alonsoburon.cl/blog/0001_from-music-student-to-data-lead")[From Music Student to Data Engineering Lead] — Career origin story.
 
 // ─── Education ───────────────────────────────────────
 #section("Education")
 
-#role("Diploma in Data Science", "Pontificia Universidad Católica de Chile (PUC)", "2023 — 2024")
-#role("Bachelor's in Music Composition", "Pontificia Universidad Católica de Chile (PUC)", "2019 — 2023")
-#role("BSc Data Science (in progress)", "IU International University of Applied Sciences", "2024 — Present")
+*Data Science Diploma* & *Music Composition B.A.*, PUC Chile · *BSc Data Science (in progress)*, IU International

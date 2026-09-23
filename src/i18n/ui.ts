@@ -13,9 +13,9 @@ import type { Lang } from './config';
 export const ui = {
   en: {
     /* ── chrome ─────────────────────────────────────── */
-    nav: { cv: 'cv', projects: 'projects', blog: 'blog', contact: 'contact' },
+    nav: { cv: 'cv', experience: 'experience', projects: 'projects', blog: 'blog', contact: 'contact' },
     /** Breadcrumb text. Segments double as URL slugs — see Layout.astro. */
-    path: { cv: '~/cv.md', projects: '~/projects.md', blog: '~/blog/', contact: '~/contact.yml' },
+    path: { cv: '~/cv.md', experience: '~/experience.md', projects: '~/projects.md', blog: '~/blog/', contact: '~/contact.yml' },
     lang: {
       label: 'lang:',
       en: 'en',
@@ -30,12 +30,12 @@ export const ui = {
     home: {
       title: 'Alonso Burón — Lead Data Engineer in Santiago, Chile',
       ledeRole: 'Lead Data Engineer at',
-      ledeAfterLink: ', classically trained composer, running on an Arch pendrive. Developing a big data platform that consolidates',
-      ledeCode: '60+ enterprise systems',
-      ledeTail: 'into multiple data warehouses.',
+      ledeAfterLink: ", classically trained composer and FOSS enthusiast. Developing a Fivetran alternative that's",
+      ledeCode: '>100x cheaper',
+      ledeTail: '.',
 
       currently: 'Currently',
-      currentlySince: 'since 2024-10',
+      currentlySince: 'since 2024',
       currentFile: 'frontmatter · current.yml',
       k: {
         role: 'role:',
@@ -46,35 +46,23 @@ export const ui = {
       },
       v: {
         role: 'Data Engineering Lead',
-        building: '["Warp" · "ECL Framework" · "Competing with Fivetran"]',
+        building: '["Automations" · "Reliable Architecture" · "Truly fast data pipelines"]',
         favoriteRdb: 'PostgreSQL for row-based, CH for columnar',
       },
 
-      stack: 'Stack',
-      stackNote: 'top of mind',
-      stackKeys: {
-        warehouses: 'warehouses',
-        orchestration: 'orchestration',
-        languages: 'languages',
-        tooling: 'tooling',
-      },
-
-      education: 'Education',
-      educationFile: 'education.yml',
-      eduKeys: {
-        composition: 'composition:',
-        dataScience: 'data_science:',
-        bsc: 'bsc_data_sci:',
-      },
-      eduValues: {
-        composition: 'PUCCh · Music Composition',
-        dataScience: 'PUCCh · Data Science Diploma',
-        bsc: 'IU International · Data Scientist',
-        bscNote: '// 2024-2026 (Incomplete)',
-      },
+      projectsTitle: 'Selected',
+      projectsKey: 'projects',
+      projectsAll: 'all projects',
 
       recentWritingA: 'Recent',
       recentWritingB: 'writing',
+    },
+
+    /* ── experience ─────────────────────────────────── */
+    experience: {
+      title: 'Experience — Alonso Burón',
+      heading: 'Experience',
+      stack: 'Stack',
     },
 
     /* ── projects ───────────────────────────────────── */
@@ -124,8 +112,8 @@ export const ui = {
 
   es: {
     /* ── chrome ─────────────────────────────────────── */
-    nav: { cv: 'cv', projects: 'proyectos', blog: 'blog', contact: 'contacto' },
-    path: { cv: '~/cv.md', projects: '~/proyectos.md', blog: '~/blog/', contact: '~/contacto.yml' },
+    nav: { cv: 'cv', experience: 'experiencia', projects: 'proyectos', blog: 'blog', contact: 'contacto' },
+    path: { cv: '~/cv.md', experience: '~/experiencia.md', projects: '~/proyectos.md', blog: '~/blog/', contact: '~/contacto.yml' },
     lang: {
       label: 'idioma:',
       en: 'en',
@@ -140,12 +128,12 @@ export const ui = {
     home: {
       title: 'Alonso Burón — Líder de Ingeniería de Datos en Santiago, Chile',
       ledeRole: 'Líder de Ingeniería de Datos en',
-      ledeAfterLink: ', compositor de formación clásica, con Arch en un pendrive. Desarrollo una plataforma de big data que consolida',
-      ledeCode: 'más de 60 sistemas empresariales',
-      ledeTail: 'en múltiples data warehouses.',
+      ledeAfterLink: ', compositor de formación clásica y entusiasta del FOSS. Desarrollando una alternativa a Fivetran que es',
+      ledeCode: '>100x más barata',
+      ledeTail: '.',
 
       currently: 'Actualmente',
-      currentlySince: 'desde 2024-10',
+      currentlySince: 'desde 2024',
       currentFile: 'frontmatter · actual.yml',
       k: {
         role: 'rol:',
@@ -156,35 +144,23 @@ export const ui = {
       },
       v: {
         role: 'Líder de Ingeniería de Datos',
-        building: '["Warp" · "Framework ECL" · "Competencia a Fivetran"]',
+        building: '["Automatizaciones" · "Arquitectura confiable" · "Pipelines de datos realmente rápidos"]',
         favoriteRdb: 'PostgreSQL para filas, CH para columnas',
       },
 
-      stack: 'Stack',
-      stackNote: 'lo que más uso',
-      stackKeys: {
-        warehouses: 'warehouses',
-        orchestration: 'orquestación',
-        languages: 'lenguajes',
-        tooling: 'herramientas',
-      },
-
-      education: 'Educación',
-      educationFile: 'educacion.yml',
-      eduKeys: {
-        composition: 'composicion:',
-        dataScience: 'ciencia_de_datos:',
-        bsc: 'bsc_ciencia_datos:',
-      },
-      eduValues: {
-        composition: 'PUCCh · Composición Musical',
-        dataScience: 'PUCCh · Diplomado en Data Science',
-        bsc: 'IU International · Data Scientist',
-        bscNote: '// 2024-2026 (incompleto)',
-      },
+      projectsTitle: 'Proyectos',
+      projectsKey: 'destacados',
+      projectsAll: 'todos los proyectos',
 
       recentWritingA: 'Escritos',
       recentWritingB: 'recientes',
+    },
+
+    /* ── experiencia ────────────────────────────────── */
+    experience: {
+      title: 'Experiencia — Alonso Burón',
+      heading: 'Experiencia',
+      stack: 'Stack',
     },
 
     /* ── proyectos ──────────────────────────────────── */
@@ -239,6 +215,6 @@ export function useUi(lang: Lang) {
 
 /** Meta description per locale. Feeds <meta name="description"> and og. */
 export const metaDescription: Record<Lang, string> = {
-  en: 'Alonso Burón is a Lead Data Engineer in Santiago, Chile — architect of Warp, an EtLT platform consolidating 60+ enterprise systems into BigQuery and ClickHouse, and author of the ECL framework.',
-  es: 'Alonso Burón es Líder de Ingeniería de Datos en Santiago, Chile. Es el arquitecto de Warp, una plataforma EtLT que consolida más de 60 sistemas empresariales en BigQuery y ClickHouse, y el autor del framework ECL.',
+  en: 'Alonso Burón is a Lead Data Engineer in Santiago, Chile — architect of Warp, an EtLT platform that replaces Fivetran at >100x lower cost, author of the ECL framework, and builder of agentic systems with MCP servers, Agent Skills and multi-agent orchestration.',
+  es: 'Alonso Burón es Líder de Ingeniería de Datos en Santiago, Chile. Es el arquitecto de Warp, una plataforma EtLT que reemplaza a Fivetran a >100x menos costo, el autor del framework ECL y constructor de sistemas agénticos con servidores MCP, Agent Skills y orquestación multi-agente.',
 };

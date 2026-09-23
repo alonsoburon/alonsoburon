@@ -80,10 +80,11 @@ const schemaCrumbs = [
 ];
 
 const NAV = [
-  { key: 'cv',       name: t.nav.cv,       href: routes.cv[lang] },
-  { key: 'projects', name: t.nav.projects, href: routes.projects[lang] },
-  { key: 'blog',     name: t.nav.blog,     href: routes.blog[lang] },
-  { key: 'contact',  name: t.nav.contact,  href: routes.contact[lang] },
+  { key: 'cv',         name: t.nav.cv,         href: routes.cv[lang] },
+  { key: 'experience', name: t.nav.experience, href: routes.experience[lang] },
+  { key: 'projects',   name: t.nav.projects,   href: routes.projects[lang] },
+  { key: 'blog',       name: t.nav.blog,       href: routes.blog[lang] },
+  { key: 'contact',    name: t.nav.contact,    href: routes.contact[lang] },
 ] as const;
 
 const other: Lang = lang === 'en' ? 'es' : 'en';
