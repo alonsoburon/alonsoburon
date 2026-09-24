@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>Studio — Alonso Burón</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header id="bar">
+      <span class="brand"><span class="prompt">&gt;</span> studio</span>
+      <nav class="tabs">
+        <button data-tab="composer" class="active">Composer</button>
+        <button data-tab="blog">Blog</button>
+        <button data-tab="ideas">Ideas</button>
+        <button data-tab="plan">Plan</button>
+      </nav>
+      <span class="spacer"></span>
+      <span id="status" class="status"></span>
+      <a id="preview-link" class="ghost" target="_blank" rel="noopener">site ↗</a>
+    </header>
+
+    <!-- ── Composer: write once, ship to blog + LinkedIn + X ──────────── -->
+    <section id="view-composer" class="view active">
+      <aside class="list">
+        <div class="list-head">
+          <span id="piece-count" class="muted">—</span>
+          <button id="new-piece" class="primary">+ New</button>
+        </div>
+        <div id="piece-list" class="list-body"></div>
+      </aside>
+
+      <div class="editor">
+        <div class="editor-head">
+          <span id="piece-file" class="muted">—</span>
+          <span class="spacer"></span>
+          <button id="delete-piece" class="danger hidden">Delete</button>
+          <button id="save-piece" class="primary">Save</button>
+          <button id="pub-blog" class="primary publish" title="Write the .md into src/content/blog">Blog ▸</button>
+          <button id="pub-linkedin" class="ghost" title="Copy the text and open LinkedIn">LinkedIn ▸</button>
+          <button id="pub-x" class="ghost" title="Copy the text and open X">X ▸</button>
+        </div>
+
+        <form id="piece-form" autocomplete="off">
+          <label>Title<input name="title" type="text" placeholder="Idempotency is the only thing that makes a pipeline safe to retry" /></label>
+          <div class="row">
+            <label>Date<input name="date" type="date" /></label>
+            <label>Tags<input name="tags" type="text" placeholder="python, pipelines" /></label>
+          </div>
+          <label>Description (blog / OG)<input name="description" type="text" /></label>
+
+          <label class="grow">Blog — markdown
+            <textarea name="blogBody" spellcheck="false" placeholder="The full post… (drag or paste images)"></textarea>
+          </label>
+
+          <div class="sub">
+            <div class="sub-head">
+              <span>LinkedIn</span>
+              <button type="button" class="ghost mini" id="gen-linkedin">generate from blog</button>
+              <span class="spacer"></span>
+              <span id="li-count" class="counter">0 / 3000</span>
+            </div>
+            <textarea name="linkedinText" spellcheck="false" placeholder="Feed version…"></textarea>
+          </div>
+
+          <div class="sub">
+            <div class="sub-head">
+              <span>X</span>
+              <button type="button" class="ghost mini" id="gen-x">generate from blog</button>
+              <span class="spacer"></span>
+              <span id="x-count" class="counter">0 / 280</span>
+            </div>
+            <textarea name="xText" spellcheck="false" placeholder="The hook. Over 280 chars it splits into a thread."></textarea>
+            <div id="x-thread" class="thread hidden"></div>
+          </div>
+
+          <div id="publish-result" class="result hidden"></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ── Blog: edit the .md files directly ──────────────────────────── -->
+    <section id="view-blog" class="view">
+      <aside class="list">
+        <div class="list-head">
+          <span id="post-count" class="muted">—</span>
+          <button id="new-post" class="primary">+ New</button>
+        </div>
+        <div id="post-list" class="list-body"></div>
+      </aside>
+      <div class="editor">
+        <div class="editor-head">
+          <span id="post-file" class="muted">—</span>
+          <span class="spacer"></span>
+          <a id="post-preview" class="ghost hidden" target="_blank" rel="noopener">preview ↗</a>
+          <button id="delete-post" class="danger hidden">Delete</button>
+          <button id="save-post" class="primary">Save</button>
+        </div>
+        <form id="post-form" autocomplete="off">
+          <label>Title<input name="title" type="text" /></label>
+          <div class="row">
+            <label>Date<input name="date" type="date" /></label>
+            <label>Tags<input name="tags" type="text" /></label>
+          </div>
+          <label>Description<input name="description" type="text" /></label>
+          <label class="grow">Body<textarea name="body" spellcheck="false"></textarea></label>
+        </form>
+      </div>
+    </section>
+
+    <!-- ── Ideas ──────────────────────────────────────────────────────── -->
+    <section id="view-ideas" class="view">
+      <p class="plan-note">Idea bank. <strong>→ Composer</strong> creates a piece with the hook and outline already filled in.</p>
+      <div id="idea-filters" class="filters" style="margin-bottom:12px"></div>
+      <table id="ideas" class="backlog"></table>
+    </section>
+
+    <!-- ── Plan ───────────────────────────────────────────────────────── -->
+    <section id="view-plan" class="view">
+      <p class="plan-note">12-week backlog (from <code>docs/content-strategy.md</code>).</p>
+      <table id="backlog" class="backlog"></table>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>

@@ -18,7 +18,7 @@ const { lang } = Astro.props;
 const t = useUi(lang).home;
 
 const featured = projects
-  .filter((p) => p.featured && p.publishedAt)
+  .filter((p) => p.featured && p.publishedAt && !p.hidden)
   .sort((a, b) => b.publishedAt!.getTime() - a.publishedAt!.getTime());
 
 const posts = await getCollection('blog');

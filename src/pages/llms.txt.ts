@@ -23,8 +23,8 @@ export const GET: APIRoute = async () => {
     (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
   );
 
-  const work = projects.filter((p) => p.category === 'work');
-  const fun = projects.filter((p) => p.category === 'fun');
+  const work = projects.filter((p) => p.category === 'work' && !p.hidden);
+  const fun = projects.filter((p) => p.category === 'fun' && !p.hidden);
 
   const out: string[] = [];
   const push = (...lines: string[]) => out.push(...lines);

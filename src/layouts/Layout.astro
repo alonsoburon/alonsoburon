@@ -4,6 +4,7 @@ import "../styles/global.css";
 import StructuredData from "../components/StructuredData.astro";
 import LangSwitch from "../components/LangSwitch.astro";
 import { SITE, identity } from "../data/profile";
+import { ogImagePath } from "../og/path";
 import {
   routes,
   home,
@@ -89,6 +90,12 @@ const NAV = [
 
 const other: Lang = lang === 'en' ? 'es' : 'en';
 
+// The article slug drives its own social card; every other page maps to a
+// locale card. Both are emitted as PNGs by the endpoints under src/pages/og.
+const slug = kind === 'blog' ? path.match(/blog\/(.+)\.md$/)?.[1] : undefined;
+const ogImage = new URL(ogImagePath(active, lang, slug), SITE).href;
+const ogImageAlt = title.includes(identity.name) ? title : `${title} — ${identity.name}`;
+
 // Config handed to the inline detection script below.
 const detect = {
   lang,
@@ -110,6 +117,8 @@ const detect = {
     <meta name="color-scheme" content="dark" />
     <meta name="theme-color" content="#22262a" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
 
@@ -243,6 +252,11 @@ const detect = {
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={ogLocale[lang]} />
     {translated && <meta property="og:locale:alternate" content={ogLocale[other]} />}
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content={ogImageAlt} />
     {kind === 'blog' && post && (
       <>
         <meta property="article:author" content={identity.name} />
@@ -250,9 +264,11 @@ const detect = {
         {post.tags?.map((t) => <meta property="article:tag" content={t} />)}
       </>
     )}
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
 
     <link rel="alternate" type="application/rss+xml" title={`${identity.name} — Writing`} href={`${SITE}/rss.xml`} />
     <link rel="sitemap" type="application/xml" href={`${SITE}/sitemap.xml`} />

@@ -31,12 +31,10 @@
 
 // ─── Header ──────────────────────────────────────────
 #align(center)[
-  #text(size: 20pt, weight: "bold")[Alonso Burón]
+  #text(size: 20pt, weight: "bold")[Alonso Burón Ardiles]
   #v(-0.4em)
-  #text(fill: muted, size: 10.5pt)[Lead Data & AI Engineer · Agent Systems · Client-Facing]
-  #v(-0.2em)
   #text(size: 9pt)[
-    Santiago, Chile · #link("mailto:alonso.buron@proton.me")[alonso.buron\@proton.me] ·
+    Santiago, Chile · #link("tel:+56959058121")[+56 9 5905 8121] · #link("mailto:alonso.buron@proton.me")[alonso.buron\@proton.me] \
     #link("https://alonsoburon.cl")[alonsoburon.cl] ·
     #link("https://linkedin.com/in/alonsoburon")[linkedin/alonsoburon] ·
     #link("https://github.com/alonsoburon")[github/alonsoburon]
@@ -46,37 +44,39 @@
 #v(0.3em)
 
 // ─── Summary ─────────────────────────────────────────
-Lead Data & AI Engineer at Datawalt (Santiago, Chile), where I architect and run *Warp*, an EtLT platform consolidating 60+ enterprise systems (SAP B1, HANA, Softland, Odoo) into BigQuery and ClickHouse. I design *agentic systems* — MCP servers, Claude/Agent Skills, cost-tiered multi-agent orchestration and agent-harness tooling — and own client-facing delivery from discovery to production. I lead a team building production data infrastructure across Chile.
+Data Engineering Lead at Datawalt. Built and lead a team of 5 and designed *Warp*, a data integration platform serving over 500 companies and processing 1.6 TB daily. I combine data architecture, business analytics and agentic systems to turn client needs into production solutions, with a focus on scalability, reliability and data contracts.
 
 // ─── Experience ──────────────────────────────────────
 #section("Experience")
 
 #role("Data Engineering Lead", "Datawalt", "Oct 2024 — Present")
-- Architect and own *Warp*, an in-house EtLT platform replacing Fivetran for 60+ enterprise sources (SAP B1, HANA, Softland, Odoo) feeding BigQuery and ClickHouse.
-- Lead a small data engineering team; promoted for reframing scope from delivery to platform scalability.
-- Designed the ECL (Extract, Conform, Load) framework powering production pipelines: incremental cursor extraction, staging swap, health tables, tiered freshness.
-- Built parametrized Power BI / DAX reporting templates and unified HR star-schema (Talana, GeoVictoria, Buk) for multi-client deployment.
+- Designed and lead *Warp*: 150 enterprise integrations (SAP B1, HANA, Softland, Odoo) replacing Fivetran and centralizing data in BigQuery and ClickHouse through real-time and batch pipelines.
+- Built Datawalt's first data engineering team, now 5 people, focused on scalability, reliability and connector development.
+- Designed idempotent loads, staging swaps and safe backfills, with pipeline health and data freshness monitoring.
+- Developed bidirectional connectors for SAP, QAD and Dynamics 365; maintain per-client isolation on GCP and deployments through GitHub Actions with self-hosted runners.
 - Stack: Python · Go · SQL · Dagster · dbt · dlt · BigQuery · ClickHouse · DuckDB · GCP · Docker.
 
-#role("Data Engineer", "Datawalt", "2023 — Oct 2024")
-- Delivered enterprise ELT pipelines and Power BI semantic models for finance, sales and operations clients (Bag, Enaex, Janssen, Canontex); owned SAP B1 / HANA extraction and star-schema modeling.
+#role("BI Developer", "Datawalt", "2023 — Oct 2024")
+- Built dozens of star schemas integrating HR, CRM, ERP and sell-out data, and Power BI semantic models for finance, mining and operations clients (Bagó, Enaex, Janssen, Canontex).
+- Created parameterized Power BI / DAX templates for SAP B1 financial reporting and a unified HR model (Talana, GeoVictoria, Buk), reusable across clients.
+- Optimized BigQuery costs using INFORMATION_SCHEMA and materialized staging tables.
 
-#role("Founder & Consultant", "Tucunar (independent)", "2026 — Present")
-- Run a technology-services practice end to end: client discovery, scoping/SOWs and delivery of data, infra and AI work for SMEs and mining clients.
+// #role("Founder & Consultant", "Tucunar (independent)", "2026 — Present")
+// - Run a technology-services practice end to end: client discovery, scoping/SOWs and delivery of data, infra and AI work for SMEs and mining clients.
 
 // ─── AI & Agent Systems ──────────────────────────────
 #section("AI & Agent Systems")
 
-- *Multi-agent orchestration* — Self-hosted, cost-tiered agents (DeepSeek + Claude) behind a shared relay with per-agent identity and least-privilege access. _Nostr · ACP · Docker._
-- *MCP & tool use* — Shipped an MCP server and open API for point-in-time macro data, so agents query series safely without look-ahead bias. _TypeScript · MCP · Vercel._
-- *Agent Skills & FOSS* — Author of *ecl-skill*; contributor to *netresearch/retro-skill* (opencode adapter). _Claude Code · Python._
-- *Harness, gates & observability* — Maintain CLAUDE.md rules, skills and MCP context for coding agents; ship through gate-enforced CI/CD; run pipeline health tables and SLA alerting. _Claude Code · CI/CD._
+- *Multi-agent orchestration* — Designed and operate self-hosted agents (DeepSeek + Claude), coordinated through a shared relay with per-agent identity and least-privilege access. _Nostr · ACP · Docker._
+- *MCP & tools* — Built MCP servers for multiple business functions, connecting agents to internal data and tools. _TypeScript · MCP._
+- *Agent Skills & FOSS* — Author of *ecl-skill* for production pipelines; contributor to *netresearch/retro-skill* (opencode adapter). _Claude Code · Python._
+- *Controls & observability* — Maintain rules, skills and MCP context for coding agents; automate deployments with CI/CD checks, pipeline monitoring and SLA alerts.
 
 // ─── Selected Projects ───────────────────────────────
 #section("Selected Projects")
 
-- *#link("https://github.com/alonsoburon/vintage")[vintage]* — Point-in-time macro data for Chile as an open API + MCP server for agents. _TypeScript · MCP · Vercel._
-- *#link("https://github.com/alonsoburon/toka")[toka]* — Offline-first household tasks: Go + PostgreSQL with row-level security, Android client. _Go · PostgreSQL · Android._
+- *#link("https://www.datawalt.cl/soluciones/warp")[Warp]* — Architecture and development of Datawalt's integration platform: extracting, normalizing and publishing enterprise data for analytics. _Python · Go · BigQuery · ClickHouse._
+- *#link("https://www.datawalt.cl/sap-business-one")[SAP Business One Integration]* — SAP B1 / HANA data extraction, star-schema modeling and reusable financial reporting templates for clients. _SQL · BigQuery · Power BI · DAX._
 
 // ─── Skills ──────────────────────────────────────────
 #section("Skills")
@@ -89,11 +89,12 @@ Lead Data & AI Engineer at Datawalt (Santiago, Chile), where I architect and run
   text(weight: "bold")[Orchestration], [Dagster · Prefect · dbt · dlt · DolphinScheduler · Kafka],
   text(weight: "bold")[Languages],     [Python · Go · SQL · TypeScript · Node.js],
   text(weight: "bold")[Infra],         [GCP · Docker · GitHub Actions · CI/CD · Linux · Tailscale],
-  text(weight: "bold")[AI / Agents],   [Claude Code · Agent Skills · MCP · Multi-agent orchestration · Claude Agent SDK (ACP) · LLMOps/observability],
+  text(weight: "bold")[AI / Agents],   [Claude Code · Agent Skills · MCP · Multi-agent orchestration · LLMOps/observability],
   text(weight: "bold")[BI],            [Power BI · DAX · Deneb (Vega) · Plotly · D3.js],
+  text(weight: "bold")[Spoken languages], [Spanish: native · English: expert proficiency],
 )
 
 // ─── Education ───────────────────────────────────────
 #section("Education")
 
-*Data Science Diploma* & *Music Composition B.A.*, PUC Chile · *BSc Data Science (in progress)*, IU International
+*Data Science Diploma* & *Music Composition B.A.*, PUC Chile

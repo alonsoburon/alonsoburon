@@ -85,3 +85,8 @@ temp/
 
 # Astro
 .astro/
+
+# Local content studio — private drafts and deleted-post backups
+tools/admin/data/queue.json
+tools/admin/data/pieces.json
+tools/admin/data/trash/

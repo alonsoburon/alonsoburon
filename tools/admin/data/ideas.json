@@ -1,0 +1,423 @@
+[
+  {
+    "pillar": "AI-era DE",
+    "format": "post",
+    "platform": "linkedin",
+    "hook": "AI writes your pipeline. The bug is still yours.",
+    "angle": "AI made pipeline code cheap; correctness and accountability did not get cheaper.",
+    "points": [
+      "The code was never the bottleneck — the contract was",
+      "What generated code changes: the speed of the first draft, not the failure modes",
+      "Three things AI cannot own: semantics, on-call, and the apology to the client",
+      "A pre-ship checklist for any AI-generated pipeline"
+    ]
+  },
+  {
+    "pillar": "AI-era DE",
+    "format": "carousel",
+    "platform": "linkedin",
+    "hook": "The 2026 data engineer: a roadmap",
+    "angle": "What gets automated, what rises in value, and what disappears.",
+    "points": [
+      "Table stakes now vs. three years ago",
+      "Rising: data contracts, semantics, observability, cost",
+      "Falling: glue code, boilerplate DAGs, manual schema mapping",
+      "Where to invest if you are early career",
+      "Where to invest if you are senior"
+    ]
+  },
+  {
+    "pillar": "AI-era DE",
+    "format": "carousel",
+    "platform": "linkedin",
+    "hook": "What I'd learn first if I started data engineering in 2026",
+    "angle": "Against tutorial hell: the fundamentals AI cannot give you.",
+    "points": [
+      "SQL beyond SELECT: windows, incremental logic, idempotency",
+      "One warehouse deeply, not five shallowly",
+      "Read the source system's schema like a detective",
+      "Ship one pipeline end to end, in production"
+    ]
+  },
+  {
+    "pillar": "AI-era DE",
+    "format": "essay",
+    "platform": "blog",
+    "hook": "Semantic layers are where AI data work is won or lost",
+    "angle": "Without semantics, an agent answers fast and wrong.",
+    "points": [
+      "Text-to-SQL without a semantic layer is a coin flip",
+      "Define metrics once, expose them to humans and agents",
+      "The failure mode: plausible numbers nobody can defend",
+      "What a minimal semantic layer looks like"
+    ]
+  },
+  {
+    "pillar": "AI-era DE",
+    "format": "post",
+    "platform": "x",
+    "hook": "Idempotency in one sentence: running twice equals running once",
+    "angle": "The test that separates a pipeline from a script.",
+    "points": [
+      "Why retries are inevitable and reruns are common",
+      "Merge vs overwrite vs append: pick per table",
+      "Natural keys, surrogate keys, and the delete problem",
+      "How to prove idempotency with a test"
+    ]
+  },
+  {
+    "pillar": "AI-era DE",
+    "format": "essay",
+    "platform": "blog",
+    "hook": "Backfill safety: how not to blow up your warehouse on a Monday",
+    "angle": "Patterns to reprocess history without taking production down.",
+    "points": [
+      "Backfills are full-replace jobs with a date filter",
+      "Isolate compute, rate-limit, and stage before swap",
+      "Partition by date so you can resume, not restart",
+      "A pre-flight checklist before touching two years of history"
+    ]
+  },
+  {
+    "pillar": "AI-era DE",
+    "format": "essay",
+    "platform": "blog",
+    "hook": "Data contracts for ugly enterprise data",
+    "angle": "Contracts when the source will not cooperate.",
+    "points": [
+      "A contract is a promise about shape, not cleanliness",
+      "Start with the fields that break you most",
+      "Detect drift, alert the owner, do not silently patch",
+      "Where to enforce: at extraction or at load"
+    ]
+  },
+  {
+    "pillar": "AI-era DE",
+    "format": "post",
+    "platform": "linkedin",
+    "hook": "Your pipeline's real SLA is 'nobody noticed'",
+    "angle": "Observability from the business, not the job.",
+    "points": [
+      "Green jobs can still be a broken product",
+      "Measure freshness and completeness per consumer",
+      "Health tables over dashboards nobody reads",
+      "Alert on the outcome, not the process"
+    ]
+  },
+  {
+    "pillar": "AI-era DE",
+    "format": "poll",
+    "platform": "linkedin",
+    "hook": "Does your team test pipelines before production?",
+    "angle": "A three-option poll, then a thread unpacking the results.",
+    "points": [
+      "Options: yes / no / we test in prod",
+      "Follow-up: what 'testing' even means for data",
+      "The cheapest test that catches most breakage"
+    ]
+  },
+  {
+    "pillar": "AI-era DE",
+    "format": "post",
+    "platform": "linkedin",
+    "hook": "The AI didn't break your pipeline. Your source did.",
+    "angle": "AI does not fix dirty data; it propagates it faster.",
+    "points": [
+      "Sources lie: nulls as sentinels, reused codes, soft deletes",
+      "AI reproduces the assumptions you feed it",
+      "Log the ugly truth, do not silently clean it",
+      "Flag it and let the business decide"
+    ]
+  },
+
+  {
+    "pillar": "Production",
+    "format": "carousel",
+    "platform": "linkedin",
+    "hook": "We replaced Fivetran across 150 sources. Here's the bill.",
+    "angle": "Build vs buy with real numbers.",
+    "points": [
+      "What we were paying for and what we were not using",
+      "The true cost: engineers, on-call, connectors",
+      "What we kept from the vendor model",
+      "When I would tell you to just buy"
+    ]
+  },
+  {
+    "pillar": "Production",
+    "format": "essay",
+    "platform": "blog",
+    "hook": "160,000 tables a day: how we keep extraction sane",
+    "angle": "Conventions, health tables, and tiering at scale.",
+    "points": [
+      "Naming as a contract across 150 sources",
+      "One health table beats a hundred dashboards",
+      "Freshness tiers: hot, warm, cold",
+      "Onboarding a new source in a day"
+    ]
+  },
+  {
+    "pillar": "Production",
+    "format": "post",
+    "platform": "linkedin",
+    "hook": "The day a full-replace job took down a client dashboard",
+    "angle": "A blame-free post-mortem and the pattern that prevents it.",
+    "points": [
+      "What happened, minute by minute",
+      "Why the lock was not the real problem",
+      "Staging swap and validation gates",
+      "The guardrail we added afterward"
+    ]
+  },
+  {
+    "pillar": "Production",
+    "format": "essay",
+    "platform": "blog",
+    "hook": "Why we run BigQuery for analytics and ClickHouse for apps",
+    "angle": "A hybrid warehouse: when to use each.",
+    "points": [
+      "Analytical scans vs low-latency point reads",
+      "The cost curve of each",
+      "One source of truth, two serving layers",
+      "What I would change next time"
+    ]
+  },
+  {
+    "pillar": "Production",
+    "format": "carousel",
+    "platform": "linkedin",
+    "hook": "What 160k tables teach you about naming conventions",
+    "angle": "Names are contracts; real examples, abstracted.",
+    "points": [
+      "The three prefixes that saved us",
+      "Dates, currencies, and units in the name",
+      "When to rename (almost never) and how",
+      "A naming lint for new tables"
+    ]
+  },
+  {
+    "pillar": "Production",
+    "format": "essay",
+    "platform": "blog",
+    "hook": "Multi-tenant RLS in one warehouse: the design",
+    "angle": "Row-level isolation without multiplying tables.",
+    "points": [
+      "Carrying the tenancy key from source to semantic model",
+      "Enforcing in views, not in the BI layer",
+      "Testing that tenant A cannot see tenant B",
+      "The performance cost and how we absorbed it"
+    ]
+  },
+
+  {
+    "pillar": "Agents",
+    "format": "post",
+    "platform": "x",
+    "hook": "An MCP server is just an API with better manners",
+    "angle": "Why MCP changes how an agent uses your data.",
+    "points": [
+      "Tools as a contract: names, params, errors",
+      "Retrieval-safe responses: small, typed, cited",
+      "Auth and least privilege from day one",
+      "What not to expose"
+    ]
+  },
+  {
+    "pillar": "Agents",
+    "format": "essay",
+    "platform": "blog",
+    "hook": "Designing an MCP server agents can trust",
+    "angle": "Tool design, limits, and useful errors.",
+    "points": [
+      "One tool per intent, not one tool for everything",
+      "Return errors an agent can act on",
+      "Cap the blast radius of every tool",
+      "Versioning and deprecation for agents"
+    ]
+  },
+  {
+    "pillar": "Agents",
+    "format": "carousel",
+    "platform": "linkedin",
+    "hook": "Cheap model, frontier model: who does what",
+    "angle": "Cost-tiered orchestration with clear roles.",
+    "points": [
+      "Route by task difficulty, not by habit",
+      "Cheap model drafts, frontier model verifies",
+      "Where the 90% cost saving comes from",
+      "Guardrails between the two"
+    ]
+  },
+  {
+    "pillar": "Agents",
+    "format": "essay",
+    "platform": "blog",
+    "hook": "Guardrails for agents with warehouse access",
+    "angle": "Least privilege, dry-run, and row limits.",
+    "points": [
+      "Read-only by default; writes behind approval",
+      "Dry-run and EXPLAIN before execution",
+      "Row and byte caps per query",
+      "Audit every tool call"
+    ]
+  },
+  {
+    "pillar": "Agents",
+    "format": "thread",
+    "platform": "x",
+    "hook": "Context engineering beats prompt engineering",
+    "angle": "Five patterns: progressive disclosure, compression, routing.",
+    "points": [
+      "Why bigger context makes reasoning worse",
+      "Progressive disclosure of tools and docs",
+      "Compression and routing strategies",
+      "Agentic RAG vs stuffing everything",
+      "How to measure context quality"
+    ]
+  },
+  {
+    "pillar": "Agents",
+    "format": "post",
+    "platform": "linkedin",
+    "hook": "I gave an agent my warehouse. Here's what broke.",
+    "angle": "Build-in-public of the messy middle.",
+    "points": [
+      "The first hallucinated join",
+      "Permissions I forgot existed",
+      "The cost spike from one bad loop",
+      "What I would do differently"
+    ]
+  },
+  {
+    "pillar": "Agents",
+    "format": "post",
+    "platform": "linkedin",
+    "hook": "Point-in-time data: why your agent needs a time machine",
+    "angle": "Without vintages, the agent leaks future information.",
+    "points": [
+      "Look-ahead bias in backtests and evals",
+      "What a vintage is, plainly",
+      "Exposing as-of queries to agents",
+      "Where it matters beyond finance"
+    ]
+  },
+
+  {
+    "pillar": "Mining / LatAm",
+    "format": "essay",
+    "platform": "blog",
+    "hook": "Row-level security for contractors, sites and business units",
+    "angle": "Row-level security in real mining operations.",
+    "points": [
+      "Why contractors must not see each other",
+      "Modeling tenancy across sites and business units",
+      "Enforcing RLS in the warehouse, not the dashboard",
+      "Auditing access after the fact"
+    ]
+  },
+  {
+    "pillar": "Mining / LatAm",
+    "format": "essay",
+    "platform": "blog",
+    "hook": "Why mining companies can't re-extract history (and how to design for it)",
+    "angle": "Design so you never have to ask the ERP for the past again.",
+    "points": [
+      "Why the source cannot reproduce yesterday",
+      "Land the detail, build aggregates downstream",
+      "Immutable history and late-arriving data",
+      "The cost of getting this wrong"
+    ]
+  },
+  {
+    "pillar": "Mining / LatAm",
+    "format": "carousel",
+    "platform": "linkedin",
+    "hook": "SAP B1 to BigQuery without losing your mind",
+    "angle": "Extraction patterns for SAP B1 and HANA.",
+    "points": [
+      "Cursors that actually exist in B1",
+      "Handling UDFs and company-specific tables",
+      "Performance: HANA views vs raw tables",
+      "Testing against the source"
+    ]
+  },
+  {
+    "pillar": "Mining / LatAm",
+    "format": "post",
+    "platform": "linkedin",
+    "hook": "The plant report nobody asks for but everyone uses",
+    "angle": "Finding the real requirement behind the request.",
+    "points": [
+      "The stated ask vs the actual decision",
+      "Shadow spreadsheets as a signal",
+      "Shipping the boring, reliable view first",
+      "How it becomes the source of truth"
+    ]
+  },
+
+  {
+    "pillar": "Craft",
+    "format": "essay",
+    "platform": "blog",
+    "hook": "From film scoring to data platforms",
+    "angle": "What composing taught me about systems.",
+    "points": [
+      "Structure, motifs, and reuse",
+      "Working with constraints and deadlines",
+      "The ego of the solo creator vs the team",
+      "What transferred and what did not"
+    ]
+  },
+  {
+    "pillar": "Career",
+    "format": "post",
+    "platform": "linkedin",
+    "hook": "I got promoted by reframing my scope, not by coding more",
+    "angle": "Scalability as a career lever.",
+    "points": [
+      "The moment delivery stopped scaling",
+      "Turning a task into a platform",
+      "Writing the case for your own promotion",
+      "What I would tell a new lead"
+    ]
+  },
+  {
+    "pillar": "Craft",
+    "format": "carousel",
+    "platform": "linkedin",
+    "hook": "My Obsidian + Arch setup for thinking in public",
+    "angle": "A knowledge system, not app porn.",
+    "points": [
+      "Capture, connect, publish",
+      "The three note types I actually use",
+      "Publishing from notes, not from scratch",
+      "Tools are replaceable; the habit is not"
+    ]
+  },
+  {
+    "pillar": "Craft",
+    "format": "post",
+    "platform": "x",
+    "hook": "Learn Rust as a data engineer: what transfers",
+    "angle": "What carries over to Python and SQL, and what does not.",
+    "points": [
+      "Ownership as a mental model for data",
+      "Where Rust actually earns its place",
+      "What I would skip if I did it again",
+      "The real payoff: reading other people's code"
+    ]
+  },
+  {
+    "pillar": "Career",
+    "format": "post",
+    "platform": "linkedin",
+    "hook": "Show the messy middle, not the highlight reel",
+    "angle": "Why process builds more trust than results.",
+    "points": [
+      "The post that did best was the failure",
+      "How to share without oversharing",
+      "Turning a bug into a lesson",
+      "Consistency beats polish"
+    ]
+  }
+]

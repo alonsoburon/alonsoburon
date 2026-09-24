@@ -1,0 +1,13 @@
+{
+  "name": "Alonso Burón — Lead Data Engineer",
+  "short_name": "Alonso Burón",
+  "description": "Lead Data Engineer in Santiago, Chile. Architect of Warp, builder of reliable data platforms and agentic systems.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1d2021",
+  "theme_color": "#22262a",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

@@ -215,6 +215,6 @@ export function useUi(lang: Lang) {
 
 /** Meta description per locale. Feeds <meta name="description"> and og. */
 export const metaDescription: Record<Lang, string> = {
-  en: 'Alonso Burón is a Lead Data Engineer in Santiago, Chile — architect of Warp, an EtLT platform that replaces Fivetran at >100x lower cost, author of the ECL framework, and builder of agentic systems with MCP servers, Agent Skills and multi-agent orchestration.',
-  es: 'Alonso Burón es Líder de Ingeniería de Datos en Santiago, Chile. Es el arquitecto de Warp, una plataforma EtLT que reemplaza a Fivetran a >100x menos costo, el autor del framework ECL y constructor de sistemas agénticos con servidores MCP, Agent Skills y orquestación multi-agente.',
+  en: 'Alonso Burón is a Lead Data Engineer in Santiago, Chile — architect of Warp, an EtLT platform that replaces Fivetran at >100x lower cost, and a builder of reliable data platforms and agentic systems with MCP servers, Agent Skills and multi-agent orchestration. He writes about what stays hard now that AI writes pipeline code.',
+  es: 'Alonso Burón es Líder de Ingeniería de Datos en Santiago, Chile. Es el arquitecto de Warp, una plataforma EtLT que reemplaza a Fivetran a >100x menos costo, y construye plataformas de datos confiables y sistemas agénticos con servidores MCP, Agent Skills y orquestación multi-agente. Escribe sobre lo que sigue siendo difícil ahora que la IA escribe el código de los pipelines.',
 };

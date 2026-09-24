@@ -14,6 +14,8 @@ export interface ExperienceRole {
   datesEs: string;
   bullets: string[];
   bulletsEs: string[];
+  /** Kept in the data but hidden from the site (e.g. not ready to announce). */
+  hidden?: boolean;
 }
 
 export const roles: ExperienceRole[] = [
@@ -25,15 +27,15 @@ export const roles: ExperienceRole[] = [
     dates: 'Oct 2024 — Present',
     datesEs: 'Oct 2024 — Presente',
     bullets: [
-      'Architect and own Warp, an in-house EtLT platform replacing Fivetran for 60+ enterprise sources (SAP B1, HANA, Softland, Odoo) feeding BigQuery and ClickHouse.',
+      'Architect and own Warp, an in-house EtLT platform replacing Fivetran for 150 enterprise sources (SAP B1, HANA, Softland, Odoo), moving ~160,000 tables daily into BigQuery and ClickHouse.',
       'Lead a small data engineering team; promoted for reframing scope from delivery to platform scalability.',
-      'Designed the ECL (Extract, Conform, Load) framework powering production pipelines: incremental cursor extraction, staging swap, health tables, tiered freshness.',
+      'Designed the pipeline reliability patterns behind Warp: idempotent loads, staging swap, health tables, tiered freshness and backfill safety.',
       'Built parametrized Power BI / DAX reporting templates and a unified HR star-schema (Talana, GeoVictoria, Buk) for multi-client deployment.',
     ],
     bulletsEs: [
-      'Arquitecto y responsable de Warp, una plataforma EtLT interna que reemplaza a Fivetran para más de 60 fuentes empresariales (SAP B1, HANA, Softland, Odoo) hacia BigQuery y ClickHouse.',
+      'Arquitecto y responsable de Warp, una plataforma EtLT interna que reemplaza a Fivetran para más de 150 fuentes empresariales (SAP B1, HANA, Softland, Odoo), moviendo ~160.000 tablas diarias hacia BigQuery y ClickHouse.',
       'Lidero un equipo pequeño de ingeniería de datos; ascendí por reencuadrar el alcance desde la entrega individual hacia la escalabilidad de la plataforma.',
-      'Diseñé el framework ECL (Extract, Conform, Load) que soporta los pipelines en producción: extracción incremental por cursor, staging swap, tablas de salud y frescura por niveles.',
+      'Diseñé los patrones de confiabilidad que soportan los pipelines de Warp: cargas idempotentes, staging swap, tablas de salud, frescura por niveles y seguridad de backfills.',
       'Construí plantillas parametrizadas de Power BI / DAX y un esquema estrella unificado de RRHH (Talana, GeoVictoria, Buk) para despliegue multi-cliente.',
     ],
   },
@@ -59,6 +61,7 @@ export const roles: ExperienceRole[] = [
     org: 'Tucunar (independent)',
     dates: '2026 — Present',
     datesEs: '2026 — Presente',
+    hidden: true,
     bullets: [
       'Run a technology-services practice end to end: client discovery, scoping and statements of work, then delivery of data, infrastructure and AI work for SMEs and mining clients.',
     ],

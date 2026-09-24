@@ -1,6 +1,6 @@
 # Lead Data Engineer | Composer 🎹
 
-Lead Data Engineer at [Datawalt](https://www.datawalt.cl/), where I architect and maintain **Warp** — an EtLT platform that extracts, transforms, and loads data from **20+ enterprise systems** (SAP Business One, Softland, Odoo) into BigQuery for production clients across Chile.
+Lead Data Engineer at [Datawalt](https://www.datawalt.cl/), where I architect and maintain **Warp** — an EtLT platform that extracts, transforms, and loads data from **150 enterprise systems** (SAP Business One, Softland, Odoo) into BigQuery for production clients across Chile.
 
 ---
 
@@ -22,7 +22,7 @@ Lead Data Engineer at [Datawalt](https://www.datawalt.cl/), where I architect an
 |---------|-------------|-------|
 | [**Streaming Pipeline**](https://github.com/alonsoburon/portfolio-streaming) | Real-time e-commerce analytics with anomaly detection | Kafka · Streamlit · Parquet |
 | [**Batch ELT Pipeline**](https://github.com/alonsoburon/portfolio-batchElt) | Medallion architecture for NYC Taxi data | Dagster · dlt · dbt · DuckDB · Plotly |
-| **Warp Data Platform** | Enterprise EtLT unifying 20+ data systems into BigQuery | Python · SQL · BigQuery · GCP |
+| **Warp Data Platform** | Enterprise EtLT unifying 150 data systems into BigQuery | Python · SQL · BigQuery · GCP |
 | **HR Multi-Platform Integration** | Unified star-schema from Talana, GeoVictoria, Buk | Python · REST APIs · BigQuery |
 | **Financial Reporting Template** | Parametrized Power BI template for SAP B1 systems | Power BI · DAX · Star Schema |
 

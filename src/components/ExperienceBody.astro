@@ -24,7 +24,7 @@ const L = (en: string, es: string) => (lang === 'es' ? es : en);
   </div>
 
   <div class="card-list">
-    {roles.map((r) => {
+    {roles.filter((r) => !r.hidden).map((r) => {
       const bullets = lang === 'es' ? r.bulletsEs : r.bullets;
       return (
         <article class="card">
