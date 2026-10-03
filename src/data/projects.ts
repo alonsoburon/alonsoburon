@@ -126,6 +126,30 @@ export const projects: Project[] = [
   {
     category: 'fun',
     source: 'foss',
+    title: 'LedgerLab',
+    period: '2026-09 → now',
+    role: 'solo',
+    description:
+      'Dual-entry banking backend in four languages (Python, Rust, C, COBOL) plus a load-testing harness that finds each engine’s concurrency limit under explicit p95/p99/error SLOs.',
+    achievements: [
+      'Four languages behind one ledger contract',
+      'Capacity search with warm-up, soak confirmation and CPU attribution',
+    ],
+    tech: ['Python', 'Rust', 'C', 'COBOL', 'SQLite'],
+    githubUrl: 'https://github.com/alonsoburon/ledgerlab',
+    publishedAt: new Date('2026-09-29'),
+    featured: true,
+    periodEs: '2026-09 → ahora',
+    descriptionEs:
+      'Backend bancario de doble partida en cuatro lenguajes (Python, Rust, C, COBOL) más un arnés de carga que encuentra el límite de concurrencia de cada motor bajo SLOs de latencia explícitos.',
+    achievementsEs: [
+      'Cuatro lenguajes tras un solo contrato de ledger',
+      'Búsqueda de capacidad con warm-up, confirmación soak y atribución de CPU',
+    ],
+  },
+  {
+    category: 'fun',
+    source: 'foss',
     title: 'vintage',
     period: '2026-09 → now',
     role: 'solo',
