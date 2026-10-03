@@ -6,14 +6,20 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "admin": "node tools/admin/server.mjs",
     "astro": "astro"
   },
   "dependencies": {
     "astro": "^5.14.1",
     "cytoscape": "^3.33.1",
-    "cytoscape-dagre": "^2.5.0"
+    "cytoscape-dagre": "^2.5.0",
+    "satori": "^0.33.5",
+    "sharp": "^0.35.4"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["esbuild", "sharp"]
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ]
   }
 }

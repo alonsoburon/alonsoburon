@@ -16,6 +16,8 @@ export interface Project {
   publishedAt?: Date;
   /** Surfaced on the home page as a selected project. */
   featured?: boolean;
+  /** Kept in the data but hidden from the site (e.g. not ready to announce). */
+  hidden?: boolean;
   /** Spanish overrides. A missing field falls back to the English one. */
   periodEs?: string;
   roleEs?: string;
@@ -36,7 +38,7 @@ export const projects: Project[] = [
     description:
       'Enterprise EtLT platform unifying on-site and cloud systems for multiple production clients across Chile.',
     achievements: [
-      'Unification of 60+ data systems',
+      'Unification of 150 data systems',
       'Simplified incremental loading',
     ],
     publishedAt: new Date('2024-10-01'),
@@ -46,7 +48,7 @@ export const projects: Project[] = [
     descriptionEs:
       'Plataforma EtLT empresarial que unifica sistemas on-premise y en la nube para varios clientes en producción a lo largo de Chile.',
     achievementsEs: [
-      'Unificación de más de 60 sistemas de datos',
+      'Unificación de más de 150 sistemas de datos',
       'Carga incremental simplificada',
     ],
   },
@@ -107,6 +109,7 @@ export const projects: Project[] = [
     title: 'Tucunar',
     period: '2026 → now',
     role: 'Founder',
+    hidden: true,
     description:
       'Independent technology-services practice: discovery, scoping and delivery of data, infrastructure and AI work for SMEs and mining clients.',
     achievements: ['Client discovery & SOWs', 'Data · infra · AI delivery'],
@@ -215,14 +218,13 @@ export const projects: Project[] = [
     period: '2026-04',
     role: 'solo',
     description:
-      'Claude agent skill that teaches ECL (Extract, Conform, Load) data pipeline patterns.',
+      'Claude agent skill that teaches production data-pipeline reliability patterns.',
     descriptionEs:
-      'Agent skill de Claude que enseña los patrones de pipelines de datos ECL (Extract, Conform, Load).',
+      'Agent skill de Claude que enseña patrones de confiabilidad para pipelines de datos en producción.',
     achievements: [],
     tech: ['Claude Skills', 'Markdown'],
     githubUrl: 'https://github.com/alonsoburon/ecl-skill',
     publishedAt: new Date('2026-04-13'),
-    featured: true,
   },
   {
     category: 'fun',
@@ -376,5 +378,5 @@ export function localizeProject(p: Project, lang: 'en' | 'es') {
 }
 
 // ── Back-compat helpers ──────────────────────────────
-export const closedSourceProjects = projects.filter((p) => p.category === 'work');
-export const openSourceProjects   = projects.filter((p) => p.category === 'fun');
+export const closedSourceProjects = projects.filter((p) => p.category === 'work' && !p.hidden);
+export const openSourceProjects   = projects.filter((p) => p.category === 'fun' && !p.hidden);

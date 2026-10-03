@@ -31,12 +31,10 @@
 
 // ─── Encabezado ──────────────────────────────────────
 #align(center)[
-  #text(size: 20pt, weight: "bold")[Alonso Burón]
+  #text(size: 20pt, weight: "bold")[Alonso Burón Ardiles]
   #v(-0.4em)
-  #text(fill: muted, size: 10.5pt)[Ingeniero de Datos e IA · Sistemas Agénticos · Cara a Cliente]
-  #v(-0.2em)
   #text(size: 9pt)[
-    Santiago, Chile · #link("mailto:alonso.buron@proton.me")[alonso.buron\@proton.me] ·
+    Santiago, Chile · #link("tel:+56959058121")[+56 9 5905 8121] · #link("mailto:alonso.buron@proton.me")[alonso.buron\@proton.me] \
     #link("https://alonsoburon.cl")[alonsoburon.cl] ·
     #link("https://linkedin.com/in/alonsoburon")[linkedin/alonsoburon] ·
     #link("https://github.com/alonsoburon")[github/alonsoburon]
@@ -46,37 +44,39 @@
 #v(0.3em)
 
 // ─── Perfil ──────────────────────────────────────────
-Líder de Datos e IA en Datawalt (Santiago, Chile). Arquitecto de *Warp*, plataforma EtLT que reemplaza a Fivetran para 60+ sistemas empresariales (SAP B1, HANA, Softland, Odoo) hacia BigQuery y ClickHouse. Diseño sistemas agénticos, lidero equipos y la entrega cara a cliente.
+Líder de Ingeniería de Datos en Datawalt. Formé y lidero un equipo de 5 personas y diseñé *Warp*, una plataforma de integración de datos para más de 500 empresas que procesa 1,6 TB diarios. Combino arquitectura de datos, analítica de negocio y sistemas agénticos para llevar necesidades de clientes a soluciones en producción, con foco en escalabilidad, confiabilidad y contratos de datos.
 
 // ─── Experiencia ─────────────────────────────────────
 #section("Experiencia")
 
 #role("Líder de Ingeniería de Datos", "Datawalt", "Oct 2024 — Actualidad")
-- Arquitecto y responsable de *Warp*, plataforma EtLT interna que reemplaza a Fivetran para más de 60 fuentes empresariales (SAP B1, HANA, Softland, Odoo) hacia BigQuery y ClickHouse.
-- Lidero un equipo pequeño de ingeniería de datos; ascendí por reencuadrar el alcance desde la entrega individual hacia la escalabilidad de la plataforma.
-- Diseñé el framework ECL (Extract, Conform, Load) que soporta los pipelines en producción: extracción incremental por cursor, staging swap, tablas de salud y frescura por niveles.
-- Construí plantillas parametrizadas de Power BI / DAX y un esquema estrella unificado de RRHH (Talana, GeoVictoria, Buk) para despliegue multi-cliente.
+- Diseñé y lidero *Warp*: 150 integraciones empresariales (SAP B1, HANA, Softland, Odoo) que reemplazan Fivetran y centralizan datos en BigQuery y ClickHouse, con flujos en tiempo real y por lotes.
+- Formé el primer equipo de ingeniería de datos de Datawalt, hoy de 5 personas, con foco en escalabilidad, confiabilidad y desarrollo de conectores.
+- Diseñé cargas idempotentes, staging swap y backfills seguros, con monitoreo de salud y frescura de datos.
+- Desarrollé conectores bidireccionales para SAP, QAD y Dynamics 365; mantengo aislamiento por cliente en GCP y despliegues con GitHub Actions y runners propios.
 - Stack: Python · Go · SQL · Dagster · dbt · dlt · BigQuery · ClickHouse · DuckDB · GCP · Docker.
 
-#role("Ingeniero de Datos", "Datawalt", "2023 — Oct 2024")
-- Entregué pipelines ELT empresariales y modelos semánticos de Power BI para clientes de finanzas, ventas y operaciones (Bag, Enaex, Janssen, Canontex); responsable de la extracción SAP B1 / HANA y del modelado en esquema estrella.
+#role("BI Developer", "Datawalt", "2023 — Oct 2024")
+- Construí decenas de modelos estrella integrando RR. HH., CRM, ERP y sell-out, y modelos semánticos de Power BI para finanzas, minería y operaciones (Bagó, Enaex, Janssen, Canontex).
+- Creé plantillas parametrizadas de Power BI / DAX para finanzas en SAP B1 y un modelo unificado de RR. HH. (Talana, GeoVictoria, Buk), reutilizables entre clientes.
+- Optimicé costos en BigQuery mediante INFORMATION_SCHEMA y tablas de staging materializadas.
 
-#role("Fundador y Consultor", "Tucunar (independiente)", "2026 — Actualidad")
-- Dirijo una práctica de servicios tecnológicos: discovery, alcance/SOW y entrega de datos, infraestructura e IA para PYMEs y clientes mineros.
+// #role("Fundador y Consultor", "Tucunar (independiente)", "2026 — Actualidad")
+// - Dirijo una práctica de servicios tecnológicos: discovery, alcance/SOW y entrega de datos, infraestructura e IA para PYMEs y clientes mineros.
 
 // ─── Sistemas de IA y Agentes ────────────────────────
 #section("Sistemas de IA y Agentes")
 
-- *Orquestación multi-agente* — Agentes self-hosted por costo (DeepSeek + Claude) tras un relay compartido, con identidad y mínimo privilegio por agente. _Nostr · ACP · Docker._
-- *MCP y uso de herramientas* — Desarrollé un servidor MCP y una API abierta de datos macro point-in-time, para que los agentes consulten series sin look-ahead bias. _TypeScript · MCP · Vercel._
-- *Agent Skills y FOSS* — Autor de *ecl-skill*; contribuidor a *netresearch/retro-skill* (adaptador de opencode). _Claude Code · Python._
-- *Harness, gates y observabilidad* — Mantengo reglas, skills y contexto MCP para agentes de código; despliego con CI/CD con gates; opero salud de pipelines y alertas SLA. _Claude Code · CI/CD._
+- *Orquestación multi-agente* — Diseñé y opero agentes autoalojados (DeepSeek + Claude), coordinados mediante un relay compartido, con identidad y mínimo privilegio por agente. _Nostr · ACP · Docker._
+- *MCP y herramientas* — Construí servidores MCP para distintas áreas de la empresa, conectando agentes con datos y herramientas internas. _TypeScript · MCP._
+- *Agent Skills y FOSS* — Autor de *ecl-skill* para pipelines en producción; contribuidor a *netresearch/retro-skill* (adaptador de opencode). _Claude Code · Python._
+- *Controles y observabilidad* — Mantengo reglas, skills y contexto MCP para agentes de código; automatizo despliegues con controles CI/CD y monitoreo de pipelines y alertas SLA.
 
 // ─── Proyectos Destacados ────────────────────────────
 #section("Proyectos Destacados")
 
-- *#link("https://github.com/alonsoburon/vintage")[vintage]* — Datos macro point-in-time de Chile como API abierta + servidor MCP para agentes. _TypeScript · MCP · Vercel._
-- *#link("https://github.com/alonsoburon/toka")[toka]* — Tareas domésticas offline-first: Go + PostgreSQL con RLS, cliente Android. _Go · PostgreSQL · Android._
+- *#link("https://www.datawalt.cl/soluciones/warp")[Warp]* — Arquitectura y desarrollo de la plataforma de integración de Datawalt: extracción, normalización y publicación de datos empresariales para analítica. _Python · Go · BigQuery · ClickHouse._
+- *#link("https://www.datawalt.cl/sap-business-one")[Integración con SAP Business One]* — Extracción de datos SAP B1 / HANA, modelado en esquema estrella y plantillas financieras reutilizables para clientes. _SQL · BigQuery · Power BI · DAX._
 
 // ─── Habilidades ─────────────────────────────────────
 #section("Habilidades")
@@ -91,9 +91,10 @@ Líder de Datos e IA en Datawalt (Santiago, Chile). Arquitecto de *Warp*, plataf
   text(weight: "bold")[Infra],         [GCP · Docker · GitHub Actions · CI/CD · Linux · Tailscale],
   text(weight: "bold")[IA / Agentes],  [Claude Code · Agent Skills · MCP · Orquestación multi-agente · LLMOps/observabilidad],
   text(weight: "bold")[BI],            [Power BI · DAX · Deneb (Vega) · Plotly · D3.js],
+  text(weight: "bold")[Idiomas],       [Español: nativo · Inglés: experto],
 )
 
 // ─── Educación ───────────────────────────────────────
 #section("Educación")
 
-*Diplomado en Data Science* y *Licenciatura en Composición Musical*, PUC Chile · *BSc Data Science*, IU International
+*Diplomado en Data Science* y *Licenciatura en Composición Musical*, PUC Chile

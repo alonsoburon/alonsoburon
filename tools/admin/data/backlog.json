@@ -1,0 +1,14 @@
+[
+  { "week": 1, "pillar": "AI-era DE", "title": "What's still scarce when AI writes the pipelines", "derivative": "LinkedIn carousel: 2026 roadmap" },
+  { "week": 2, "pillar": "Production", "title": "We replaced Fivetran across 150 sources: the numbers", "derivative": "LinkedIn: build vs buy" },
+  { "week": 3, "pillar": "Agents", "title": "Designing an MCP server agents can trust", "derivative": "X thread + vintage demo" },
+  { "week": 4, "pillar": "Mining / LatAm", "title": "Row-level security for contractors, sites and business units", "derivative": "Full article + ES adaptation" },
+  { "week": 5, "pillar": "AI-era DE", "title": "Idempotency is the only thing that makes a pipeline safe to retry", "derivative": "LinkedIn: checklist" },
+  { "week": 6, "pillar": "Agents", "title": "Cost-tiered multi-agent orchestration: a cheap model and a frontier one", "derivative": "X thread" },
+  { "week": 7, "pillar": "Production", "title": "Keeping 160,000 tables sane: extraction health at scale", "derivative": "Carousel + LinkedIn" },
+  { "week": 8, "pillar": "AI-era DE", "title": "Data contracts for ugly enterprise data", "derivative": "LinkedIn: template" },
+  { "week": 9, "pillar": "Mining / LatAm", "title": "Why mining companies can't re-extract history (and how to design for it)", "derivative": "Full article" },
+  { "week": 10, "pillar": "Agents", "title": "Context engineering for agents with warehouse access", "derivative": "X thread" },
+  { "week": 11, "pillar": "Craft", "title": "From film scoring to data platforms: what composing taught me about systems", "derivative": "LinkedIn: personal story" },
+  { "week": 12, "pillar": "Production", "title": "BigQuery + ClickHouse: a hybrid warehouse for analytics and apps", "derivative": "LinkedIn: architecture" }
+]

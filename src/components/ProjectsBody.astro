@@ -16,7 +16,7 @@ const { lang } = Astro.props;
 const t = useUi(lang).projects;
 
 const sorted = projects
-  .filter((p) => p.publishedAt)
+  .filter((p) => p.publishedAt && !p.hidden)
   .sort((a, b) => b.publishedAt!.getTime() - a.publishedAt!.getTime());
 
 const workCount   = sorted.filter((p) => p.category === 'work').length;
