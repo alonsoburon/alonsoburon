@@ -130,10 +130,10 @@ export const projects: Project[] = [
     period: '2026-09 → now',
     role: 'solo',
     description:
-      'Dual-entry banking backend in four languages (Python, Rust, C, COBOL) plus a load-testing harness that finds each engine’s concurrency limit under explicit p95/p99/error SLOs.',
+      'Banking ledger written four times (Python, Rust, C, COBOL), plus a load test that measures how many concurrent users each version holds.',
     achievements: [
-      'Four languages behind one ledger contract',
-      'Capacity search with warm-up, soak confirmation and CPU attribution',
+      'One contract, four implementations',
+      'Capacity search with warm-up, soak check and CPU numbers',
     ],
     tech: ['Python', 'Rust', 'C', 'COBOL', 'SQLite'],
     githubUrl: 'https://github.com/alonsoburon/ledgerlab',
@@ -141,10 +141,10 @@ export const projects: Project[] = [
     featured: true,
     periodEs: '2026-09 → ahora',
     descriptionEs:
-      'Backend bancario de doble partida en cuatro lenguajes (Python, Rust, C, COBOL) más un arnés de carga que encuentra el límite de concurrencia de cada motor bajo SLOs de latencia explícitos.',
+      'Backend bancario escrito cuatro veces (Python, Rust, C, COBOL), más una prueba de carga que mide cuántos usuarios concurrentes aguanta cada versión.',
     achievementsEs: [
-      'Cuatro lenguajes tras un solo contrato de ledger',
-      'Búsqueda de capacidad con warm-up, confirmación soak y atribución de CPU',
+      'Un contrato, cuatro implementaciones',
+      'Búsqueda de capacidad con warm-up, verificación soak y CPU',
     ],
   },
   {
