@@ -1,0 +1,75 @@
+---
+/**
+ * ExperienceBody.astro — work history and stack, in whichever locale.
+ *
+ * The home page stays focused on projects; the full work history lives here.
+ */
+import { roles, stackRows } from '../data/experience';
+import { useUi } from '../i18n/ui';
+import type { Lang } from '../i18n/config';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useUi(lang).experience;
+
+const L = (en: string, es: string) => (lang === 'es' ? es : en);
+---
+
+<div class="content">
+  <div class="h-row">
+    <span class="anchor"># </span>
+    <span class="h1-inner"><span class="key">{t.heading}</span></span>
+  </div>
+
+  <div class="card-list">
+    {roles.map((r) => {
+      const bullets = lang === 'es' ? r.bulletsEs : r.bullets;
+      return (
+        <article class="card">
+          <div class="card-head">
+            <span><span class="sx c-cmt">```</span><span class="sx c-fn">role</span></span>
+            <span class="c-dim">· {r.org}</span>
+            <span style="margin-left:auto" class="c-muted">{L(r.dates, r.datesEs)}</span>
+          </div>
+          <div class="card-body">
+            <div class="card-row">
+              <span class="anchor">### </span>
+              <span class="h3">{L(r.title, r.titleEs)}</span>
+              {r.orgUrl && (
+                <div class="card-role">
+                  <span class="sx c-muted">at </span>
+                  <a class="sx c-link" href={r.orgUrl} target="_blank" rel="noopener">{r.org}</a>
+                </div>
+              )}
+            </div>
+            <ul class="stack-list" style="margin-top:8px; font-size:17px">
+              {bullets.map((b) => (
+                <li><span class="sx c-cmt">- </span><span>{b}</span></li>
+              ))}
+            </ul>
+          </div>
+        </article>
+      );
+    })}
+  </div>
+
+  <div class="section">
+    <div class="h-row">
+      <span class="anchor">## </span>
+      <span class="h2">{t.stack}</span>
+    </div>
+    <ul class="stack-list">
+      {stackRows.map((s) => (
+        <li>
+          <span class="sx c-cmt">- </span>
+          <div>
+            <strong class="stack-key c-accent">{L(s.key, s.keyEs)}</strong><span class="sx c-cmt">: </span>
+            <span class="c-text2">{s.items}</span>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>

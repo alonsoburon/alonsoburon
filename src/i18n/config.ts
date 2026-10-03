@@ -12,7 +12,7 @@ export type Lang = (typeof LOCALES)[number];
 export const DEFAULT_LANG: Lang = 'en';
 
 /** Page keys shared by both locales. `blog` is deliberately untranslated. */
-export type PageKey = 'cv' | 'projects' | 'blog' | 'contact';
+export type PageKey = 'cv' | 'experience' | 'projects' | 'blog' | 'contact';
 
 /**
  * The URL of every page in every locale. English sits at the root; Spanish
@@ -20,10 +20,11 @@ export type PageKey = 'cv' | 'projects' | 'blog' | 'contact';
  * URL from both locales because the articles are not translated.
  */
 export const routes: Record<PageKey, Record<Lang, string>> = {
-  cv:       { en: '/',         es: '/es/' },
-  projects: { en: '/projects', es: '/es/proyectos' },
-  blog:     { en: '/blog',     es: '/blog' },
-  contact:  { en: '/contact',  es: '/es/contacto' },
+  cv:         { en: '/',            es: '/es/' },
+  experience: { en: '/experience',  es: '/es/experiencia' },
+  projects:   { en: '/projects',    es: '/es/proyectos' },
+  blog:       { en: '/blog',        es: '/blog' },
+  contact:    { en: '/contact',     es: '/es/contacto' },
 };
 
 /** Home of each locale — where the language switch lands when a page has no

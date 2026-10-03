@@ -65,6 +65,7 @@ export const GET: APIRoute = async () => {
     '| Page | English | Spanish |',
     '| --- | --- | --- |',
     `| CV / profile | ${SITE}${routes.cv.en} | ${SITE}${routes.cv.es} |`,
+    `| Experience | ${SITE}${routes.experience.en} | ${SITE}${routes.experience.es} |`,
     `| Projects | ${SITE}${routes.projects.en} | ${SITE}${routes.projects.es} |`,
     `| Contact | ${SITE}${routes.contact.en} | ${SITE}${routes.contact.es} |`,
     `| Writing | ${SITE}${routes.blog.en} | English only |`,

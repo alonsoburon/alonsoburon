@@ -14,6 +14,8 @@ export interface Project {
   githubUrl?: string;
   homepage?: string;
   publishedAt?: Date;
+  /** Surfaced on the home page as a selected project. */
+  featured?: boolean;
   /** Spanish overrides. A missing field falls back to the English one. */
   periodEs?: string;
   roleEs?: string;
@@ -38,6 +40,7 @@ export const projects: Project[] = [
       'Simplified incremental loading',
     ],
     publishedAt: new Date('2024-10-01'),
+    featured: true,
     periodEs: '2024-10 → ahora',
     roleEs: 'Líder de Ingeniería de Datos',
     descriptionEs:
@@ -98,9 +101,96 @@ export const projects: Project[] = [
       'Plantilla parametrizada de Power BI para SAP B1, con esquema estrella multi-fuente para reportería financiera.',
     achievementsEs: ['Power BI parametrizado', 'SAP B1 multi-fuente'],
   },
+  {
+    category: 'work',
+    source: 'closed',
+    title: 'Tucunar',
+    period: '2026 → now',
+    role: 'Founder',
+    description:
+      'Independent technology-services practice: discovery, scoping and delivery of data, infrastructure and AI work for SMEs and mining clients.',
+    achievements: ['Client discovery & SOWs', 'Data · infra · AI delivery'],
+    publishedAt: new Date('2026-01-05'),
+    periodEs: '2026 → ahora',
+    roleEs: 'Fundador',
+    descriptionEs:
+      'Práctica independiente de servicios tecnológicos: discovery, alcance y entrega de proyectos de datos, infraestructura e IA para PYMEs y clientes mineros.',
+    achievementsEs: ['Discovery y SOW con clientes', 'Entrega de datos · infra · IA'],
+  },
   // ────────────────────────────────────────────────────
   //  FUN · personal, portfolio & learning projects
   // ────────────────────────────────────────────────────
+  {
+    category: 'fun',
+    source: 'foss',
+    title: 'vintage',
+    period: '2026-09 → now',
+    role: 'solo',
+    description:
+      'Point-in-time macroeconomic data for Chile, exposed as an open REST API and an MCP server so AI agents can query series without look-ahead bias.',
+    achievements: ['MCP server for agents', 'Point-in-time vintages'],
+    tech: ['TypeScript', 'MCP', 'REST', 'Vercel'],
+    githubUrl: 'https://github.com/alonsoburon/vintage',
+    homepage: 'https://vintage-gray-one.vercel.app',
+    publishedAt: new Date('2026-09-21'),
+    featured: true,
+    periodEs: '2026-09 → ahora',
+    descriptionEs:
+      'Datos macroeconómicos point-in-time de Chile, expuestos como API REST abierta y servidor MCP para que agentes de IA consulten series sin look-ahead bias.',
+    achievementsEs: ['Servidor MCP para agentes', 'Vintages point-in-time'],
+  },
+  {
+    category: 'fun',
+    source: 'foss',
+    title: 'toka',
+    period: '2026-09 → now',
+    role: 'solo',
+    description:
+      'Shared household chores: a Go + PostgreSQL backend with row-level-security isolation and an offline-first Android client.',
+    achievements: ['RLS multi-tenant isolation', 'Offline-first Android'],
+    tech: ['Go', 'PostgreSQL', 'Android'],
+    githubUrl: 'https://github.com/alonsoburon/toka',
+    publishedAt: new Date('2026-09-20'),
+    periodEs: '2026-09 → ahora',
+    descriptionEs:
+      'Tareas domésticas compartidas: backend Go + PostgreSQL con aislamiento por RLS y cliente Android offline-first.',
+    achievementsEs: ['Aislamiento multi-tenant con RLS', 'Android offline-first'],
+  },
+  {
+    category: 'fun',
+    source: 'closed',
+    title: 'buzz-selfhost',
+    period: '2026-07',
+    role: 'solo',
+    description:
+      'Notes and scripts to self-host an agent workspace on Linux, pairing a cheap agent (DeepSeek) with a frontier agent (Claude) behind a shared relay with per-agent identity and access gates.',
+    achievements: ['Multi-agent orchestration', 'Cost-tiered agents'],
+    tech: ['Nostr', 'ACP', 'Docker', 'Linux'],
+    publishedAt: new Date('2026-07-27'),
+    featured: true,
+    periodEs: '2026-07',
+    descriptionEs:
+      'Notas y scripts para self-hostear un workspace de agentes en Linux, conectando un agente barato (DeepSeek) con uno de frontera (Claude) tras un relay común, con identidad y control de acceso por agente.',
+    achievementsEs: ['Orquestación multi-agente', 'Agentes por nivel de costo'],
+  },
+  {
+    category: 'fun',
+    source: 'foss',
+    title: 'retro-skill',
+    period: '2026-09',
+    role: 'contributor',
+    description:
+      'Contributed an opencode transcript adapter to netresearch/retro-skill, an LLM-driven session retrospection skill for Claude Code.',
+    achievements: ['FOSS contribution', 'opencode transcript adapter'],
+    tech: ['Claude Code', 'Python', 'opencode'],
+    githubUrl: 'https://github.com/netresearch/retro-skill',
+    publishedAt: new Date('2026-09-18'),
+    periodEs: '2026-09',
+    roleEs: 'contribuidor',
+    descriptionEs:
+      'Contribuí un adaptador de transcripts de opencode a netresearch/retro-skill, un skill de retrospectiva de sesiones para Claude Code.',
+    achievementsEs: ['Contribución FOSS', 'Adaptador de transcripts de opencode'],
+  },
   {
     category: 'fun',
     source: 'foss',
@@ -132,6 +222,7 @@ export const projects: Project[] = [
     tech: ['Claude Skills', 'Markdown'],
     githubUrl: 'https://github.com/alonsoburon/ecl-skill',
     publishedAt: new Date('2026-04-13'),
+    featured: true,
   },
   {
     category: 'fun',
