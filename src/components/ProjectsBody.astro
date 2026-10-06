@@ -68,6 +68,16 @@ const counts = `${workCount} ${t.countWork} · ${funCount} ${t.countFun} · ${fo
                  data-category={p.category}
                  data-source={p.source}
                  data-date={p.publishedAt!.toISOString()}>
+          {p.screenshot && (
+            <img
+              class="card-screenshot"
+              src={p.screenshot}
+              alt={p.screenshotAlt ?? p.title}
+              width="1000"
+              height="2222"
+              loading="lazy"
+            />
+          )}
           <div class="card-head">
             <span><span class="sx c-cmt">```</span><span class="sx c-fn">project</span></span>
             <span class="c-dim">· {t.badge[p.category]} · {t.badge[p.source]}</span>

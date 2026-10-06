@@ -13,6 +13,10 @@ export interface Project {
   tech?: string[];
   githubUrl?: string;
   homepage?: string;
+  /** Screenshot shown on the project card. Path relative to /public. */
+  screenshot?: string;
+  /** Alt text for the screenshot. Falls back to the project title. */
+  screenshotAlt?: string;
   publishedAt?: Date;
   /** Surfaced on the home page as a selected project. */
   featured?: boolean;
@@ -173,15 +177,43 @@ export const projects: Project[] = [
     period: '2026-09 → now',
     role: 'solo',
     description:
-      'Shared household chores: a Go + PostgreSQL backend with row-level-security isolation and an offline-first Android client.',
-    achievements: ['RLS multi-tenant isolation', 'Offline-first Android'],
-    tech: ['Go', 'PostgreSQL', 'Android'],
+      'Shared household chores: an offline-first Android client over Firebase Auth + Firestore, with security rules as the only boundary between homes.',
+    achievements: [
+      'Offline-first Android',
+      'Firestore rules as tenant boundary',
+      'Idempotent client-side recurrence',
+    ],
+    tech: ['Kotlin', 'Jetpack Compose', 'Firebase', 'Firestore'],
     githubUrl: 'https://github.com/alonsoburon/toka',
+    screenshot: '/screenshots/toka/toka-01-dashboard.png',
+    screenshotAlt: 'Toka dashboard listing pending household tasks',
     publishedAt: new Date('2026-09-20'),
     periodEs: '2026-09 → ahora',
     descriptionEs:
-      'Tareas domésticas compartidas: backend Go + PostgreSQL con aislamiento por RLS y cliente Android offline-first.',
-    achievementsEs: ['Aislamiento multi-tenant con RLS', 'Android offline-first'],
+      'Tareas domésticas compartidas: cliente Android offline-first sobre Firebase Auth + Firestore, con reglas de seguridad como única frontera entre hogares.',
+    achievementsEs: [
+      'Android offline-first',
+      'Reglas Firestore como frontera entre hogares',
+      'Recurrencia idempotente en cliente',
+    ],
+  },
+  {
+    category: 'fun',
+    source: 'closed',
+    title: 'Finanzas',
+    period: '2026-10',
+    role: 'solo',
+    description:
+      'Private household finance app for a couple: quick entry, budgets with a traffic-light indicator and a launcher widget — offline-first over Firebase.',
+    achievements: ['Offline-first sync', 'Launcher widget', 'CSV export'],
+    tech: ['Kotlin', 'Jetpack Compose', 'Hilt', 'Firebase'],
+    screenshot: '/screenshots/finance/finance-01-ingreso.png',
+    screenshotAlt: 'Finanzas quick-entry screen with a custom keypad',
+    publishedAt: new Date('2026-10-04'),
+    periodEs: '2026-10',
+    descriptionEs:
+      'App privada de finanzas para una pareja: ingreso rápido, presupuestos con semáforo y widget de launcher — offline-first sobre Firebase.',
+    achievementsEs: ['Sincronización offline-first', 'Widget de launcher', 'Exportar CSV'],
   },
   {
     category: 'fun',
