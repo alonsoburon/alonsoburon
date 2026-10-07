@@ -5,6 +5,7 @@
  * Filter chips keep their English `data-filter` values so the client script
  * stays locale-agnostic; only the visible labels are translated.
  */
+import sharp from 'sharp';
 import { projects, localizeProject } from '../data/projects';
 import { useUi } from '../i18n/ui';
 import type { Lang } from '../i18n/config';
@@ -23,6 +24,16 @@ const workCount   = sorted.filter((p) => p.category === 'work').length;
 const funCount    = sorted.filter((p) => p.category === 'fun').length;
 const fossCount   = sorted.filter((p) => p.source === 'foss').length;
 const closedCount = sorted.filter((p) => p.source === 'closed').length;
+
+// Intrinsic sizes for every screenshot, so the gallery reserves its space
+// before the images load (phone and desktop captures have different ratios).
+const shotSizes = new Map<string, { width: number; height: number }>();
+for (const p of sorted) {
+  for (const s of p.screenshots ?? []) {
+    const { width, height } = await sharp(`public${s.src}`).metadata();
+    shotSizes.set(s.src, { width: width!, height: height! });
+  }
+}
 
 const counts = `${workCount} ${t.countWork} · ${funCount} ${t.countFun} · ${fossCount} ${t.countFoss} · ${closedCount} ${t.countClosed}`;
 ---
@@ -68,15 +79,21 @@ const counts = `${workCount} ${t.countWork} · ${funCount} ${t.countFun} · ${fo
                  data-category={p.category}
                  data-source={p.source}
                  data-date={p.publishedAt!.toISOString()}>
-          {p.screenshot && (
-            <img
-              class="card-screenshot"
-              src={p.screenshot}
-              alt={p.screenshotAlt ?? p.title}
-              width="1000"
-              height="2222"
-              loading="lazy"
-            />
+          {p.screenshots && p.screenshots.length > 0 && (
+            <div class="card-gallery">
+              {p.screenshots.map((s) => (
+                <a href={s.src} target="_blank" rel="noopener">
+                  <img
+                    class="card-screenshot"
+                    src={s.src}
+                    alt={s.alt}
+                    width={shotSizes.get(s.src)!.width}
+                    height={shotSizes.get(s.src)!.height}
+                    loading="lazy"
+                  />
+                </a>
+              ))}
+            </div>
           )}
           <div class="card-head">
             <span><span class="sx c-cmt">```</span><span class="sx c-fn">project</span></span>

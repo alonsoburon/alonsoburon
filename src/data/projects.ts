@@ -1,6 +1,11 @@
 export type Category = 'work' | 'fun';
 export type Source   = 'foss' | 'closed';
 
+export interface Screenshot {
+  src: string;
+  alt: string;
+}
+
 export interface Project {
   category: Category;
   source: Source;
@@ -13,10 +18,8 @@ export interface Project {
   tech?: string[];
   githubUrl?: string;
   homepage?: string;
-  /** Screenshot shown on the project card. Path relative to /public. */
-  screenshot?: string;
-  /** Alt text for the screenshot. Falls back to the project title. */
-  screenshotAlt?: string;
+  /** Screenshots shown as a gallery atop the project card. `src` is relative to /public. */
+  screenshots?: Screenshot[];
   publishedAt?: Date;
   /** Surfaced on the home page as a selected project. */
   featured?: boolean;
@@ -154,6 +157,26 @@ export const projects: Project[] = [
   {
     category: 'fun',
     source: 'foss',
+    title: 'libreKanban',
+    period: '2026-09 → now',
+    role: 'solo',
+    description:
+      'Self-hosted Trello-style boards: a vendored fork of Kan (AGPL-3.0) with a Trello look, board backgrounds, card modals and Garage instead of MinIO for attachments.',
+    achievements: ['Trello-style UI on top of Kan', 'Self-hosted with Podman + Postgres'],
+    tech: ['TypeScript', 'Next.js', 'tRPC', 'Drizzle', 'PostgreSQL'],
+    screenshots: [
+      { src: '/screenshots/kanban/kanban-01-board.png', alt: 'libreKanban board with lists, labels and due dates' },
+      { src: '/screenshots/kanban/kanban-02-card.png', alt: 'Card opened as a modal over the board' },
+    ],
+    publishedAt: new Date('2026-09-30'),
+    periodEs: '2026-09 → ahora',
+    descriptionEs:
+      'Tableros estilo Trello autoalojados: fork vendorizado de Kan (AGPL-3.0) con aspecto Trello, fondos de tablero, tarjetas en modal y Garage en vez de MinIO para adjuntos.',
+    achievementsEs: ['UI estilo Trello sobre Kan', 'Autoalojado con Podman + Postgres'],
+  },
+  {
+    category: 'fun',
+    source: 'foss',
     title: 'vintage',
     period: '2026-09 → now',
     role: 'solo',
@@ -162,7 +185,11 @@ export const projects: Project[] = [
     achievements: ['MCP server for agents', 'Point-in-time vintages'],
     tech: ['TypeScript', 'MCP', 'REST', 'Vercel'],
     githubUrl: 'https://github.com/alonsoburon/vintage',
-    homepage: 'https://vintage-gray-one.vercel.app',
+    homepage: 'https://vintage.nuxapower.cl',
+    screenshots: [
+      { src: '/screenshots/vintage/vintage-01-home.png', alt: 'vintage landing page with the vintage explorer' },
+      { src: '/screenshots/vintage/vintage-02-explorer.png', alt: 'Copper price series with the point-in-time date slider' },
+    ],
     publishedAt: new Date('2026-09-21'),
     featured: true,
     periodEs: '2026-09 → ahora',
@@ -185,8 +212,14 @@ export const projects: Project[] = [
     ],
     tech: ['Kotlin', 'Jetpack Compose', 'Firebase', 'Firestore'],
     githubUrl: 'https://github.com/alonsoburon/toka',
-    screenshot: '/screenshots/toka/toka-01-dashboard.png',
-    screenshotAlt: 'Toka dashboard listing pending household tasks',
+    screenshots: [
+      { src: '/screenshots/toka/toka-01-dashboard.png', alt: 'Toka dashboard listing pending household tasks' },
+      { src: '/screenshots/toka/toka-02-taskdetail.png', alt: 'Task detail with due date, reminders and recurrence' },
+      { src: '/screenshots/toka/toka-03-plantillas.png', alt: 'Task templates that regenerate on completion' },
+      { src: '/screenshots/toka/toka-04-historial.png', alt: 'History of completed tasks' },
+      { src: '/screenshots/toka/toka-05-personas.png', alt: 'People in the household and their invite code' },
+      { src: '/screenshots/toka/toka-06-widget.png', alt: 'Toka home-screen widget' },
+    ],
     publishedAt: new Date('2026-09-20'),
     periodEs: '2026-09 → ahora',
     descriptionEs:
@@ -207,8 +240,12 @@ export const projects: Project[] = [
       'Private household finance app for a couple: quick entry, budgets with a traffic-light indicator and a launcher widget — offline-first over Firebase.',
     achievements: ['Offline-first sync', 'Launcher widget', 'CSV export'],
     tech: ['Kotlin', 'Jetpack Compose', 'Hilt', 'Firebase'],
-    screenshot: '/screenshots/finance/finance-01-ingreso.png',
-    screenshotAlt: 'Finanzas quick-entry screen with a custom keypad',
+    screenshots: [
+      { src: '/screenshots/finance/finance-01-ingreso.png', alt: 'Finanzas quick-entry screen with a custom keypad' },
+      { src: '/screenshots/finance/finance-02-movimientos.png', alt: 'Transactions grouped by day with monthly totals' },
+      { src: '/screenshots/finance/finance-03-presupuesto.png', alt: 'Monthly budget per category with traffic-light bars' },
+      { src: '/screenshots/finance/finance-04-resumen.png', alt: 'Monthly summary: income, expenses and spending by category' },
+    ],
     publishedAt: new Date('2026-10-04'),
     periodEs: '2026-10',
     descriptionEs:
@@ -261,7 +298,11 @@ export const projects: Project[] = [
     achievements: [],
     tech: ['TypeScript', 'Next.js', 'React'],
     githubUrl: 'https://github.com/alonsoburon/libreGantt',
-    homepage: 'https://libregantt.vercel.app',
+    homepage: 'https://gantt.nuxapower.cl',
+    screenshots: [
+      { src: '/screenshots/gantt/gantt-01-dias.png', alt: 'libreGantt day view with groups, dependencies and costs' },
+      { src: '/screenshots/gantt/gantt-02-semanas.png', alt: 'libreGantt week view with a milestone' },
+    ],
     publishedAt: new Date('2026-04-28'),
     periodEs: '2026-04 → ahora',
     descriptionEs:
